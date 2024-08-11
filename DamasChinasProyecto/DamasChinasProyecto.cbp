@@ -39,12 +39,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add directory="C:/Users/Mateo/Desktop/ESTRUCTURA DE DATOS/DamasChinasProyecto/SFML-2.6.1/include" />
+			<Add directory="C:/Users/Mateo/Desktop/DamasChinaProyect/DamasChinasProyecto/SFML-2.6.1/include" />
 		</Compiler>
 		<Linker>
-			<Add directory="C:/Users/Mateo/Desktop/ESTRUCTURA DE DATOS/DamasChinasProyecto/SFML-2.6.1/lib" />
+			<Add directory="C:/Users/Mateo/Desktop/DamasChinaProyect/DamasChinasProyecto/SFML-2.6.1/lib" />
 		</Linker>
+		<Unit filename="MenuPrincipal.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="sfml.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
