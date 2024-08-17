@@ -1,112 +1,206 @@
 #include <SFML/Graphics.hpp>
-#include "MenuPrincipal.h"
+#include "Boton.h"
+#include <string>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace sf;
 
+int indexTutorial = 1;
+
+void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
+    RectangleShape fondo;
+    Texture texturaTutorial;
+    string tutorial = "tutorial_";
+    stringstream ss;
+    ss << tutorial << indexTutorial;
+    string archivo = ss.str();
+    Event aevent;
+
+    fondo.setSize(Vector2f(1280,720));
+    texturaTutorial.loadFromFile("Texturas/" + archivo+ ".png");
+    fondo.setTexture(&texturaTutorial);
+
+    while(Opcion.pollEvent(aevent)){
+        if(aevent.type == Event::Closed){
+            Opcion.close();
+        }
+        if(aevent.type == Event::KeyPressed){
+            if(aevent.key.code == Keyboard::Escape)
+            {
+                Opcion.close();
+            }
+        }
+
+        switch(aevent.type){
+            case Event::Closed:{
+                Opcion.close();
+            }
+            break;
+            case Event::KeyPressed:{
+                if(aevent.key.code == Keyboard::Escape)
+                {
+                    Opcion.close();
+                }
+            }
+            break;
+            case Event::MouseMoved:{
+                if(siguiente.isMouseOver(Opcion)){
+                    siguiente.setBackColor(Color::Black);
+                }else{
+                    siguiente.setBackColor(Color(255, 255, 255, 0));
+                }
+            }
+            break;
+            case Event::MouseButtonPressed:{
+                if(siguiente.isMouseOver(Opcion)){
+                    indexTutorial +=1;
+                }
+            }
+            break;
+        }
+
+    }
+    Opcion.clear();
+    Opcion.draw(fondo);
+    siguiente.drawTo(Opcion);
+}
+
 int main(){
     RenderWindow MENU(VideoMode(1280,720), "Menu Principal", Style::Default);
-    MenuPrincipal menuPrincipal(MENU.getSize().x, MENU.getSize().y);
 
     RectangleShape fondo;
+
     fondo.setSize(Vector2f(1280,720));
     Texture texturaPrincipal;
     texturaPrincipal.loadFromFile("Texturas/fondoMenuPrincipal.png");
     fondo.setTexture(&texturaPrincipal);
 
+    Font font;
+    font.loadFromFile("Fuentes/LemonShakeShake.ttf");
+
+    Boton botones[4];
+    int posicion = 100;
+
+    string textoBotones[] = {"Jugar", "Tutorial", "Creditos", "Salir"};
+
+    for (int i = 0; i<4; i++){
+        botones[i] = Boton(textoBotones[i],{325,80},70,Color(255, 255, 255, 10),Color::White);
+        botones[i].setPosition({225, posicion + i*100});
+        botones[i].setFont(font);
+
+    }
+
+    Boton siguiente = Boton("Siguiente",{310,80},60,Color(255, 255, 255, 0),Color::White);
+    siguiente.setPosition({850, 600});
+    siguiente.setFont(font);
 
     while(MENU.isOpen()){
         Event evento;
         while(MENU.pollEvent(evento)){
-            if(evento.type == Event::Closed){
-                MENU.close();
-            }
 
-            if(evento.type == Event::KeyReleased){
-                if(evento.key.code == Keyboard::Up){
-                    menuPrincipal.MoveUp();
-                    break;
+            switch(evento.type){
+                case Event::Closed:{
+                    MENU.close();
                 }
+                break;
+                case Event::MouseMoved:{
+                    if(botones[0].isMouseOver(MENU)){
+                        botones[0].setBackColor(Color::Black);
+                    }else{
+                        botones[0].setBackColor(Color(255, 255, 255, 0));
+                    }
 
-                if(evento.key.code == Keyboard::Down){
-                    menuPrincipal.MoveDown();
-                    break;
+                    if(botones[1].isMouseOver(MENU)){
+                        botones[1].setBackColor(Color::Black);
+                    }else{
+                        botones[1].setBackColor(Color(255, 255, 255, 0));
+                    }
+
+                    if(botones[2].isMouseOver(MENU)){
+                        botones[2].setBackColor(Color::Black);
+                    }else{
+                        botones[2].setBackColor(Color(255, 255, 255, 0));
+                    }
+
+                    if(botones[3].isMouseOver(MENU)){
+                        botones[3].setBackColor(Color::Black);
+                    }else{
+                        botones[3].setBackColor(Color(255, 255, 255, 0));
+                    }
                 }
+                break;
+                case Event::MouseButtonPressed:{
+                    if(botones[0].isMouseOver(MENU) || botones[1].isMouseOver(MENU) || botones[2].isMouseOver(MENU) || botones[3].isMouseOver(MENU)){
+                        RenderWindow Jugar(VideoMode(1280,720),"Damas Chinas");
+                        RenderWindow Opcion(VideoMode(1280,720), "¿Como Jugar?");
+                        RenderWindow Creditos(VideoMode(1280,720),"Creditos");
 
-                if(evento.key.code == Keyboard::Return){
-                    RenderWindow Jugar(VideoMode(960,720),"Damas Chinas");
-                    RenderWindow Opcion(VideoMode(960,720), "Opciones");
-                    RenderWindow Creditos(VideoMode(960,720),"Créditos");
-
-                    int x = menuPrincipal.MenuPressed();
-                    if(x == 0){
-                        while(Jugar.isOpen()){
-                            Event aevent;
-                            while(Jugar.pollEvent(aevent)){
-                                if(aevent.type == Event::Closed){
-                                    Jugar.close();
-                                }
-                                if(aevent.type == Event::KeyPressed){
-                                    if(aevent.key.code == Keyboard::Escape){
+                        if(botones[0].isMouseOver(MENU)){
+                            while(Jugar.isOpen()){
+                                Event aevent;
+                                while(Jugar.pollEvent(aevent)){
+                                    if(aevent.type == Event::Closed){
                                         Jugar.close();
                                     }
-                                }
-                            }
-                            Opcion.close();
-                            Creditos.close();
-                            Jugar.clear();
-                            Jugar.display();
-                        }
-                    }
-                    if(x == 1){
-                        while(Opcion.isOpen()){
-                            Event aevent;
-                            while(Opcion.pollEvent(aevent)){
-                                if(aevent.type == Event::Closed){
-                                    Opcion.close();
-                                }
-                                if(aevent.type == Event::KeyPressed){
-                                    if(aevent.key.code == Keyboard::Escape){
-                                        Opcion.close();
+                                    if(aevent.type == Event::KeyPressed){
+                                        if(aevent.key.code == Keyboard::Escape){
+                                            Jugar.close();
+                                        }
                                     }
                                 }
+                                Opcion.close();
+                                Creditos.close();
+                                Jugar.clear();
+                                Jugar.display();
                             }
-                            Jugar.close();
-                            Opcion.clear();
-                            Creditos.close();
-                            Opcion.display();
                         }
-                    }
-                    if(x == 2){
-                        while(Creditos.isOpen()){
-                            Event aevent;
-                            while(Creditos.pollEvent(aevent)){
-                                if(aevent.type == Event::Closed){
-                                    Creditos.close();
-                                }
-                                if(aevent.type == Event::KeyPressed){
-                                    if(aevent.key.code == Keyboard::Escape){
+
+                        if(botones[1].isMouseOver(MENU)){
+                            while(Opcion.isOpen()){
+                                abrirTutorial(Opcion, font, siguiente);
+                                Jugar.close();
+                                Creditos.close();
+                                Opcion.display();
+                            }
+                        }
+
+                        if(botones[2].isMouseOver(MENU)){
+                            while(Creditos.isOpen()){
+                                Event aevent;
+                                while(Creditos.pollEvent(aevent)){
+                                    if(aevent.type == Event::Closed){
                                         Creditos.close();
                                     }
+                                    if(aevent.type == Event::KeyPressed){
+                                        if(aevent.key.code == Keyboard::Escape){
+                                            Creditos.close();
+                                        }
+                                    }
                                 }
+                                Jugar.close();
+                                Opcion.clear();
+                                Creditos.clear();
+                                Creditos.display();
                             }
-                            Jugar.close();
-                            Opcion.clear();
-                            Creditos.clear();
-                            Creditos.display();
                         }
+
+                        if(botones[3].isMouseOver(MENU)){
+                            MENU.close();
+                        }
+
                     }
-                    if(x == 3){
-                        MENU.close();
-                    }
-                    break;
                 }
+                break;
             }
+
         }
         MENU.clear();
         MENU.draw(fondo);
-        menuPrincipal.draw(MENU);
+        for(int i = 0; i<4; i++){
+            botones[i].drawTo(MENU);
+        }
         MENU.display();
     }
 }

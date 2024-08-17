@@ -420,7 +420,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1723406066 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\main.cpp
+1723915171 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\main.cpp
 	<SFML/Graphics.hpp>
 	"MenuPrincipal.h"
 	<iostream>
@@ -847,8 +847,19 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1723405765 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
+1723930030 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
 	<SFML/Graphics.hpp>
-	"MenuPrincipal.h"
+	"Boton.h"
+	<string>
 	<iostream>
+	<sstream>
+
+1723926800 c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\boton.h
+	<SFML/Graphics.hpp>
+	<iostream>
+
+1723927014 c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\ventanatutorial.h
+	"Boton.h"
+	<iostream>
+	<SFML/Graphics.hpp>
 
