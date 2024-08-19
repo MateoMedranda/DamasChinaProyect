@@ -183,7 +183,7 @@ void controlarTurnos(list<Jugador>& listaJugadores) {
 #endif // Jugadores_H
 
 
-/* METODO MAIN
+/* METODO MAIN PARA SU EJECUCION
 
 int main() {
     list<Jugador> listaJugadores;
