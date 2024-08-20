@@ -9,6 +9,35 @@ using namespace sf;
 
 int indexTutorial = 1;
 
+void abrirJugar(RenderWindow &Jugar, Font &font){
+
+    int posicion = 100;
+    Boton modosJuego[6];
+    string textoBotones[] = {"1 Jugador", "2 Jugadores", "3 Jugadores", "4 Jugadores", "5 Jugadores", "6 Jugadores"};
+
+    for (int i = 0; i<6; i++){
+        modosJuego[i] = Boton(textoBotones[i],{325,75},50,Color(255, 255, 255, 10),Color::White);
+        modosJuego[i].setPosition({100,posicion + i*75});
+        modosJuego[i].setFont(font);
+    }
+
+    Event aevent;
+    while(Jugar.pollEvent(aevent)){
+        if(aevent.type == Event::Closed){
+            Jugar.close();
+        }
+        if(aevent.type == Event::KeyPressed){
+            if(aevent.key.code == Keyboard::Escape){
+                Jugar.close();
+            }
+        }
+    }
+    Jugar.clear();
+    for(int i = 0; i<6; i++){
+        modosJuego[i].drawTo(Jugar);
+    }
+}
+
 void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
     RectangleShape fondo;
     Texture texturaTutorial;
@@ -96,6 +125,14 @@ int main(){
     siguiente.setPosition({850, 600});
     siguiente.setFont(font);
 
+    /*
+    Texture texturaSprite;
+    texturaSprite.loadFromFile("Texturas/texturaBase_ficha.png");
+    Sprite sprite;
+    sprite.setTexture(texturaSprite);
+    sprite.setColor(Color::Green);
+    sprite.setPosition(Vector2f(10.f, 50.f));
+*/
     while(MENU.isOpen()){
         Event evento;
         while(MENU.pollEvent(evento)){
@@ -138,32 +175,25 @@ int main(){
                         RenderWindow Creditos(VideoMode(1280,720),"Creditos");
 
                         if(botones[0].isMouseOver(MENU)){
+                            MENU.close();
                             while(Jugar.isOpen()){
-                                Event aevent;
-                                while(Jugar.pollEvent(aevent)){
-                                    if(aevent.type == Event::Closed){
-                                        Jugar.close();
-                                    }
-                                    if(aevent.type == Event::KeyPressed){
-                                        if(aevent.key.code == Keyboard::Escape){
-                                            Jugar.close();
-                                        }
-                                    }
-                                }
+                                abrirJugar(Jugar, font);
                                 Opcion.close();
                                 Creditos.close();
-                                Jugar.clear();
                                 Jugar.display();
                             }
+                            MENU.create(VideoMode(1280,720), "Menu Principal", Style::Default);
                         }
 
                         if(botones[1].isMouseOver(MENU)){
+                            MENU.close();
                             while(Opcion.isOpen()){
                                 abrirTutorial(Opcion, font, siguiente);
                                 Jugar.close();
                                 Creditos.close();
                                 Opcion.display();
                             }
+                            MENU.create(VideoMode(1280,720), "Menu Principal", Style::Default);
                         }
 
                         if(botones[2].isMouseOver(MENU)){
@@ -194,7 +224,6 @@ int main(){
                 }
                 break;
             }
-
         }
         MENU.clear();
         MENU.draw(fondo);
