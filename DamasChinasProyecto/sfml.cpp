@@ -10,6 +10,11 @@ using namespace sf;
 int indexTutorial = 1;
 
 void abrirJugar(RenderWindow &Jugar, Font &font){
+    RectangleShape fondo;
+    Texture texturaModos;
+    fondo.setSize(Vector2f(1280,720));
+    texturaModos.loadFromFile("Texturas/fondoModosDeJuego.png");
+    fondo.setTexture(&texturaModos);
 
     int posicion = 100;
     Boton modosJuego[6];
@@ -33,6 +38,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font){
         }
     }
     Jugar.clear();
+    Jugar.draw(fondo);
     for(int i = 0; i<6; i++){
         modosJuego[i].drawTo(Jugar);
     }
