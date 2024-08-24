@@ -56,7 +56,7 @@ void jugarDamas(Font &font){
     fichaBlanca.setTexture(textura1);
     fichaNegra.setTexture(textura2);
 
-    CircleShape movimiento(15.0f); // Tamaño del círculo para mostrar los movimientos
+    CircleShape movimiento(30.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
 
     const float offsetX = 280.0f;
@@ -81,26 +81,77 @@ void jugarDamas(Font &font){
 
                 case Event::MouseButtonPressed:{
 
+                    int temp;
                     if (aevent.mouseButton.button == Mouse::Left){
                         float x = Mouse::getPosition(Damas).x;
                         float y = Mouse::getPosition(Damas).y;
-                        cout << x << endl;
-                        cout << y << endl;
+
 
                         int i = (y-offsetY)/tamanoCasilla;
                         int j = (x-offsetX)/tamanoCasilla;
+
+                        cout << "i: " << i << "j: " << j << endl;
+
 
                         if((i>=0) && (i<8) && (j>=0) && (j<8)){
                             if((tablero[i][j] == 1) || (tablero[i][j] == 2)){
 
                                 if (fichaSeleccionada) {
-
                                     fichaSeleccionada = false; // Deselecciona la ficha
                                 } else {
                                     fichaSeleccionada = true; // Selecciona una ficha
                                     fichaSeleccionadaX = j;
                                     fichaSeleccionadaY = i;
                                 }
+
+                            }else if(tablero[i][j] == 0 && fichaSeleccionada){
+
+                                int dx[2];
+                                int dy[2];
+
+                                if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
+
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dy[0] = 1;
+                                    dy[1] = 1;
+
+                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
+
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dy[0] = -1;
+                                    dy[1] = -1;
+
+                                }
+
+                                for (int k = 0; k < 2; ++k) {
+                                    int newX = fichaSeleccionadaX + dx[k];
+                                    int newY = fichaSeleccionadaY + dy[k];
+
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)) {
+                                        cout << "fichax: " << fichaSeleccionadaX << "fichaY: " << fichaSeleccionadaY << endl;
+                                        cout << "x: " << newX << "y: " << newY << endl;
+                                        if(newX == j && newY == i){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
+                                            tablero[newY][newX] = temp;
+                                        }
+                                    }
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                                        newX = newX+ dx[k];
+                                        newY = newY + dy[k];
+
+                                        if(newX == j && newY == i && tablero[newY][newX] == 0){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
+                                            tablero[newY][newX] = temp;
+                                            tablero[newY-dy[k]][newX-dy[k]]=0;
+                                        }
+
+                                    }
+                                }
+                                fichaSeleccionada = false;
                             }
                         }
 
@@ -155,6 +206,14 @@ void jugarDamas(Font &font){
                 if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)) {
                     movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
                     Damas.draw(movimiento);
+                }
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                    newX = newX+ dx[i];
+                    newY = newY + dy[i];
+                    if(tablero[newY][newX] == 0){
+                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
+                        Damas.draw(movimiento);
+                    }
                 }
             }
         }
