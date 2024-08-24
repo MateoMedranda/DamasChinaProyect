@@ -9,37 +9,72 @@ using namespace sf;
 
 int indexTutorial = 1;
 
-void abrirJugar(RenderWindow &Jugar, Font &font){
+void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     RectangleShape fondo;
     Texture texturaModos;
     fondo.setSize(Vector2f(1280,720));
     texturaModos.loadFromFile("Texturas/fondoModosDeJuego.png");
     fondo.setTexture(&texturaModos);
 
-    int posicion = 100;
-    Boton modosJuego[6];
-    string textoBotones[] = {"1 Jugador", "2 Jugadores", "3 Jugadores", "4 Jugadores", "5 Jugadores", "6 Jugadores"};
-
-    for (int i = 0; i<6; i++){
-        modosJuego[i] = Boton(textoBotones[i],{325,75},50,Color(255, 255, 255, 10),Color::White);
-        modosJuego[i].setPosition({100,posicion + i*75});
-        modosJuego[i].setFont(font);
-    }
-
     Event aevent;
     while(Jugar.pollEvent(aevent)){
-        if(aevent.type == Event::Closed){
-            Jugar.close();
-        }
-        if(aevent.type == Event::KeyPressed){
-            if(aevent.key.code == Keyboard::Escape){
-                Jugar.close();
+        switch(aevent.type){
+            case Event::Closed:{
+                    Jugar.close();
+                }
+                break;
+            case Event::MouseMoved:{
+                if(modosJuego[0].isMouseOver(Jugar)){
+                    modosJuego[0].setBackColor(Color::Black);
+                }else{
+                    modosJuego[0].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[1].isMouseOver(Jugar)){
+                    modosJuego[1].setBackColor(Color::Black);
+                }else{
+                    modosJuego[1].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[2].isMouseOver(Jugar)){
+                    modosJuego[2].setBackColor(Color::Black);
+                }else{
+                    modosJuego[2].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[3].isMouseOver(Jugar)){
+                    modosJuego[3].setBackColor(Color::Black);
+                }else{
+                    modosJuego[3].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[4].isMouseOver(Jugar)){
+                    modosJuego[4].setBackColor(Color::Black);
+                }else{
+                    modosJuego[4].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[5].isMouseOver(Jugar)){
+                    modosJuego[5].setBackColor(Color::Black);
+                }else{
+                    modosJuego[5].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[6].isMouseOver(Jugar)){
+                    modosJuego[6].setBackColor(Color::Black);
+                }else{
+                    modosJuego[6].setBackColor(Color(255, 255, 255, 0));
+                }
+                if(modosJuego[7].isMouseOver(Jugar)){
+                    modosJuego[7].setBackColor(Color::Black);
+                }else{
+                    modosJuego[7].setBackColor(Color(255, 255, 255, 0));
+                }
+                }
+                break;
+            case Event::MouseButtonPressed:{
+
             }
+            break;
         }
     }
     Jugar.clear();
     Jugar.draw(fondo);
-    for(int i = 0; i<6; i++){
+    for(int i = 0; i<8; i++){
         modosJuego[i].drawTo(Jugar);
     }
 }
@@ -89,7 +124,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
             }
             break;
             case Event::MouseButtonPressed:{
-                if(siguiente.isMouseOver(Opcion)){
+                if(siguiente.isMouseOver(Opcion) && (indexTutorial != 7)){
                     indexTutorial +=1;
                 }
             }
@@ -102,7 +137,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
     siguiente.drawTo(Opcion);
 }
 
-int main(){
+void iniciarJuego(){
     RenderWindow MENU(VideoMode(1280,720), "Menu Principal", Style::Default);
 
     RectangleShape fondo;
@@ -118,10 +153,10 @@ int main(){
     Boton botones[4];
     int posicion = 100;
 
-    string textoBotones[] = {"Jugar", "Tutorial", "Creditos", "Salir"};
+    string textoBotonesMenu[] = {"Jugar", "Tutorial", "Creditos", "Salir"};
 
     for (int i = 0; i<4; i++){
-        botones[i] = Boton(textoBotones[i],{325,80},70,Color(255, 255, 255, 10),Color::White);
+        botones[i] = Boton(textoBotonesMenu[i],{325,80},70,Color(255, 255, 255, 10),Color::White);
         botones[i].setPosition({225, posicion + i*100});
         botones[i].setFont(font);
 
@@ -130,6 +165,26 @@ int main(){
     Boton siguiente = Boton("Siguiente",{310,80},60,Color(255, 255, 255, 0),Color::White);
     siguiente.setPosition({850, 600});
     siguiente.setFont(font);
+
+    posicion = 125;
+    Boton modosJuego[8];
+    string textoBotonesJugar[] = {"1 Jugador", "2 Jugadores", "3 Jugadores", "4 Jugadores", "5 Jugadores", "6 Jugadores", "1 Jugador", "2 Jugadores"};
+
+    for (int i = 0; i<6; i++){
+        modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},35,Color(255, 255, 255, 0),Color::White);
+        modosJuego[i].setPosition({100,posicion + i*60});
+        modosJuego[i].setFont(font);
+    }
+
+    for (int i = 6; i<8; i++){
+        modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},40,Color(255, 255, 255, 0),Color::White);
+    }
+
+    modosJuego[6].setPosition({100,600});
+    modosJuego[6].setFont(font);
+
+    modosJuego[7].setPosition({550,600});
+    modosJuego[7].setFont(font);
 
     /*
     Texture texturaSprite;
@@ -183,7 +238,7 @@ int main(){
                         if(botones[0].isMouseOver(MENU)){
                             MENU.close();
                             while(Jugar.isOpen()){
-                                abrirJugar(Jugar, font);
+                                abrirJugar(Jugar, font, modosJuego);
                                 Opcion.close();
                                 Creditos.close();
                                 Jugar.display();
@@ -238,4 +293,9 @@ int main(){
         }
         MENU.display();
     }
+}
+
+int main(){
+    iniciarJuego();
+    return 0;
 }
