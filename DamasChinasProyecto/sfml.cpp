@@ -9,6 +9,159 @@ using namespace sf;
 
 int indexTutorial = 1;
 
+void crearMatrizDamas(int damas[8][8]){
+    int tablero[8][8] = {
+                {-1,1,-1,1,-1,1,-1,1},
+                {1,-1,1,-1,1,-1,1,-1},
+                {-1,0,-1,0,-1,0,-1,0},
+                {0,-1,0,-1,0,-1,0,-1},
+                {-1,0,-1,0,-1,0,-1,0},
+                {0,-1,0,-1,0,-1,0,-1},
+                {-1,2,-1,2,-1,2,-1,2},
+                {2,-1,2,-1,2,-1,2,-1},
+                };
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            damas[i][j] = tablero[i][j];
+        }
+    }
+}
+
+void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
+    if (boton.isMouseOver(ventana)) {
+        boton.setBackColor(Color::Black);
+    } else {
+        boton.setBackColor(Color(255, 255, 255, 0));
+    }
+}
+
+void jugarDamas(Font &font){
+
+    RenderWindow Damas(VideoMode(1280,720),"Damas");
+
+    int tablero[8][8];
+    crearMatrizDamas(tablero);
+
+    RectangleShape fondo;
+    Texture textura, textura1, textura2, textura3, textura4;
+    fondo.setSize(Vector2f(1280,720));
+    textura.loadFromFile("Texturas/tablero_damas.png");
+    textura1.loadFromFile("Texturas/damaBaseBlanca.png");
+    textura2.loadFromFile("Texturas/damaBaseNegra.png");
+    textura3.loadFromFile("Texturas/damaBlanca.png");
+    textura4.loadFromFile("Texturas/damaNegra.png");
+    fondo.setTexture(&textura);
+
+    Sprite fichaBlanca, fichaNegra;
+    fichaBlanca.setTexture(textura1);
+    fichaNegra.setTexture(textura2);
+
+    CircleShape movimiento(15.0f); // Tamaño del círculo para mostrar los movimientos
+    movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
+
+    const float offsetX = 280.0f;
+    const float offsetY = 0.0f;
+    const float tamanoCasilla = 90.0f;
+
+    bool fichaSeleccionada = false;
+    int fichaSeleccionadaX = -1;
+    int fichaSeleccionadaY = -1;
+
+    while(Damas.isOpen()){
+        Event aevent;
+        while(Damas.pollEvent(aevent)){
+            switch(aevent.type){
+                case Event::Closed:
+                    Damas.close();
+                    break;
+
+                case Event::MouseMoved:
+
+                    break;
+
+                case Event::MouseButtonPressed:{
+
+                    if (aevent.mouseButton.button == Mouse::Left){
+                        float x = Mouse::getPosition(Damas).x;
+                        float y = Mouse::getPosition(Damas).y;
+                        cout << x << endl;
+                        cout << y << endl;
+
+                        int i = (y-offsetY)/tamanoCasilla;
+                        int j = (x-offsetX)/tamanoCasilla;
+
+                        if((i>=0) && (i<8) && (j>=0) && (j<8)){
+                            if((tablero[i][j] == 1) || (tablero[i][j] == 2)){
+
+                                if (fichaSeleccionada) {
+
+                                    fichaSeleccionada = false; // Deselecciona la ficha
+                                } else {
+                                    fichaSeleccionada = true; // Selecciona una ficha
+                                    fichaSeleccionadaX = j;
+                                    fichaSeleccionadaY = i;
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+                break;
+            }
+        }
+        Damas.clear();
+        Damas.draw(fondo);
+
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                float x = offsetX + j * tamanoCasilla;
+                float y = offsetY + i * tamanoCasilla;
+
+                if(tablero[i][j] == 1){
+                    fichaBlanca.setPosition(x, y);
+                    Damas.draw(fichaBlanca);
+                }
+                if(tablero[i][j] == 2){
+                    fichaNegra.setPosition(x, y);
+                    Damas.draw(fichaNegra);
+                }
+            }
+        }
+
+        if (fichaSeleccionada) {
+            int dx[2];
+            int dy[2];
+
+            if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
+
+                dx[0] = -1;
+                dx[1] = 1;
+                dy[0] = 1;
+                dy[1] = 1;
+
+            }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
+
+                dx[0] = -1;
+                dx[1] = 1;
+                dy[0] = -1;
+                dy[1] = -1;
+
+            }
+            for (int i = 0; i < 2; ++i) {
+                int newX = fichaSeleccionadaX + dx[i];
+                int newY = fichaSeleccionadaY + dy[i];
+
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)) {
+                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
+                    Damas.draw(movimiento);
+                }
+            }
+        }
+        Damas.display();
+    }
+}
+
 void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     RectangleShape fondo;
     Texture texturaModos;
@@ -19,62 +172,33 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     Event aevent;
     while(Jugar.pollEvent(aevent)){
         switch(aevent.type){
-            case Event::Closed:{
-                    Jugar.close();
-                }
+            case Event::Closed:
+                Jugar.close();
                 break;
-            case Event::MouseMoved:{
-                if(modosJuego[0].isMouseOver(Jugar)){
-                    modosJuego[0].setBackColor(Color::Black);
-                }else{
-                    modosJuego[0].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[1].isMouseOver(Jugar)){
-                    modosJuego[1].setBackColor(Color::Black);
-                }else{
-                    modosJuego[1].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[2].isMouseOver(Jugar)){
-                    modosJuego[2].setBackColor(Color::Black);
-                }else{
-                    modosJuego[2].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[3].isMouseOver(Jugar)){
-                    modosJuego[3].setBackColor(Color::Black);
-                }else{
-                    modosJuego[3].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[4].isMouseOver(Jugar)){
-                    modosJuego[4].setBackColor(Color::Black);
-                }else{
-                    modosJuego[4].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[5].isMouseOver(Jugar)){
-                    modosJuego[5].setBackColor(Color::Black);
-                }else{
-                    modosJuego[5].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[6].isMouseOver(Jugar)){
-                    modosJuego[6].setBackColor(Color::Black);
-                }else{
-                    modosJuego[6].setBackColor(Color(255, 255, 255, 0));
-                }
-                if(modosJuego[7].isMouseOver(Jugar)){
-                    modosJuego[7].setBackColor(Color::Black);
-                }else{
-                    modosJuego[7].setBackColor(Color(255, 255, 255, 0));
-                }
-                }
-                break;
-            case Event::MouseButtonPressed:{
 
+            case Event::MouseMoved:
+                for (int i = 0; i < 8; ++i) {
+                    cambiarColorBoton(modosJuego[i], Jugar);
+                }
+                break;
+
+            case Event::MouseButtonPressed:{
+                if(modosJuego[7].isMouseOver(Jugar)){
+
+
+                    Jugar.close();
+                    jugarDamas(font);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
             }
-            break;
+
+                break;
         }
     }
+
     Jugar.clear();
     Jugar.draw(fondo);
-    for(int i = 0; i<8; i++){
+    for(int i = 0; i < 8; i++){
         modosJuego[i].drawTo(Jugar);
     }
 }
@@ -203,31 +327,10 @@ void iniciarJuego(){
                     MENU.close();
                 }
                 break;
-                case Event::MouseMoved:{
-                    if(botones[0].isMouseOver(MENU)){
-                        botones[0].setBackColor(Color::Black);
-                    }else{
-                        botones[0].setBackColor(Color(255, 255, 255, 0));
+                case Event::MouseMoved:
+                    for (int i = 0; i < 4; ++i) {
+                        cambiarColorBoton(botones[i], MENU);
                     }
-
-                    if(botones[1].isMouseOver(MENU)){
-                        botones[1].setBackColor(Color::Black);
-                    }else{
-                        botones[1].setBackColor(Color(255, 255, 255, 0));
-                    }
-
-                    if(botones[2].isMouseOver(MENU)){
-                        botones[2].setBackColor(Color::Black);
-                    }else{
-                        botones[2].setBackColor(Color(255, 255, 255, 0));
-                    }
-
-                    if(botones[3].isMouseOver(MENU)){
-                        botones[3].setBackColor(Color::Black);
-                    }else{
-                        botones[3].setBackColor(Color(255, 255, 255, 0));
-                    }
-                }
                 break;
                 case Event::MouseButtonPressed:{
                     if(botones[0].isMouseOver(MENU) || botones[1].isMouseOver(MENU) || botones[2].isMouseOver(MENU) || botones[3].isMouseOver(MENU)){
