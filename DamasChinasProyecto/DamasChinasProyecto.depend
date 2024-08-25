@@ -968,3 +968,15 @@
 	<SFML/Audio/Export.hpp>
 	<string>
 
+1724627830 source:c:\users\dell\onedrive\documentos\github\damaschinaproyect\damaschinasproyecto\sfml.cpp
+	<SFML/Graphics.hpp>
+	<SFML/Audio.hpp>
+	"Boton.h"
+	<string>
+	<iostream>
+	<sstream>
+
+1724548502 c:\users\dell\onedrive\documentos\github\damaschinaproyect\damaschinasproyecto\boton.h
+	<SFML/Graphics.hpp>
+	<iostream>
+

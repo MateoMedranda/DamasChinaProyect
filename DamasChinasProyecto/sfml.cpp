@@ -10,6 +10,109 @@ using namespace sf;
 
 int indexTutorial = 1;
 
+// Definimos las dimensiones del tablero
+const int FILAS = 17;
+const int COLUMNAS = 25;
+
+// Definimos los valores para cada celda
+const int VACIO = -1;
+const int MOV = 0;
+const int JUGADOR1 = 1;
+const int JUGADOR2 = 2;
+const int JUGADOR3 = 3;
+const int JUGADOR4 = 4;
+const int JUGADOR5 = 5;
+const int JUGADOR6 = 6;
+void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
+    for (int i = 0; i < FILAS; i++) {
+        for (int j = 0; j < COLUMNAS; j++) {
+            tablero[i][j] = VACIO;
+        }
+    }
+
+    for (int i = 8; i < 17; i+=2) {
+  	    tablero[4][i] = MOV;
+    }
+
+    for (int i = 7; i < 18; i+=2) {
+  	    tablero[5][i] = MOV;
+    }
+
+    for (int i = 6; i < 19; i+=2) {
+  	    tablero[6][i] = MOV;
+    }
+
+    for (int i = 5; i < 20; i+=2) {
+  	    tablero[7][i] = MOV;
+    }
+
+    for (int i = 4; i < 21; i+=2) {
+  	    tablero[8][i] = MOV;
+    }
+
+    for (int i = 5; i < 20; i+=2) {
+  	    tablero[9][i] = MOV;
+    }
+
+    for (int i = 6; i < 19; i+=2) {
+  	    tablero[10][i] = MOV;
+    }
+
+    for (int i = 7; i < 18; i+=2) {
+  	    tablero[11][i] = MOV;
+    }
+
+    for (int i = 8; i < 17; i+=2) {
+  	    tablero[12][i] = MOV;
+    }
+
+    if(numJugadores >= 2){
+    // Jugador 1 (parte superior)
+    tablero[0][12] = JUGADOR1;
+    tablero[1][11] = tablero[1][13] = JUGADOR1;
+    tablero[2][10] = tablero[2][12] = tablero[2][14] = JUGADOR1;
+    tablero[3][9] = tablero[3][11] = tablero[3][13] = tablero[3][15] = JUGADOR1;
+
+    // Jugador 2 (parte inferior)
+    tablero[16][12] = JUGADOR2;
+    tablero[15][11] = tablero[15][13] = JUGADOR2;
+    tablero[14][10] = tablero[14][12] = tablero[14][14] = JUGADOR2;
+    tablero[13][9] = tablero[13][11] = tablero[13][13] = tablero[13][15] = JUGADOR2;
+    }
+
+    if(numJugadores >= 3){
+    // Jugador 3 (parte inferior izquierda)
+    tablero[9][3] = JUGADOR3;
+    tablero[10][2] = tablero[10][4] = JUGADOR3;
+    tablero[11][1] = tablero[11][3] = tablero[11][5] = JUGADOR3;
+    tablero[12][0] = tablero[12][2] = tablero[12][4] = tablero[12][6] = JUGADOR3;
+    }
+
+    if(numJugadores >= 4){
+    // Jugador 4 (parte superior derecha)
+    tablero[7][21] = JUGADOR4;
+    tablero[6][20] = tablero[6][22] = JUGADOR4;
+    tablero[5][19] = tablero[5][21] = tablero[5][23] = JUGADOR4;
+    tablero[4][18] = tablero[4][20] = tablero[4][22] = tablero[4][24] = JUGADOR4;
+    }
+
+    if(numJugadores >= 5){
+    // Jugador 5 (parte superior izquierda)
+    tablero[7][3] = JUGADOR5;
+    tablero[6][2] = tablero[6][4] = JUGADOR5;
+    tablero[5][1] = tablero[5][3] = tablero[5][5] = JUGADOR5;
+    tablero[4][0] = tablero[4][2] = tablero[4][4] = tablero[4][6] = JUGADOR5;
+    }
+
+    if(numJugadores == 6){
+    // Jugador 6 (parte inferior derecha)
+    tablero[9][21] = JUGADOR6;
+    tablero[10][20] = tablero[10][22] = JUGADOR6;
+    tablero[11][19] = tablero[11][21] = tablero[11][23] = JUGADOR6;
+    tablero[12][18] = tablero[12][20] = tablero[12][22] = tablero[12][24] = JUGADOR6;
+    }
+}
+
 void crearMatrizDamas(int damas[8][8]){
     int tablero[8][8] = {
                 {-1,1,-1,1,-1,1,-1,1},
