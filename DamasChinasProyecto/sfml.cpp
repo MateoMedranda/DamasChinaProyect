@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Boton.h"
 #include <string>
 #include <iostream>
@@ -25,6 +26,28 @@ void crearMatrizDamas(int damas[8][8]){
             damas[i][j] = tablero[i][j];
         }
     }
+}
+
+void crearMatrizDamasChinas(){
+    int tablero[17][25] = {
+                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
+                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
+                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
+                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
+                {-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, -1, -1, -1},
+                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
+                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
+                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
+                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
+                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                };
 }
 
 void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
@@ -139,14 +162,15 @@ void jugarDamas(Font &font){
                                         }
                                     }
                                     if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
-                                        newX = newX+ dx[k];
+                                        int antx = newX , anty = newY;
+                                        newX = newX + dx[k];
                                         newY = newY + dy[k];
 
                                         if(newX == j && newY == i && tablero[newY][newX] == 0){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
-                                            tablero[newY-dy[k]][newX-dy[k]]=0;
+                                            tablero[anty][antx]=0;
                                         }
 
                                     }
@@ -221,6 +245,44 @@ void jugarDamas(Font &font){
     }
 }
 
+void jugarDamasChinas(Font &font){
+
+    RenderWindow DamasChinas(VideoMode(1280,720),"Damas Chinas");
+
+    RectangleShape fondo;
+    Texture textura;
+    fondo.setSize(Vector2f(1280,720));
+    textura.loadFromFile("Texturas/tableroDamasChinas.png");
+    fondo.setTexture(&textura);
+
+    while(DamasChinas.isOpen()){
+        Event aevent;
+        while(DamasChinas.pollEvent(aevent)){
+
+            switch(aevent.type){
+                case Event::Closed:
+                    DamasChinas.close();
+                    break;
+
+                case Event::MouseMoved:
+
+                    break;
+
+                case Event::MouseButtonPressed:{
+
+                }
+
+                    break;
+            }
+        }
+
+        DamasChinas.clear();
+        DamasChinas.draw(fondo);
+        DamasChinas.display();
+    }
+
+}
+
 void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     RectangleShape fondo;
     Texture texturaModos;
@@ -242,9 +304,12 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                 break;
 
             case Event::MouseButtonPressed:{
+                if(modosJuego[1].isMouseOver(Jugar)){
+                    Jugar.close();
+                    jugarDamasChinas(font);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
                 if(modosJuego[7].isMouseOver(Jugar)){
-
-
                     Jugar.close();
                     jugarDamas(font);
                     Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
@@ -323,6 +388,10 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
 void iniciarJuego(){
     RenderWindow MENU(VideoMode(1280,720), "Menu Principal", Style::Default);
 
+    Music musica;
+    musica.openFromFile("Audios/musicaMenu.ogg");
+
+
     RectangleShape fondo;
 
     fondo.setSize(Vector2f(1280,720));
@@ -377,6 +446,10 @@ void iniciarJuego(){
     sprite.setColor(Color::Green);
     sprite.setPosition(Vector2f(10.f, 50.f));
 */
+
+    musica.play();
+    musica.setPlayingOffset(seconds(10.f));
+    musica.setVolume(30);
     while(MENU.isOpen()){
         Event evento;
         while(MENU.pollEvent(evento)){
