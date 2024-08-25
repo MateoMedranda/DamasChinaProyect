@@ -14,10 +14,10 @@ void crearMatrizDamas(int damas[8][8]){
     int tablero[8][8] = {
                 {-1,1,-1,1,-1,1,-1,1},
                 {1,-1,1,-1,1,-1,1,-1},
-                {-1,0,-1,0,-1,0,-1,0},
+                {-1,1,-1,1,-1,1,-1,1},
                 {0,-1,0,-1,0,-1,0,-1},
                 {-1,0,-1,0,-1,0,-1,0},
-                {0,-1,0,-1,0,-1,0,-1},
+                {2,-1,2,-1,2,-1,2,-1},
                 {-1,2,-1,2,-1,2,-1,2},
                 {2,-1,2,-1,2,-1,2,-1},
                 };
@@ -28,9 +28,11 @@ void crearMatrizDamas(int damas[8][8]){
     }
 }
 
-void crearMatrizDamasChinas(){
-    int tablero[17][25] = {
-                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+void crearMatrizDamasChinas(int n, int damas[17][25]){
+
+    if(n == 0){
+            int tableroVacio[17][25] = {
+                {-1, -2, -1 ,-2 ,-1, -2, -1, -2, -1, -2, -1,-2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
                 {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1},
@@ -48,6 +50,35 @@ void crearMatrizDamasChinas(){
                 {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
                 };
+    }
+
+    if(n == 2){
+        int tablero2[17][25] = {
+                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
+                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
+                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
+                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
+                {-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, -1, -1, -1},
+                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
+                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
+                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
+                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
+                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 2, -1, 2, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 2, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
+                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+                };
+        for (int i = 0; i < 17; i++) {
+            for (int j = 0;j < 25; j++) {
+                damas[i][j] = tablero2[i][j];
+            }
+        }
+    }
+
 }
 
 void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
@@ -247,13 +278,24 @@ void jugarDamas(Font &font){
 
 void jugarDamasChinas(Font &font){
 
+    int tablero[17][25];
+    crearMatrizDamasChinas(2, tablero);
+
     RenderWindow DamasChinas(VideoMode(1280,720),"Damas Chinas");
 
     RectangleShape fondo;
-    Texture textura;
+    Texture textura, textura1;
     fondo.setSize(Vector2f(1280,720));
     textura.loadFromFile("Texturas/tableroDamasChinas.png");
+    textura1.loadFromFile("Texturas/texturaBase_ficha.png");
     fondo.setTexture(&textura);
+
+    Sprite ficha;
+    ficha.setTexture(textura1);
+
+    const float offsetX = 145.0f;
+    const float offsetY = 10.0f;
+    const float tamanoCasilla = 40.0f;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -269,6 +311,11 @@ void jugarDamasChinas(Font &font){
                     break;
 
                 case Event::MouseButtonPressed:{
+                    int x = Mouse::getPosition(DamasChinas).x;
+                    int y = Mouse::getPosition(DamasChinas).y;
+
+                    cout << x << endl;
+                    cout << y << endl;
 
                 }
 
@@ -278,6 +325,30 @@ void jugarDamasChinas(Font &font){
 
         DamasChinas.clear();
         DamasChinas.draw(fondo);
+
+        for(int i = 0; i < 17; i++){
+            int cont = 0;
+            for(int j = 0; j < 25; j++){
+
+                if(tablero[i][j] != -1){
+                    float x = offsetX + (j) * tamanoCasilla;
+                    float y = offsetY + (i) * tamanoCasilla;
+
+                    if(tablero[i][j] == 1){
+                        ficha.setColor(Color(0, 255, 0));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                    if(tablero[i][j] == 2){
+                        ficha.setColor(Color(128, 0, 128));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                }else{
+                    cont = cont + 1;
+                }
+            }
+        }
         DamasChinas.display();
     }
 
