@@ -1,5 +1,5 @@
-#ifndef Jugadores_H
-#define Jugadores_H
+#ifndef Jugador_H
+#define Jugador_H
 
 #include <algorithm>
 #include <iostream>
@@ -32,18 +32,33 @@ public:
         return !usuario.empty();
     }
 
-    static bool usuarioExisteEnArchivo(const string& usuario, const string& nombreArchivo) {
-        ifstream archivo(nombreArchivo);
-        string line;
-        if (archivo.is_open()) {
-            while (getline(archivo, line)) {
-                if (line.find(usuario) != string::npos) {
-                    archivo.close();
+    static void inicializarArchivo(const std::string& nombreArchivo);
+    void guardarEnArchivo(const std::string& nombreArchivo) const;
+
+
+    // Método estático para verificar si un usuario existe en el archivo
+    static bool usuarioExisteEnArchivo(const string& usuario, const string& archivoNombre) {
+        ifstream archivo(archivoNombre);
+        if (!archivo.is_open()) {
+            cout << "Error: No se pudo abrir el archivo " << archivoNombre << endl;
+            return false;
+        }
+        string linea;
+        while (getline(archivo, linea)) {
+            size_t pos = linea.find(" || ");
+            if (pos != string::npos) {
+                string usuarioEnArchivo = linea.substr(pos + 4, linea.find(" || ", pos + 4) - (pos + 4));
+                // Trim whitespace from usuarioEnArchivo
+                usuarioEnArchivo.erase(0, usuarioEnArchivo.find_first_not_of(" \t\r\n"));
+                usuarioEnArchivo.erase(usuarioEnArchivo.find_last_not_of(" \t\r\n") + 1);
+                cout << "Comparando: '" << usuario << "' con '" << usuarioEnArchivo << "'" << endl;
+                if (usuario == usuarioEnArchivo) {
+                    cout << "Usuario encontrado!" << endl;
                     return true;
                 }
             }
-            archivo.close();
         }
+        cout << "Usuario no encontrado." << endl;
         return false;
     }
 
@@ -56,18 +71,10 @@ public:
     void incrementarPartidasJugadas() { partidasJugadas++; }
     void incrementarPartidasGanadas() { partidasGanadas++; }
 
-    // Almacenamiento en archivo
-    void guardarEnArchivo(ofstream& archivo) const {
-        archivo << left << setw(20) << nombre << " || "
-                << setw(15) << usuario << " || "
-                << setw(10) << puntaje << " || "
-                << setw(20) << partidasJugadas << " || "
-                << setw(20) << partidasGanadas << "\n";
-    }
 };
 
 // Inicializar archivo con encabezado
-void inicializarArchivo(const string& nombreArchivo) {
+void Jugador::inicializarArchivo(const string& nombreArchivo) {
     ifstream archivoExistente(nombreArchivo);
     bool archivoVacio = !archivoExistente.good() || archivoExistente.peek() == ifstream::traits_type::eof();
     archivoExistente.close();
@@ -89,14 +96,30 @@ void inicializarArchivo(const string& nombreArchivo) {
 }
 
 // Guardar jugadores en el archivo
-void guardarJugadoresEnArchivo(const list<Jugador>& jugadores, const string& nombreArchivo) {
+void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
+    ifstream archivoLectura(nombreArchivo);
+    bool archivoVacio = archivoLectura.peek() == ifstream::traits_type::eof();
+    archivoLectura.close();
+
     ofstream archivo(nombreArchivo, ios::app);
     if (archivo.is_open()) {
-        for (const auto& jugador : jugadores) {
-            jugador.guardarEnArchivo(archivo);
+        if (archivoVacio) {
+            // Escribir el encabezado si el archivo está vacío
+            archivo << left << setw(20) << "Nombre" << " ||"
+                    << setw(15) << " Usuario" << "  ||"
+                    << setw(10) << " Puntaje" << "  ||"
+                    << setw(20) << " Partidas Jugadas" << "  ||"
+                    << setw(20) << " Partidas Ganadas" << endl;
+            archivo << string(100, '-') << endl;
         }
+
+        // Escribir la información del jugador
+        archivo << left << setw(20) << nombre << " || "
+                << setw(15) << usuario << " || "
+                << setw(10) << puntaje << " || "
+                << setw(20) << partidasJugadas << " || "
+                << setw(20) << partidasGanadas << "\n";
         archivo.close();
-        cout << "Datos guardados en " << nombreArchivo << " con éxito.\n";
     } else {
         cout << "Error al abrir el archivo.\n";
     }
@@ -180,20 +203,4 @@ void controlarTurnos(list<Jugador>& listaJugadores) {
     }
 }
 
-#endif // Jugadores_H
-
-
-/* METODO MAIN PARA SU EJECUCION
-
-int main() {
-    list<Jugador> listaJugadores;
-    string nombreArchivo = "jugadores.txt";
-
-    inicializarArchivo(nombreArchivo);
-    ingresarJugadores(listaJugadores, nombreArchivo);
-    guardarJugadoresEnArchivo(listaJugadores, nombreArchivo);
-    controlarTurnos(listaJugadores);
-
-    return 0;
-}
-*/
+#endif // Jugador_H

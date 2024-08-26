@@ -1,0 +1,4 @@
+Nombre               || Usuario         || Puntaje    || Partidas Jugadas     || Partidas Ganadas   
+----------------------------------------------------------------------------------------------------
+Anthony Morales      || Axtxny17        || 0          || 0                    || 0                   
+Jordan Guaman        || jguaman         || 0          || 0                    || 0                   
