@@ -25,6 +25,8 @@ const int JUGADOR3 = 3;
 const int JUGADOR4 = 4;
 const int JUGADOR5 = 5;
 const int JUGADOR6 = 6;
+
+
 void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
@@ -131,59 +133,6 @@ void crearMatrizDamas(int damas[8][8]){
             damas[i][j] = tablero[i][j];
         }
     }
-}
-
-void crearMatrizDamasChinas(int n, int damas[17][25]){
-
-    if(n == 0){
-            int tableroVacio[17][25] = {
-                {-1, -2, -1 ,-2 ,-1, -2, -1, -2, -1, -2, -1,-2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
-                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
-                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
-                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
-                {-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, -1, -1, -1},
-                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
-                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
-                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
-                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
-                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 0, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 0, -1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                };
-    }
-
-    if(n == 2){
-        int tablero2[17][25] = {
-                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
-                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
-                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
-                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
-                {-1, -1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, -1, -1, -1},
-                {-1, -1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, -1, -1},
-                {-1, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, -1},
-                {-1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1},
-                {0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0, -1, 0 ,-1, 0, -1, 0, -1 , 0, -1, 0, -1, 0, -1, 0},
-                {-1,-1, -1, -1 ,-1 ,-1, -1, -1, -1, 2, -1, 2, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, 2, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1},
-                {-1, -1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, 2, -1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                {-1, -1, -1 ,-1 ,-1, -1, -1, -1, -1, -1, -1,-1, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-                };
-        for (int i = 0; i < 17; i++) {
-            for (int j = 0;j < 25; j++) {
-                damas[i][j] = tablero2[i][j];
-            }
-        }
-    }
-
 }
 
 void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
@@ -427,16 +376,16 @@ void ventanaRegistro(RenderWindow& window, Font& font) {
     }
 }
 
-void jugarDamas(Font &font) {
+void jugarDamas(Font &font){
 
-    RenderWindow Damas(VideoMode(1280, 720), "Damas");
+    RenderWindow Damas(VideoMode(1280,720),"Damas");
 
     int tablero[8][8];
     crearMatrizDamas(tablero);
 
     RectangleShape fondo;
     Texture textura, textura1, textura2, textura3, textura4;
-    fondo.setSize(Vector2f(1280, 720));
+    fondo.setSize(Vector2f(1280,720));
     textura.loadFromFile("Texturas/tablero_damas.png");
     textura1.loadFromFile("Texturas/damaBaseBlanca.png");
     textura2.loadFromFile("Texturas/damaBaseNegra.png");
@@ -456,154 +405,117 @@ void jugarDamas(Font &font) {
     const float tamanoCasilla = 90.0f;
 
     bool fichaSeleccionada = false;
-    bool puedeCapturarFicha = false;
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
-    bool movimientoRealizado = false;
 
-    while (Damas.isOpen()) {
+    while(Damas.isOpen()){
         Event aevent;
-        while (Damas.pollEvent(aevent)) {
-            switch (aevent.type) {
+        while(Damas.pollEvent(aevent)){
+            switch(aevent.type){
                 case Event::Closed:
                     Damas.close();
                     break;
 
                 case Event::MouseMoved:
+
                     break;
 
-                case Event::MouseButtonPressed: {
-                    if (aevent.mouseButton.button == Mouse::Left) {
+                case Event::MouseButtonPressed:{
+
+                    int temp;
+                    if (aevent.mouseButton.button == Mouse::Left){
                         float x = Mouse::getPosition(Damas).x;
                         float y = Mouse::getPosition(Damas).y;
 
-                        int i = (y - offsetY) / tamanoCasilla;
-                        int j = (x - offsetX) / tamanoCasilla;
 
-                        if ((i >= 0) && (i < 8) && (j >= 0) && (j < 8)) {
-                            if ((tablero[i][j] == 1) || (tablero[i][j] == 2)) {
+                        int i = (y-offsetY)/tamanoCasilla;
+                        int j = (x-offsetX)/tamanoCasilla;
+
+                        cout << "i: " << i << "j: " << j << endl;
+
+
+                        if((i>=0) && (i<8) && (j>=0) && (j<8)){
+                            if((tablero[i][j] == 1) || (tablero[i][j] == 2)){
+
                                 if (fichaSeleccionada) {
-                                    if (!movimientoRealizado) {
-                                        // AQUI EMPIEZA
-                                        if (puedeCapturar(tablero, fichaSeleccionadaX, fichaSeleccionadaY, j, i)) {
-                                            int temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
-                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
-                                            tablero[i][j] = temp;
-                                            tablero[(fichaSeleccionadaY + i) / 2][(fichaSeleccionadaX + j) / 2] = 0; // Elimina la ficha capturada
-                                            movimientoRealizado = true;
-                                        } else if (tablero[i][j] == 0) {
-                                            // Mover ficha
-                                            int dx[2];
-                                            int dy[2];
-
-                                            if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1) {
-                                                dx[0] = -1;
-                                                dx[1] = 1;
-                                                dy[0] = 1;
-                                                dy[1] = 1;
-                                            } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2) {
-                                                dx[0] = -1;
-                                                dx[1] = 1;
-                                                dy[0] = -1;
-                                                dy[1] = -1;
-                                            }
-
-                                            for (int k = 0; k < 2; ++k) {
-                                                int newX = fichaSeleccionadaX + dx[k];
-                                                int newY = fichaSeleccionadaY + dy[k];
-
-                                                if (newX == j && newY == i) {
-                                                    temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
-                                                    tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
-                                                    tablero[newY][newX] = temp;
-                                                    movimientoRealizado = true;
-                                                    break;
-                                                }
-                                                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX] && tablero[newY][newX] != 0) {
-                                                    int antx = newX, anty = newY;
-                                                    newX = newX + dx[k];
-                                                    newY = newY + dy[k];
-
-                                                    if (newX == j && newY == i && tablero[newY][newX] == 0) {
-                                                        temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
-                                                        tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
-                                                        tablero[newY][newX] = temp;
-                                                        tablero[anty][antx] = 0;
-                                                        movimientoRealizado = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    fichaSeleccionada = false;
+                                    fichaSeleccionada = false; // Deselecciona la ficha
                                 } else {
-                                    fichaSeleccionada = true;
+                                    fichaSeleccionada = true; // Selecciona una ficha
                                     fichaSeleccionadaX = j;
                                     fichaSeleccionadaY = i;
-                                    puedeCapturarFicha = puedeCapturar(tablero, fichaSeleccionadaX, fichaSeleccionadaY);
-                                    movimientoRealizado = false;
                                 }
-                            } else if (tablero[i][j] == 0 && fichaSeleccionada && !movimientoRealizado) {
-                                if (puedeCapturarFicha) {
-                                    if (puedeCapturar(tablero, fichaSeleccionadaX, fichaSeleccionadaY, j, i)) {
-                                        int temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
-                                        tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
-                                        tablero[i][j] = temp;
-                                        tablero[(fichaSeleccionadaY + i) / 2][(fichaSeleccionadaX + j) / 2] = 0; // Elimina la ficha capturada
-                                        movimientoRealizado = true;
-                                    }
-                                } else {
-                                    int dx[2];
-                                    int dy[2];
 
-                                    if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1) {
-                                        dx[0] = -1;
-                                        dx[1] = 1;
-                                        dy[0] = 1;
-                                        dy[1] = 1;
-                                    } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2) {
-                                        dx[0] = -1;
-                                        dx[1] = 1;
-                                        dy[0] = -1;
-                                        dy[1] = -1;
-                                    }
+                            }else if(tablero[i][j] == 0 && fichaSeleccionada){
 
-                                    for (int k = 0; k < 2; ++k) {
-                                        int newX = fichaSeleccionadaX + dx[k];
-                                        int newY = fichaSeleccionadaY + dy[k];
+                                int dx[2];
+                                int dy[2];
 
-                                        if (newX == j && newY == i) {
-                                            int temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
+
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dy[0] = 1;
+                                    dy[1] = 1;
+
+                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
+
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dy[0] = -1;
+                                    dy[1] = -1;
+
+                                }
+
+                                for (int k = 0; k < 2; ++k) {
+                                    int newX = fichaSeleccionadaX + dx[k];
+                                    int newY = fichaSeleccionadaY + dy[k];
+
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)) {
+                                        cout << "fichax: " << fichaSeleccionadaX << "fichaY: " << fichaSeleccionadaY << endl;
+                                        cout << "x: " << newX << "y: " << newY << endl;
+                                        if(newX == j && newY == i){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
-                                            movimientoRealizado = true;
-                                            break;
                                         }
+                                    }
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                                        int antx = newX , anty = newY;
+                                        newX = newX + dx[k];
+                                        newY = newY + dy[k];
+
+                                        if(newX == j && newY == i && tablero[newY][newX] == 0){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
+                                            tablero[newY][newX] = temp;
+                                            tablero[anty][antx]=0;
+                                        }
+
                                     }
                                 }
                                 fichaSeleccionada = false;
                             }
                         }
+
                     }
+
                 }
                 break;
             }
         }
-        // AQUI TERMINAAAA
         Damas.clear();
         Damas.draw(fondo);
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
                 float x = offsetX + j * tamanoCasilla;
                 float y = offsetY + i * tamanoCasilla;
 
-                if (tablero[i][j] == 1) {
+                if(tablero[i][j] == 1){
                     fichaBlanca.setPosition(x, y);
                     Damas.draw(fichaBlanca);
                 }
-                if (tablero[i][j] == 2) {
+                if(tablero[i][j] == 2){
                     fichaNegra.setPosition(x, y);
                     Damas.draw(fichaNegra);
                 }
@@ -614,29 +526,39 @@ void jugarDamas(Font &font) {
             int dx[2];
             int dy[2];
 
-            if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1) {
+            if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
+
                 dx[0] = -1;
                 dx[1] = 1;
                 dy[0] = 1;
                 dy[1] = 1;
-            } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2) {
+
+            }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
+
                 dx[0] = -1;
                 dx[1] = 1;
                 dy[0] = -1;
                 dy[1] = -1;
+
             }
+            for (int i = 0; i < 2; ++i) {
+                int newX = fichaSeleccionadaX + dx[i];
+                int newY = fichaSeleccionadaY + dy[i];
 
-            for (int k = 0; k < 2; ++k) {
-                int newX = fichaSeleccionadaX + dx[k];
-                int newY = fichaSeleccionadaY + dy[k];
-
-                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && tablero[newY][newX] == 0) {
-                    movimiento.setPosition(offsetX + newX * tamanoCasilla, offsetY + newY * tamanoCasilla);
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)) {
+                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
                     Damas.draw(movimiento);
+                }
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                    newX = newX+ dx[i];
+                    newY = newY + dy[i];
+                    if(tablero[newY][newX] == 0){
+                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
+                        Damas.draw(movimiento);
+                    }
                 }
             }
         }
-
         Damas.display();
     }
 }
@@ -644,8 +566,8 @@ void jugarDamas(Font &font) {
 
 void jugarDamasChinas(Font &font){
 
-    int tablero[17][25];
-    crearMatrizDamasChinas(2, tablero);
+    int tablero[FILAS][COLUMNAS];
+    crearMatrizNJugadoresDamas(tablero,6);
 
     RenderWindow DamasChinas(VideoMode(1280,720),"Damas Chinas");
 
@@ -659,9 +581,9 @@ void jugarDamasChinas(Font &font){
     Sprite ficha;
     ficha.setTexture(textura1);
 
-    const float offsetX = 145.0f;
-    const float offsetY = 10.0f;
-    const float tamanoCasilla = 40.0f;
+    const float offsetX = 350.0f;
+    const float offsetY = 15.0f;
+    const float tamanoCasilla = 23.0f;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -698,7 +620,7 @@ void jugarDamasChinas(Font &font){
 
                 if(tablero[i][j] != -1){
                     float x = offsetX + (j) * tamanoCasilla;
-                    float y = offsetY + (i) * tamanoCasilla;
+                    float y = offsetY + (i) * 40;
 
                     if(tablero[i][j] == 1){
                         ficha.setColor(Color(0, 255, 0));
@@ -707,6 +629,26 @@ void jugarDamasChinas(Font &font){
                     }
                     if(tablero[i][j] == 2){
                         ficha.setColor(Color(128, 0, 128));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                    if(tablero[i][j] == 3){
+                        ficha.setColor(Color(255, 0, 0));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                    if(tablero[i][j] == 4){
+                        ficha.setColor(Color(255, 165, 0));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                    if(tablero[i][j] == 5){
+                        ficha.setColor(Color(255, 255, 0));
+                        ficha.setPosition(x, y);
+                        DamasChinas.draw(ficha);
+                    }
+                    if(tablero[i][j] == 6){
+                        ficha.setColor(Color(0, 255, 255));
                         ficha.setPosition(x, y);
                         DamasChinas.draw(ficha);
                     }
