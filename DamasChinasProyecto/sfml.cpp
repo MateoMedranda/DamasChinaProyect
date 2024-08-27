@@ -393,9 +393,11 @@ void jugarDamas(Font &font){
     textura4.loadFromFile("Texturas/damaNegra.png");
     fondo.setTexture(&textura);
 
-    Sprite fichaBlanca, fichaNegra;
+    Sprite fichaBlanca, fichaNegra, damaBlanca, damaNegra;
     fichaBlanca.setTexture(textura1);
     fichaNegra.setTexture(textura2);
+    damaBlanca.setTexture(textura3);
+    damaNegra.setTexture(textura4);
 
     CircleShape movimiento(30.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
@@ -435,7 +437,7 @@ void jugarDamas(Font &font){
 
 
                         if((i>=0) && (i<8) && (j>=0) && (j<8)){
-                            if((tablero[i][j] == 1) || (tablero[i][j] == 2)){
+                            if((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4)){
 
                                 if (fichaSeleccionada) {
                                     fichaSeleccionada = false; // Deselecciona la ficha
@@ -447,8 +449,9 @@ void jugarDamas(Font &font){
 
                             }else if(tablero[i][j] == 0 && fichaSeleccionada){
 
-                                int dx[2];
-                                int dy[2];
+                                int dx[4];
+                                int dy[4];
+                                int n;
 
                                 if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
 
@@ -456,6 +459,7 @@ void jugarDamas(Font &font){
                                     dx[1] = 1;
                                     dy[0] = 1;
                                     dy[1] = 1;
+                                    n = 2;
 
                                 }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
 
@@ -463,10 +467,21 @@ void jugarDamas(Font &font){
                                     dx[1] = 1;
                                     dy[0] = -1;
                                     dy[1] = -1;
+                                    n = 2;
 
+                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX]){
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dx[2] = -1;
+                                    dx[3] = 1;
+                                    dy[0] = -1;
+                                    dy[1] = -1;
+                                    dy[2] = 1;
+                                    dy[3] = 1;
+                                    n = 4;
                                 }
 
-                                for (int k = 0; k < 2; ++k) {
+                                for (int k = 0; k < n; ++k) {
                                     int newX = fichaSeleccionadaX + dx[k];
                                     int newY = fichaSeleccionadaY + dy[k];
 
@@ -477,9 +492,18 @@ void jugarDamas(Font &font){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
+
+                                            if(newY == 0 && temp == 2){
+                                                tablero[newY][newX] = 4;
+
+                                            }
+                                            if(newY == 7 && temp == 1){
+                                                tablero[newY][newX] = 3;
+
+                                            }
                                         }
                                     }
-                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
                                         int antx = newX , anty = newY;
                                         newX = newX + dx[k];
                                         newY = newY + dy[k];
@@ -489,6 +513,15 @@ void jugarDamas(Font &font){
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             tablero[anty][antx]=0;
+
+                                            if(newY == 0 && temp == 2){
+                                                tablero[newY][newX] = 4;
+
+                                            }
+                                            if(newY == 7 && temp == 1){
+                                                tablero[newY][newX] = 3;
+
+                                            }
                                         }
 
                                     }
@@ -519,12 +552,21 @@ void jugarDamas(Font &font){
                     fichaNegra.setPosition(x, y);
                     Damas.draw(fichaNegra);
                 }
+                if(tablero[i][j] == 3){
+                    damaBlanca.setPosition(x,y);
+                    Damas.draw(damaBlanca);
+                }
+                if(tablero[i][j] == 4){
+                    damaNegra.setPosition(x,y);
+                    Damas.draw(damaNegra);
+                }
             }
         }
 
         if (fichaSeleccionada) {
-            int dx[2];
-            int dy[2];
+            int dx[4];
+            int dy[4];
+            int n;
 
             if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
 
@@ -532,6 +574,7 @@ void jugarDamas(Font &font){
                 dx[1] = 1;
                 dy[0] = 1;
                 dy[1] = 1;
+                n = 2;
 
             }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
 
@@ -539,9 +582,21 @@ void jugarDamas(Font &font){
                 dx[1] = 1;
                 dy[0] = -1;
                 dy[1] = -1;
+                n = 2;
 
+            }else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 4 ){
+                dx[0] = -1;
+                dx[1] = 1;
+                dx[2] = -1;
+                dx[3] = 1;
+                dy[0] = -1;
+                dy[1] = -1;
+                dy[2] = 1;
+                dy[3] = 1;
+                n = 4;
             }
-            for (int i = 0; i < 2; ++i) {
+
+            for (int i = 0; i < n; ++i) {
                 int newX = fichaSeleccionadaX + dx[i];
                 int newY = fichaSeleccionadaY + dy[i];
 
@@ -549,7 +604,7 @@ void jugarDamas(Font &font){
                     movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
                     Damas.draw(movimiento);
                 }
-                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0)) {
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
                     newX = newX+ dx[i];
                     newY = newY + dy[i];
                     if(tablero[newY][newX] == 0){
@@ -558,6 +613,7 @@ void jugarDamas(Font &font){
                     }
                 }
             }
+
         }
         Damas.display();
     }
