@@ -620,10 +620,10 @@ void jugarDamas(Font &font){
 }
 
 
-void jugarDamasChinas(Font &font){
+void jugarDamasChinas(Font &font, int n){
 
     int tablero[FILAS][COLUMNAS];
-    crearMatrizNJugadoresDamas(tablero,6);
+    crearMatrizNJugadoresDamas(tablero,n);
 
     RenderWindow DamasChinas(VideoMode(1280,720),"Damas Chinas");
 
@@ -743,7 +743,35 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     Jugar.close();
                     RenderWindow window(VideoMode(1280, 720), "Ingreso de Usuario", Style::Default);
                     ventanaEntradaUsuario(window, font);
-                    jugarDamasChinas(font);
+                    jugarDamasChinas(font, 2);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
+                if(modosJuego[2].isMouseOver(Jugar)){
+                    Jugar.close();
+                    RenderWindow window(VideoMode(1280, 720), "Ingreso de Usuario", Style::Default);
+                    ventanaEntradaUsuario(window, font);
+                    jugarDamasChinas(font, 3);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
+                if(modosJuego[3].isMouseOver(Jugar)){
+                    Jugar.close();
+                    RenderWindow window(VideoMode(1280, 720), "Ingreso de Usuario", Style::Default);
+                    ventanaEntradaUsuario(window, font);
+                    jugarDamasChinas(font, 4);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
+                if(modosJuego[4].isMouseOver(Jugar)){
+                    Jugar.close();
+                    RenderWindow window(VideoMode(1280, 720), "Ingreso de Usuario", Style::Default);
+                    ventanaEntradaUsuario(window, font);
+                    jugarDamasChinas(font, 5);
+                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+                }
+                if(modosJuego[5].isMouseOver(Jugar)){
+                    Jugar.close();
+                    RenderWindow window(VideoMode(1280, 720), "Ingreso de Usuario", Style::Default);
+                    ventanaEntradaUsuario(window, font);
+                    jugarDamasChinas(font, 6);
                     Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
                 if(modosJuego[7].isMouseOver(Jugar)){
