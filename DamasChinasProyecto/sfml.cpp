@@ -639,7 +639,7 @@ void jugarDamasChinas(Font &font, int n){
 
     const float offsetX = 350.0f;
     const float offsetY = 15.0f;
-    const float tamanoCasilla = 23.0f;
+    const float tamanoCasilla = 30.0f;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -792,7 +792,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     }
 }
 
-void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
+void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &anterior){
     RectangleShape fondo;
     Texture texturaTutorial;
     string tutorial = "tutorial_";
@@ -834,11 +834,19 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
                 }else{
                     siguiente.setBackColor(Color(255, 255, 255, 0));
                 }
+                if(anterior.isMouseOver(Opcion)){
+                    anterior.setBackColor(Color::Black);
+                }else{
+                    anterior.setBackColor(Color(255, 255, 255, 0));
+                }
             }
             break;
             case Event::MouseButtonPressed:{
                 if(siguiente.isMouseOver(Opcion) && (indexTutorial != 7)){
                     indexTutorial +=1;
+                }
+                if(anterior.isMouseOver(Opcion) && (indexTutorial != 1)){
+                    indexTutorial -=1;
                 }
             }
             break;
@@ -847,6 +855,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente){
     }
     Opcion.clear();
     Opcion.draw(fondo);
+    anterior.drawTo(Opcion);
     siguiente.drawTo(Opcion);
 }
 
@@ -879,9 +888,13 @@ void iniciarJuego(){
 
     }
 
-    Boton siguiente = Boton("Siguiente",{310,80},60,Color(255, 255, 255, 0),Color::White);
+    Boton siguiente = Boton("Siguiente",{310,60},45,Color(255, 255, 255, 0),Color::White);
     siguiente.setPosition({850, 600});
     siguiente.setFont(font);
+
+    Boton anterior = Boton("Anterior",{310,60},45,Color(255, 255, 255, 0),Color::White);
+    anterior.setPosition({850, 540});
+    anterior.setFont(font);
 
     posicion = 125;
     Boton modosJuego[8];
@@ -949,7 +962,7 @@ void iniciarJuego(){
                         if(botones[1].isMouseOver(MENU)){
                             MENU.close();
                             while(Opcion.isOpen()){
-                                abrirTutorial(Opcion, font, siguiente);
+                                abrirTutorial(Opcion, font, siguiente, anterior);
                                 Jugar.close();
                                 Creditos.close();
                                 Opcion.display();
