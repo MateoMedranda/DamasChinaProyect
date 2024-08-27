@@ -639,7 +639,7 @@ void jugarDamasChinas(Font &font, int n){
 
     const float offsetX = 350.0f;
     const float offsetY = 15.0f;
-    const float tamanoCasilla = 30.0f;
+    const float tamanoCasilla = 23.0f;
 
     while(DamasChinas.isOpen()){
         Event aevent;
