@@ -763,8 +763,9 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
 
             case Event::MouseButtonPressed:{
                 if(modosJuego[1].isMouseOver(Jugar)){
-                    //Jugar.close();
+
                     ventanaEntradaUsuario(Jugar, font, 2); // 2 usuarios
+                    Jugar.close();
                     jugarDamasChinas(font, 2);
                     Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
@@ -860,7 +861,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &an
             }
             break;
             case Event::MouseButtonPressed:{
-                if(siguiente.isMouseOver(Opcion) && (indexTutorial != 7)){
+                if(siguiente.isMouseOver(Opcion) && (indexTutorial != 12)){
                     indexTutorial +=1;
                 }
                 if(anterior.isMouseOver(Opcion) && (indexTutorial != 1)){
@@ -884,12 +885,16 @@ void iniciarJuego(){
     musica.openFromFile("Audios/musicaMenu.ogg");
 
 
-    RectangleShape fondo;
+    RectangleShape fondo, fondoC;
 
     fondo.setSize(Vector2f(1280,720));
-    Texture texturaPrincipal;
+    fondoC.setSize(Vector2f(1280,720));
+    Texture texturaPrincipal, texturaCreditos;
+    texturaCreditos.loadFromFile("Texturas/Creditos.png");
+
     texturaPrincipal.loadFromFile("Texturas/fondoMenuPrincipal.png");
     fondo.setTexture(&texturaPrincipal);
+    fondoC.setTexture(&texturaCreditos);
 
     Font font;
     font.loadFromFile("Fuentes/LemonShakeShake.ttf");
@@ -946,6 +951,7 @@ void iniciarJuego(){
     musica.play();
     musica.setPlayingOffset(seconds(10.f));
     musica.setVolume(30);
+    musica.setLoop(true);
     while(MENU.isOpen()){
         Event evento;
         while(MENU.pollEvent(evento)){
@@ -1004,6 +1010,7 @@ void iniciarJuego(){
                                 Jugar.close();
                                 Opcion.clear();
                                 Creditos.clear();
+                                Creditos.draw(fondoC);
                                 Creditos.display();
                             }
                         }
