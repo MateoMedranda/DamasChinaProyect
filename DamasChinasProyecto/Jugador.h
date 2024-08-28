@@ -12,7 +12,6 @@ using namespace std;
 
 class Jugador {
 private:
-    string nombre;
     string usuario;
     int puntaje;
     int partidasJugadas;
@@ -20,21 +19,16 @@ private:
 
 public:
     // Constructor
-    Jugador(string nombre, string usuario)
-        : nombre(std::move(nombre)), usuario(std::move(usuario)), puntaje(0), partidasJugadas(0), partidasGanadas(0) {}
+    Jugador(string usuario)
+        : usuario(std::move(usuario)), puntaje(0), partidasJugadas(0), partidasGanadas(0) {}
 
     // Validaciones
-    bool validarNombre() const {
-        return !nombre.empty() && all_of(nombre.begin(), nombre.end(), [](char c) { return isalpha(c) || isspace(c); });
-    }
-
     bool validarUsuario() const {
         return !usuario.empty();
     }
 
     static void inicializarArchivo(const std::string& nombreArchivo);
     void guardarEnArchivo(const std::string& nombreArchivo) const;
-
 
     // Método estático para verificar si un usuario existe en el archivo
     static bool usuarioExisteEnArchivo(const string& usuario, const string& archivoNombre) {
@@ -47,11 +41,10 @@ public:
         while (getline(archivo, linea)) {
             size_t pos = linea.find(" || ");
             if (pos != string::npos) {
-                string usuarioEnArchivo = linea.substr(pos + 4, linea.find(" || ", pos + 4) - (pos + 4));
+                string usuarioEnArchivo = linea.substr(0, pos);
                 // Trim whitespace from usuarioEnArchivo
                 usuarioEnArchivo.erase(0, usuarioEnArchivo.find_first_not_of(" \t\r\n"));
                 usuarioEnArchivo.erase(usuarioEnArchivo.find_last_not_of(" \t\r\n") + 1);
-                cout << "Comparando: '" << usuario << "' con '" << usuarioEnArchivo << "'" << endl;
                 if (usuario == usuarioEnArchivo) {
                     cout << "Usuario encontrado!" << endl;
                     return true;
@@ -62,15 +55,22 @@ public:
         return false;
     }
 
-    // Getters
-    string getNombre() const { return nombre; }
-    string getUsuario() const { return usuario; }
 
-    // Métodos para incrementar puntaje y partidas
-    void incrementarPuntaje(int puntos) { puntaje += puntos; }
-    void incrementarPartidasJugadas() { partidasJugadas++; }
-    void incrementarPartidasGanadas() { partidasGanadas++; }
+    string getUsuario() const {
+        return usuario;
+    }
 
+    void incrementarPuntaje(int puntos) {
+        puntaje += puntos;
+    }
+
+    void incrementarPartidasJugadas() {
+         partidasJugadas++;
+    }
+
+    void incrementarPartidasGanadas() {
+        partidasGanadas++;
+    }
 };
 
 // Inicializar archivo con encabezado
@@ -82,12 +82,11 @@ void Jugador::inicializarArchivo(const string& nombreArchivo) {
     if (archivoVacio) {
         ofstream archivo(nombreArchivo, ios::out | ios::app);
         if (archivo.is_open()) {
-            archivo << left << setw(20) << "Nombre" << " ||"
-                    << setw(15) << " Usuario" << "  ||"
+            archivo << left << setw(15) << "Usuario" << "  ||"
                     << setw(10) << " Puntaje" << "  ||"
                     << setw(20) << " Partidas Jugadas" << "  ||"
                     << setw(20) << " Partidas Ganadas" << endl;
-            archivo << string(100, '-') << endl;
+            archivo << string(80, '-') << endl;
             archivo.close();
         } else {
             cout << "Error al crear el archivo.\n";
@@ -105,17 +104,15 @@ void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
     if (archivo.is_open()) {
         if (archivoVacio) {
             // Escribir el encabezado si el archivo está vacío
-            archivo << left << setw(20) << "Nombre" << " ||"
-                    << setw(15) << " Usuario" << "  ||"
+            archivo << left << setw(15) << "Usuario" << "  ||"
                     << setw(10) << " Puntaje" << "  ||"
                     << setw(20) << " Partidas Jugadas" << "  ||"
                     << setw(20) << " Partidas Ganadas" << endl;
-            archivo << string(100, '-') << endl;
+            archivo << string(80, '-') << endl;
         }
 
         // Escribir la información del jugador
-        archivo << left << setw(20) << nombre << " || "
-                << setw(15) << usuario << " || "
+        archivo << left << setw(15) << usuario << " || "
                 << setw(10) << puntaje << " || "
                 << setw(20) << partidasJugadas << " || "
                 << setw(20) << partidasGanadas << "\n";
@@ -127,32 +124,20 @@ void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
 
 // Ingresar jugadores
 void ingresarJugadores(list<Jugador>& listaJugadores, const string& nombreArchivo) {
-    string nombre, usuario;
+    string usuario;
     int cantJugadores = 0;
 
     while (true) {
         while (true) {
-            cout << "Ingrese el nombre del jugador (presione Enter para finalizar): ";
-            getline(cin, nombre);
-            if (nombre.empty()) {
+            cout << "Ingrese el usuario (presione Enter para finalizar): ";
+            getline(cin, usuario);
+            if (usuario.empty()) {
                 if (cantJugadores < 2) {
                     cerr << "Debe haber al menos 2 jugadores para comenzar el juego. Ingrese un jugador.\n";
                     continue;
                 }
                 return;
             }
-
-            Jugador jugadorTemp(nombre, "");
-            if (jugadorTemp.validarNombre()) {
-                break;
-            } else {
-                cerr << "El nombre solo debe contener letras. Intentelo de nuevo.\n";
-            }
-        }
-
-        while (true) {
-            cout << "Ingrese el usuario: ";
-            getline(cin, usuario);
 
             // Validación de existencia del usuario en la lista de jugadores actual
             bool usuarioExistenteEnLista = any_of(listaJugadores.begin(), listaJugadores.end(),
@@ -164,7 +149,7 @@ void ingresarJugadores(list<Jugador>& listaJugadores, const string& nombreArchiv
                 continue;
             }
 
-            Jugador jugadorTemp("", usuario);
+            Jugador jugadorTemp(usuario);
             if (jugadorTemp.validarUsuario()) {
                 break;
             } else {
@@ -172,7 +157,7 @@ void ingresarJugadores(list<Jugador>& listaJugadores, const string& nombreArchiv
             }
         }
 
-        Jugador jugador(nombre, usuario);
+        Jugador jugador(usuario);
         listaJugadores.push_back(jugador);
         cantJugadores++;
 
