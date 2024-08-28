@@ -401,14 +401,15 @@ void ventanaRegistro(RenderWindow& parentWindow, Font& font, const vector<string
 
 void jugarDamas(Font &font){
 
-    RenderWindow Damas(VideoMode(1280,720),"Damas");
+    RenderWindow Damas(VideoMode(1200,675),"Damas");
+    Damas.setPosition(Vector2i(0,0));
 
     int tablero[8][8];
     crearMatrizDamas(tablero);
 
     RectangleShape fondo;
     Texture textura, textura1, textura2, textura3, textura4;
-    fondo.setSize(Vector2f(1280,720));
+    fondo.setSize(Vector2f(1200,675));
     textura.loadFromFile("Texturas/tablero_damas.png");
     textura1.loadFromFile("Texturas/damaBaseBlanca.png");
     textura2.loadFromFile("Texturas/damaBaseNegra.png");
@@ -425,9 +426,9 @@ void jugarDamas(Font &font){
     CircleShape movimiento(30.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
 
-    const float offsetX = 280.0f;
+    const float offsetX = 260.0f;
     const float offsetY = 0.0f;
-    const float tamanoCasilla = 90.0f;
+    const float tamanoCasilla = 85.0f;
 
     bool fichaSeleccionada = false;
     int fichaSeleccionadaX = -1;
@@ -452,6 +453,8 @@ void jugarDamas(Font &font){
                         float x = Mouse::getPosition(Damas).x;
                         float y = Mouse::getPosition(Damas).y;
 
+                        cout << x << endl;
+                        cout << y << endl;
 
                         int i = (y-offsetY)/tamanoCasilla;
                         int j = (x-offsetX)/tamanoCasilla;
@@ -648,11 +651,12 @@ void jugarDamasChinas(Font &font, int n){
     int tablero[FILAS][COLUMNAS];
     crearMatrizNJugadoresDamas(tablero,n);
 
-    RenderWindow DamasChinas(VideoMode(1280,720),"Damas Chinas");
+    RenderWindow DamasChinas(VideoMode(1200,675),"Damas Chinas");
+    DamasChinas.setPosition(Vector2i(0,0));
 
     RectangleShape fondo;
     Texture textura, textura1;
-    fondo.setSize(Vector2f(1280,720));
+    fondo.setSize(Vector2f(1200,675));
     textura.loadFromFile("Texturas/tableroDamasChinas.png");
     textura1.loadFromFile("Texturas/texturaBase_ficha.png");
     fondo.setTexture(&textura);
@@ -660,7 +664,7 @@ void jugarDamasChinas(Font &font, int n){
     Sprite ficha;
     ficha.setTexture(textura1);
 
-    const float offsetX = 350.0f;
+    const float offsetX = 328.0f;
     const float offsetY = 15.0f;
     const float tamanoCasilla = 23.0f;
 
@@ -699,7 +703,7 @@ void jugarDamasChinas(Font &font, int n){
 
                 if(tablero[i][j] != -1){
                     float x = offsetX + (j) * tamanoCasilla;
-                    float y = offsetY + (i) * 40;
+                    float y = offsetY + (i) * 30;
 
                     if(tablero[i][j] == 1){
                         ficha.setColor(Color(0, 255, 0));
@@ -744,7 +748,7 @@ void jugarDamasChinas(Font &font, int n){
 void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     RectangleShape fondo;
     Texture texturaModos;
-    fondo.setSize(Vector2f(1280,720));
+    fondo.setSize(Vector2f(1200,675));
     texturaModos.loadFromFile("Texturas/fondoModosDeJuego.png");
     fondo.setTexture(&texturaModos);
 
@@ -767,37 +771,35 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     ventanaEntradaUsuario(Jugar, font, 2); // 2 usuarios
                     Jugar.close();
                     jugarDamasChinas(font, 2);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
                 if(modosJuego[2].isMouseOver(Jugar)){
                     //Jugar.close();
                     ventanaEntradaUsuario(Jugar, font, 3);
                     jugarDamasChinas(font, 3);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
                 if(modosJuego[3].isMouseOver(Jugar)){
                     //Jugar.close();
                     ventanaEntradaUsuario(Jugar, font, 4);
                     jugarDamasChinas(font, 4);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
                 if(modosJuego[4].isMouseOver(Jugar)){
                     //Jugar.close();
                     ventanaEntradaUsuario(Jugar, font, 5);
                     jugarDamasChinas(font, 5);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
                 }
                 if(modosJuego[5].isMouseOver(Jugar)){
                     //Jugar.close();
                     ventanaEntradaUsuario(Jugar, font, 6);
                     jugarDamasChinas(font, 6);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+
                 }
                 if(modosJuego[7].isMouseOver(Jugar)){
                     //Jugar.close();
                     jugarDamas(font);
-                    Jugar.create(VideoMode(1280,720), "Jugar", Style::Default);
+
                 }
+                Jugar.create(VideoMode(1200,675), "Jugar", Style::Default);
+                Jugar.setPosition(Vector2i(0,0));
             }
 
                 break;
@@ -820,7 +822,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &an
     string archivo = ss.str();
     Event aevent;
 
-    fondo.setSize(Vector2f(1280,720));
+    fondo.setSize(Vector2f(1200,675));
     texturaTutorial.loadFromFile("Texturas/" + archivo+ ".png");
     fondo.setTexture(&texturaTutorial);
 
@@ -879,7 +881,9 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &an
 }
 
 void iniciarJuego(){
-    RenderWindow MENU(VideoMode(1280,720), "Menu Principal", Style::Default);
+    RenderWindow MENU(VideoMode(1200,675), "Menu Principal", Style::Default);
+
+    MENU.setPosition(Vector2i(0,0));
 
     Music musica;
     musica.openFromFile("Audios/musicaMenu.ogg");
@@ -887,8 +891,8 @@ void iniciarJuego(){
 
     RectangleShape fondo, fondoC;
 
-    fondo.setSize(Vector2f(1280,720));
-    fondoC.setSize(Vector2f(1280,720));
+    fondo.setSize(Vector2f(1200,675));
+    fondoC.setSize(Vector2f(1200,675));
     Texture texturaPrincipal, texturaCreditos;
     texturaCreditos.loadFromFile("Texturas/Creditos.png");
 
@@ -925,7 +929,7 @@ void iniciarJuego(){
 
     for (int i = 0; i<6; i++){
         modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},35,Color(255, 255, 255, 0),Color::White);
-        modosJuego[i].setPosition({100,posicion + i*60});
+        modosJuego[i].setPosition({100,posicion + i*55});
         modosJuego[i].setFont(font);
     }
 
@@ -933,10 +937,10 @@ void iniciarJuego(){
         modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},40,Color(255, 255, 255, 0),Color::White);
     }
 
-    modosJuego[6].setPosition({100,600});
+    modosJuego[6].setPosition({100,560});
     modosJuego[6].setFont(font);
 
-    modosJuego[7].setPosition({550,600});
+    modosJuego[7].setPosition({550,560});
     modosJuego[7].setFont(font);
 
     /*
@@ -968,9 +972,12 @@ void iniciarJuego(){
                 break;
                 case Event::MouseButtonPressed:{
                     if(botones[0].isMouseOver(MENU) || botones[1].isMouseOver(MENU) || botones[2].isMouseOver(MENU) || botones[3].isMouseOver(MENU)){
-                        RenderWindow Jugar(VideoMode(1280,720),"Damas Chinas");
-                        RenderWindow Opcion(VideoMode(1280,720), "¿Como Jugar?");
-                        RenderWindow Creditos(VideoMode(1280,720),"Creditos");
+                        RenderWindow Jugar(VideoMode(1200,675),"Damas Chinas");
+                        Jugar.setPosition(Vector2i(0,0));
+                        RenderWindow Opcion(VideoMode(1200,675), "¿Como Jugar?");
+                        Opcion.setPosition(Vector2i(0,0));
+                        RenderWindow Creditos(VideoMode(1200,675),"Creditos");
+                        Creditos.setPosition(Vector2i(0,0));
 
                         if(botones[0].isMouseOver(MENU)){
                             MENU.close();
@@ -980,7 +987,6 @@ void iniciarJuego(){
                                 Creditos.close();
                                 Jugar.display();
                             }
-                            MENU.create(VideoMode(1280,720), "Menu Principal", Style::Default);
                         }
 
                         if(botones[1].isMouseOver(MENU)){
@@ -991,7 +997,6 @@ void iniciarJuego(){
                                 Creditos.close();
                                 Opcion.display();
                             }
-                            MENU.create(VideoMode(1280,720), "Menu Principal", Style::Default);
                         }
 
                         if(botones[2].isMouseOver(MENU)){
@@ -1014,6 +1019,8 @@ void iniciarJuego(){
                                 Creditos.display();
                             }
                         }
+                        MENU.create(VideoMode(1200,675), "Menu Principal", Style::Default);
+                        MENU.setPosition(Vector2i(0,0));
 
                         if(botones[3].isMouseOver(MENU)){
                             MENU.close();
