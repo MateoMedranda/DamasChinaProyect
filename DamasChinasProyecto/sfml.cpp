@@ -655,18 +655,20 @@ void jugarDamasChinas(Font &font, int n){
     DamasChinas.setPosition(Vector2i(0,0));
 
     RectangleShape fondo;
-    Texture textura, textura1;
+    Texture textura, textura1, textura2;
     fondo.setSize(Vector2f(1200,675));
     textura.loadFromFile("Texturas/tableroDamasChinas.png");
     textura1.loadFromFile("Texturas/texturaBase_ficha.png");
+    textura2.loadFromFile("Texturas/texturaVacio.png");
     fondo.setTexture(&textura);
 
-    Sprite ficha;
+    Sprite ficha, espacio;
     ficha.setTexture(textura1);
+    espacio.setTexture(textura2);
 
-    const float offsetX = 328.0f;
-    const float offsetY = 15.0f;
-    const float tamanoCasilla = 23.0f;
+    const float offsetX = 250.0f;
+    const float offsetY = 45.0f;
+    const float tamanoCasilla = 28.0f;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -703,7 +705,12 @@ void jugarDamasChinas(Font &font, int n){
 
                 if(tablero[i][j] != -1){
                     float x = offsetX + (j) * tamanoCasilla;
-                    float y = offsetY + (i) * 30;
+                    float y = offsetY + (i) * 34;
+
+                    if(tablero[i][j] == 0){
+                        espacio.setPosition(x,y);
+                        DamasChinas.draw(espacio);
+                    }
 
                     if(tablero[i][j] == 1){
                         ficha.setColor(Color(0, 255, 0));
