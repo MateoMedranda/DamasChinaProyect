@@ -666,8 +666,8 @@ void jugarDamasChinas(Font &font, int n){
     ficha.setTexture(textura1);
     espacio.setTexture(textura2);
 
-    CircleShape movimiento(15.0f); // Tamaño del círculo para mostrar los movimientos
-    movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
+    CircleShape movimiento(10.0f); // Tamaño del círculo para mostrar los movimientos
+    movimiento.setFillColor(Color(255,100 , 0, 150)); // Color verde transparente
 
     const float offsetX = 250.0f;
     const float offsetY = 45.0f;
@@ -758,6 +758,7 @@ void jugarDamasChinas(Font &font, int n){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
+
                                         }
 
                                     }
