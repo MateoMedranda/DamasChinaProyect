@@ -666,9 +666,16 @@ void jugarDamasChinas(Font &font, int n){
     ficha.setTexture(textura1);
     espacio.setTexture(textura2);
 
+    CircleShape movimiento(15.0f); // Tamaño del círculo para mostrar los movimientos
+    movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
+
     const float offsetX = 250.0f;
     const float offsetY = 45.0f;
     const float tamanoCasilla = 28.0f;
+
+    bool fichaSeleccionada = false;
+    int fichaSeleccionadaX = -1;
+    int fichaSeleccionadaY = -1;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -684,11 +691,80 @@ void jugarDamasChinas(Font &font, int n){
                     break;
 
                 case Event::MouseButtonPressed:{
+                    int temp;
+
                     int x = Mouse::getPosition(DamasChinas).x;
                     int y = Mouse::getPosition(DamasChinas).y;
 
                     cout << x << endl;
                     cout << y << endl;
+
+                    int i = (y-offsetY)/34;
+                    int j = (x-offsetX)/tamanoCasilla;
+
+                    cout << i << endl;
+                    cout << j << endl;
+
+                    if((i>=0) && (i<17) && (j>=0) && (j<25)){
+                            if((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4 || tablero[i][j] == 5 || tablero[i][j] == 6 )){
+
+                                if (fichaSeleccionada) {
+                                    fichaSeleccionada = false; // Deselecciona la ficha
+                                } else {
+                                    fichaSeleccionada = true; // Selecciona una ficha
+                                    fichaSeleccionadaX = j;
+                                    fichaSeleccionadaY = i;
+                                }
+
+                            }else if(tablero[i][j] == 0 && fichaSeleccionada){
+
+                                int dx[6];
+                                int dy[6];
+
+                                if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] != 0){
+                                    dx[0] = -1;
+                                    dx[1] = 1;
+                                    dx[2] = -2;
+                                    dx[3] = 2;
+                                    dx[4] = -1;
+                                    dx[5] = 1;
+                                    dy[0] = -1;
+                                    dy[1] = -1;
+                                    dy[2] = 0;
+                                    dy[3] = 0;
+                                    dy[4] = 1;
+                                    dy[5] = 1;
+                                }
+
+                                for (int k = 0; k < 6; ++k) {
+                                    int newX = fichaSeleccionadaX + dx[k];
+                                    int newY = fichaSeleccionadaY + dy[k];
+
+                                    if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0)) {
+                                        cout << "fichax: " << fichaSeleccionadaX << "fichaY: " << fichaSeleccionadaY << endl;
+                                        cout << "x: " << newX << "y: " << newY << endl;
+                                        if(newX == j && newY == i){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
+                                            tablero[newY][newX] = temp;
+                                        }
+                                    }
+                                    if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0) ){
+                                        int antx = newX , anty = newY;
+                                        newX = newX + dx[k];
+                                        newY = newY + dy[k];
+
+                                        if(newX == j && newY == i && tablero[newY][newX] == 0){
+                                            temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
+                                            tablero[newY][newX] = temp;
+                                        }
+
+                                    }
+                                }
+                                fichaSeleccionada = false;
+                            }
+                        }
 
                 }
 
@@ -747,6 +823,46 @@ void jugarDamasChinas(Font &font, int n){
                 }
             }
         }
+
+        if (fichaSeleccionada) {
+            int dx[6];
+            int dy[6];
+
+            if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] != 0){
+                dx[0] = -1;
+                dx[1] = 1;
+                dx[2] = -2;
+                dx[3] = 2;
+                dx[4] = -1;
+                dx[5] = 1;
+                dy[0] = -1;
+                dy[1] = -1;
+                dy[2] = 0;
+                dy[3] = 0;
+                dy[4] = 1;
+                dy[5] = 1;
+            }
+
+            for (int i = 0; i < 6; ++i) {
+                int newX = fichaSeleccionadaX + dx[i];
+                int newY = fichaSeleccionadaY + dy[i];
+
+                if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0)) {
+                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
+                    DamasChinas.draw(movimiento);
+                }
+                if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0)) {
+                    newX = newX+ dx[i];
+                    newY = newY + dy[i];
+                    if(tablero[newY][newX] == 0){
+                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
+                        DamasChinas.draw(movimiento);
+                    }
+                }
+            }
+
+        }
+
         DamasChinas.display();
     }
 
