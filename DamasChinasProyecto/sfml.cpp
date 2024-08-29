@@ -177,7 +177,7 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
     RectangleShape background(Vector2f(400, windowHeight));
     background.setTexture(&backgroundTexture);
 
-    Text titulo("Ingrese su Usuario", font, 24);
+    Text titulo("Ingresar Jugadores", font, 24);
     titulo.setFillColor(Color::White);
     titulo.setStyle(Text::Bold);
     titulo.setPosition(75, 20);
@@ -813,12 +813,14 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                 break;
 
             case Event::MouseButtonPressed:{
+                bool cerrado = false;
                 if(modosJuego[1].isMouseOver(Jugar)){
 
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     Jugar.close();
                     if (!jugadores.empty()) {
                         jugarDamasChinas(font, 2);
+                        cerrado = true;
                     }
                 }
                 if(modosJuego[2].isMouseOver(Jugar)){
@@ -826,6 +828,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 3);
                     if (!jugadores.empty()) {
                         jugarDamasChinas(font, 3);
+                        cerrado = true;
                     }
                 }
                 if(modosJuego[3].isMouseOver(Jugar)){
@@ -833,6 +836,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 4);
                     if (!jugadores.empty()) {
                         jugarDamasChinas(font, 4);
+                        cerrado = true;
                     }
                 }
                 if(modosJuego[4].isMouseOver(Jugar)){
@@ -840,6 +844,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 5);
                     if (!jugadores.empty()) {
                         jugarDamasChinas(font, 5);
+                        cerrado = true;
                     }
                 }
                 if(modosJuego[5].isMouseOver(Jugar)){
@@ -847,6 +852,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 6);
                     if (!jugadores.empty()) {
                         jugarDamasChinas(font, 6);
+                        cerrado = true;
                     }
 
                 }
@@ -855,11 +861,15 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     if (!jugadores.empty()) {
                         jugarDamas(font);
+                        cerrado = true;
                     }
 
                 }
-                Jugar.create(VideoMode(1200,675), "Jugar", Style::Default);
-                Jugar.setPosition(Vector2i(0,0));
+                if(cerrado){
+                    Jugar.create(VideoMode(1200,675), "Jugar", Style::Default);
+                    Jugar.setPosition(Vector2i(0,0));
+                }
+
             }
 
                 break;
