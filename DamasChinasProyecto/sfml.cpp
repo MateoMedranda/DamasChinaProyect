@@ -296,8 +296,8 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
 
 void jugarDamas(Font &font){
 
-    SoundBuffer moverBuffer, comerBuffer;
-    Sound sonidoMover, sonidoComer;
+    SoundBuffer moverBuffer, comerBuffer,damaBuffer;
+    Sound sonidoMover, sonidoComer, sonidoDama;
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
     sonidoMover.setBuffer(moverBuffer);
@@ -305,6 +305,9 @@ void jugarDamas(Font &font){
     comerBuffer.loadFromFile("Audios/comerPieza.ogg");
     sonidoComer.setBuffer(comerBuffer);
     sonidoComer.setVolume(100);
+    damaBuffer.loadFromFile("Audios/obtenerDama.wav");
+    sonidoDama.setBuffer(damaBuffer);
+    sonidoDama.setVolume(15);
 
     RenderWindow Damas(VideoMode(1200,675),"Damas");
     Damas.setPosition(Vector2i(0,0));
@@ -427,11 +430,11 @@ void jugarDamas(Font &font){
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
-
+                                                sonidoDama.play();
                                             }
                                             if(newY == 7 && temp == 1){
                                                 tablero[newY][newX] = 3;
-
+                                                sonidoDama.play();
                                             }
                                         }
                                     }
@@ -450,11 +453,11 @@ void jugarDamas(Font &font){
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
-
+                                                sonidoDama.play();
                                             }
                                             if(newY == 7 && temp == 1){
                                                 tablero[newY][newX] = 3;
-
+                                                sonidoDama.play();
                                             }
                                         }
 
