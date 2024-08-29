@@ -1,0 +1,12 @@
+Usuario         || Puntaje    || Estado    
+---------------------------------------------
+adas            || 0          ||           
+adsad           || 0          ||           
+asda            || 0          ||           
+dasdas          || 0          ||           
+asdd            || 0          ||           
+asdasd          || 0          ||           
+sadasd          || 0          ||           
+asdd            || 0          ||           
+dasd            || 0          ||           
+asdad           || 0          ||           

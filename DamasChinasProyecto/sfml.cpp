@@ -296,6 +296,16 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
 
 void jugarDamas(Font &font){
 
+    SoundBuffer moverBuffer, comerBuffer;
+    Sound sonidoMover, sonidoComer;
+
+    moverBuffer.loadFromFile("Audios/moverPieza.ogg");
+    sonidoMover.setBuffer(moverBuffer);
+    sonidoMover.setVolume(100);
+    comerBuffer.loadFromFile("Audios/comerPieza.ogg");
+    sonidoComer.setBuffer(comerBuffer);
+    sonidoComer.setVolume(100);
+
     RenderWindow Damas(VideoMode(1200,675),"Damas");
     Damas.setPosition(Vector2i(0,0));
 
@@ -413,6 +423,7 @@ void jugarDamas(Font &font){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
+                                            sonidoMover.play();
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
@@ -434,6 +445,8 @@ void jugarDamas(Font &font){
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             tablero[anty][antx]=0;
+                                            sonidoMover.play();
+                                            sonidoComer.play();
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
@@ -543,6 +556,16 @@ void jugarDamas(Font &font){
 
 void jugarDamasChinas(Font &font, int n){
 
+    SoundBuffer moverBuffer, saltarBuffer;
+    Sound sonidoMover, sonidoSaltar;
+
+    moverBuffer.loadFromFile("Audios/moverPieza.ogg");
+    sonidoMover.setBuffer(moverBuffer);
+    sonidoMover.setVolume(100);
+    saltarBuffer.loadFromFile("Audios/comerPieza.ogg");
+    sonidoSaltar.setBuffer(saltarBuffer);
+    sonidoSaltar.setVolume(100);
+
     int tablero[FILAS][COLUMNAS];
     crearMatrizNJugadoresDamas(tablero,n);
 
@@ -642,6 +665,7 @@ void jugarDamasChinas(Font &font, int n){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
+                                            sonidoMover.play();
                                         }
                                     }
                                     if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0) ){
@@ -653,7 +677,8 @@ void jugarDamasChinas(Font &font, int n){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
-
+                                            sonidoSaltar.play();
+                                            sonidoMover.play();
                                         }
 
                                     }
@@ -744,14 +769,14 @@ void jugarDamasChinas(Font &font, int n){
                 int newY = fichaSeleccionadaY + dy[i];
 
                 if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0)) {
-                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
+                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()) + 3,offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
                     DamasChinas.draw(movimiento);
                 }
                 if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0)) {
                     newX = newX+ dx[i];
                     newY = newY + dy[i];
                     if(tablero[newY][newX] == 0){
-                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
+                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius())+3,offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
                         DamasChinas.draw(movimiento);
                     }
                 }

@@ -1,0 +1,12 @@
+Usuario         || Puntaje    || Estado    
+---------------------------------------------
+Kelly           || 0          ||           
+adad            || 0          ||           
+adad            || 0          ||           
+adad            || 0          ||           
+adad            || 0          ||           
+adad            || 0          ||           
+sadas           || 0          ||           
+adsda           || 0          ||           
+adas            || 0          ||           
+adasd           || 0          ||           
