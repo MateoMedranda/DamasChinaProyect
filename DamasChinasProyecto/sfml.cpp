@@ -138,8 +138,10 @@ void crearMatrizDamas(int damas[8][8]){
 void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
     if (boton.isMouseOver(ventana)) {
         boton.setBackColor(Color::Black);
+        boton.setTextColor(Color::Yellow);
     } else {
         boton.setBackColor(Color(255, 255, 255, 0));
+        boton.setTextColor(Color::White);
     }
 }
 
