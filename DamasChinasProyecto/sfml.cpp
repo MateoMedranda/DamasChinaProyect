@@ -145,8 +145,6 @@ void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
     }
 }
 
-void ventanaRegistro(RenderWindow& parentWindow, Font& font, const vector<string>& usuariosARegistrar);
-
 // Función para mostrar la ventana de mensajes
 void mostrarMensaje(RenderWindow& window, const string& mensaje, Font& font) {
     Text texto(mensaje, font, 24);
@@ -167,9 +165,7 @@ void mostrarMensaje(RenderWindow& window, const string& mensaje, Font& font) {
     }
 }
 
-// Función para mostrar la ventana de entrada de usuario
-void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugadores) {
-    // Aqui se ajusta el tamaño de la ventana en función del número de jugadores
+vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugadores) {
     int windowHeight = 200 + 70 * numJugadores;
     RenderWindow window(VideoMode(400, windowHeight), "Jugadores", Style::Close);
     VideoMode desktopMode = VideoMode::getDesktopMode();
@@ -214,16 +210,16 @@ void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugado
     continuarButton.setFillColor(Color::White);
 
     vector<string> usuarioStr(numJugadores, "");
-    int cajaActiva = -1; // Caja activa
+    int cajaActiva = -1;
 
     while (window.isOpen()) {
         Event event;
         while (window.pollEvent(event)) {
             if (event.type == Event::Closed) {
                 window.close();
+                return {};
             }
 
-            // Captura de texto para la caja activa
             if (event.type == Event::TextEntered && cajaActiva != -1) {
                 if ((event.text.unicode >= 'A' && event.text.unicode <= 'Z') ||
                     (event.text.unicode >= 'a' && event.text.unicode <= 'z') ||
@@ -238,7 +234,6 @@ void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugado
                 }
             }
 
-            // Manejo de clic en las cajas de texto
             if (event.type == Event::MouseButtonPressed) {
                 for (int i = 0; i < numJugadores; ++i) {
                     if (usuarioBoxes[i].getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y))) {
@@ -246,9 +241,7 @@ void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugado
                         break;
                     }
                 }
-                // Manejo del clic en el botón Continuar
                 if (continuarBox.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y))) {
-                    // Validar que todas las cajas estén completas antes de continuar
                     bool todasCompletas = true;
                     for (int i = 0; i < numJugadores; ++i) {
                         if (usuarioStr[i].empty()) {
@@ -258,27 +251,26 @@ void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugado
                     }
 
                     if (todasCompletas) {
-                        cout << "Verificando usuarios..." << endl;
-                        bool todosUsuariosExisten = true;
-                        for (int i = 0; i < numJugadores; ++i) {
-                            if (!Jugador::usuarioExisteEnArchivo(usuarioStr[i], "jugadores.txt")) {
-                                todosUsuariosExisten = false;
-                                cout << "Usuario no existe: " << usuarioStr[i] << endl;
-                                break;
-                            }
+                        window.close();
+
+                        string gameName = Jugador::generarNombreArchivo();
+                        Jugador::inicializarArchivo(gameName);
+
+                        cout << "Nuevo juego iniciado: " << gameName << endl;
+                        cout << "Jugadores: ";
+                        for (const auto& jugador : usuarioStr) {
+                            cout << jugador << " ";
+                        }
+                        cout << endl;
+
+                        //Guardo el nombre del jugador
+                        for (const auto& jugador : usuarioStr) {
+                            Jugador nuevoJugador(jugador);
+                            nuevoJugador.guardarEnArchivo(gameName);
                         }
 
-                        if (!todosUsuariosExisten) {
-                            cout << "No todos los usuarios existen, abriendo ventana de registro" << endl;
-                            vector<string> usuariosARegistrar;
-                            for (const auto& usuario : usuarioStr) {
-                                if (!Jugador::usuarioExisteEnArchivo(usuario, "jugadores.txt")) {
-                                    usuariosARegistrar.push_back(usuario);
-                                }
-                            }
-                            ventanaRegistro(window, font, usuariosARegistrar);
-                        }
-                        return;
+
+                        return usuarioStr;
                     } else {
                         cout << "Debe completar todas las cajas de texto antes de continuar" << endl;
                     }
@@ -298,107 +290,8 @@ void ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int numJugado
         window.draw(continuarButton);
         window.display();
     }
-}
 
-void ventanaRegistro(RenderWindow& parentWindow, Font& font, const vector<string>& usuariosARegistrar){
-    RenderWindow window(VideoMode(400, 300), "Registro de Jugadores", Style::Close);
-
-    VideoMode desktopMode = VideoMode::getDesktopMode();
-    window.setPosition(Vector2i((desktopMode.width - window.getSize().x) / 2,
-                                (desktopMode.height - window.getSize().y) / 2));
-
-    // Cargar la textura y adaptarla a la ventana
-    Texture backgroundTexture;
-    backgroundTexture.loadFromFile("Texturas/usuarioLogin.png");
-    RectangleShape background(Vector2f(400, 300));
-    background.setTexture(&backgroundTexture);
-
-    Text titulo("Registro de Jugador", font, 24);
-    titulo.setFillColor(Color::White);
-    titulo.setStyle(Text::Bold);
-    titulo.setPosition(75, 20);
-
-    Text usuarioTexto("Jugador:", font, 20);
-    usuarioTexto.setPosition(50, 100);
-    usuarioTexto.setFillColor(Color::White);
-
-    RectangleShape usuarioBox(Vector2f(300, 40));
-    usuarioBox.setPosition(50, 130);
-    usuarioBox.setFillColor(Color::White);
-    usuarioBox.setOutlineColor(Color::Black);
-    usuarioBox.setOutlineThickness(1);
-
-    Text usuarioInput("", font, 24);
-    usuarioInput.setPosition(55, 135);
-    usuarioInput.setFillColor(Color::Black);
-
-    RectangleShape guardarBox(Vector2f(150, 40));
-    guardarBox.setPosition(125, 200);
-    guardarBox.setFillColor(Color(50, 205, 50)); // Verde
-
-    Text guardarButton("Registrar", font, 24);
-    guardarButton.setPosition(150, 205);
-    guardarButton.setFillColor(Color::White);
-
-    string usuarioStr = "";
-    int usuarioIndex = 0;
-
-    while (window.isOpen() && usuarioIndex < usuariosARegistrar.size()) {
-        Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed) {
-                window.close();
-            }
-
-            if (event.type == Event::TextEntered) {
-                if ((event.text.unicode >= 'A' && event.text.unicode <= 'Z') ||
-                    (event.text.unicode >= 'a' && event.text.unicode <= 'z') ||
-                    (event.text.unicode >= '0' && event.text.unicode <= '9') ||
-                    event.text.unicode == '\b') {
-                    if (event.text.unicode != '\b') {
-                        usuarioStr += static_cast<char>(event.text.unicode);
-                    } else if (!usuarioStr.empty()) {
-                        usuarioStr.pop_back();
-                    }
-                    usuarioInput.setString(usuarioStr);
-                }
-            }
-
-            if (event.type == Event::MouseButtonPressed) {
-                if (guardarBox.getGlobalBounds().contains(Vector2f(event.mouseButton.x, event.mouseButton.y))) {
-                    if (usuarioStr.empty()) {
-                        mostrarMensaje(window, "Por favor, ingrese un usuario.", font);
-                    } else if (Jugador::usuarioExisteEnArchivo(usuarioStr, "jugadores.txt")) {
-                        mostrarMensaje(window, "Usuario ya existe. Intente con otro.", font);
-                    } else {
-                        // Crear objeto Jugador y guardarlo
-                        Jugador nuevoJugador(usuarioStr);
-                        nuevoJugador.guardarEnArchivo("jugadores.txt");
-                        cout << "Usuario registrado exitosamente: " << usuarioStr << endl;
-
-                        usuarioIndex++;
-                        if (usuarioIndex < usuariosARegistrar.size()) {
-                            usuarioStr = "";
-                            usuarioInput.setString(usuarioStr);
-                            titulo.setString("Registro de Jugador " + to_string(usuarioIndex + 1));
-                        } else {
-                            window.close();
-                        }
-                    }
-                }
-            }
-        }
-
-        window.clear();
-        window.draw(background);
-        window.draw(titulo);
-        window.draw(usuarioTexto);
-        window.draw(usuarioBox);
-        window.draw(usuarioInput);
-        window.draw(guardarBox);
-        window.draw(guardarButton);
-        window.display();
-    }
+    return {};
 }
 
 void jugarDamas(Font &font){
@@ -894,34 +787,47 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
             case Event::MouseButtonPressed:{
                 if(modosJuego[1].isMouseOver(Jugar)){
 
-                    ventanaEntradaUsuario(Jugar, font, 2); // 2 usuarios
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     Jugar.close();
-                    jugarDamasChinas(font, 2);
+                    if (!jugadores.empty()) {
+                        jugarDamasChinas(font, 2);
+                    }
                 }
                 if(modosJuego[2].isMouseOver(Jugar)){
                     //Jugar.close();
-                    ventanaEntradaUsuario(Jugar, font, 3);
-                    jugarDamasChinas(font, 3);
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 3);
+                    if (!jugadores.empty()) {
+                        jugarDamasChinas(font, 3);
+                    }
                 }
                 if(modosJuego[3].isMouseOver(Jugar)){
                     //Jugar.close();
-                    ventanaEntradaUsuario(Jugar, font, 4);
-                    jugarDamasChinas(font, 4);
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 4);
+                    if (!jugadores.empty()) {
+                        jugarDamasChinas(font, 4);
+                    }
                 }
                 if(modosJuego[4].isMouseOver(Jugar)){
                     //Jugar.close();
-                    ventanaEntradaUsuario(Jugar, font, 5);
-                    jugarDamasChinas(font, 5);
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 5);
+                    if (!jugadores.empty()) {
+                        jugarDamasChinas(font, 5);
+                    }
                 }
                 if(modosJuego[5].isMouseOver(Jugar)){
                     //Jugar.close();
-                    ventanaEntradaUsuario(Jugar, font, 6);
-                    jugarDamasChinas(font, 6);
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 6);
+                    if (!jugadores.empty()) {
+                        jugarDamasChinas(font, 6);
+                    }
 
                 }
                 if(modosJuego[7].isMouseOver(Jugar)){
                     //Jugar.close();
-                    jugarDamas(font);
+                    vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
+                    if (!jugadores.empty()) {
+                        jugarDamas(font);
+                    }
 
                 }
                 Jugar.create(VideoMode(1200,675), "Jugar", Style::Default);
