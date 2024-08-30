@@ -314,10 +314,30 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
     return {};
 }
 
-void jugarDamas(Font &font){
+void jugarDamas(Font &font, vector<string> jugadores){
 
     SoundBuffer moverBuffer, comerBuffer,damaBuffer;
     Sound sonidoMover, sonidoComer, sonidoDama;
+    /*
+    Font cipher;
+    cipher.loadFromFile("Fuentes/CipherFontA.ttf");
+
+    Text cifrados;
+    cifrados.setFont(cipher);
+    cifrados.setCharacterSize(20);
+    cifrados.setFillColor(Color::Black);
+    cifrados.setString("Hola mundo");
+    cifrados.setPosition(10,10);
+    */
+
+    Text texto[2];
+    for(int i = 0; i<2; i++){
+        texto[i].setCharacterSize(30);
+        texto[i].setFont(font);
+        texto[i].setString(jugadores[i]);
+        texto[i].setPosition(50+(i*944), 226);
+        texto[i].setColor(Color::Cyan);
+    }
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
     sonidoMover.setBuffer(moverBuffer);
@@ -506,6 +526,9 @@ void jugarDamas(Font &font){
         }
         Damas.clear();
         Damas.draw(fondo);
+        for(int i = 0; i<2; i++){
+            Damas.draw(texto[i]);
+        }
 
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
@@ -890,7 +913,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     if (!jugadores.empty()) {
-                        jugarDamas(font);
+                        jugarDamas(font, jugadores);
                         cerrado = true;
                     }
 
