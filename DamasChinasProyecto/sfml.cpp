@@ -1,11 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include "Boton.h"
+
 #include <string>
 #include <iostream>
 #include <sstream>
-#include "Jugador.h"
+#include <cstdlib>
+#include <ctime>
 
+#include "Boton.h"
+#include "Jugador.h"
 
 using namespace std;
 using namespace sf;
@@ -26,6 +29,23 @@ const int JUGADOR4 = 4;
 const int JUGADOR5 = 5;
 const int JUGADOR6 = 6;
 
+int generarTurnosAleatorios(int n){
+
+    int turno;
+    if(n== 1){
+        for(int i=0; i<2;i++){
+            srand(time(0));
+            turno = rand() % 2 + 1;
+        }
+    }else{
+        for(int i=0; i<6;i++){
+            srand(time(0));
+            turno = rand() % 6 + 1;
+        }
+    }
+
+    return turno;
+}
 
 void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
     for (int i = 0; i < FILAS; i++) {
@@ -341,6 +361,7 @@ void jugarDamas(Font &font){
     bool fichaSeleccionada = false;
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
+    int turno = generarTurnosAleatorios(1);
 
     while(Damas.isOpen()){
         Event aevent;
@@ -371,7 +392,7 @@ void jugarDamas(Font &font){
 
 
                         if((i>=0) && (i<8) && (j>=0) && (j<8)){
-                            if((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4)){
+                            if(((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4)) && (tablero[i][j] == turno || tablero[i][j] == turno+2)){
 
                                 if (fichaSeleccionada) {
                                     fichaSeleccionada = false; // Deselecciona la ficha
@@ -427,6 +448,11 @@ void jugarDamas(Font &font){
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             sonidoMover.play();
+                                            if(turno == 1){
+                                                turno = 2;
+                                            }else{
+                                                turno = 1;
+                                            }
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
@@ -450,6 +476,11 @@ void jugarDamas(Font &font){
                                             tablero[anty][antx]=0;
                                             sonidoMover.play();
                                             sonidoComer.play();
+                                            if(turno == 1){
+                                                turno = 2;
+                                            }else{
+                                                turno = 1;
+                                            }
 
                                             if(newY == 0 && temp == 2){
                                                 tablero[newY][newX] = 4;
@@ -555,7 +586,6 @@ void jugarDamas(Font &font){
         Damas.display();
     }
 }
-
 
 void jugarDamasChinas(Font &font, int n){
 
@@ -1042,34 +1072,31 @@ void iniciarJuego(){
                 break;
                 case Event::MouseButtonPressed:{
                     if(botones[0].isMouseOver(MENU) || botones[1].isMouseOver(MENU) || botones[2].isMouseOver(MENU) || botones[3].isMouseOver(MENU)){
-                        RenderWindow Jugar(VideoMode(1200,675),"Damas Chinas");
-                        Jugar.setPosition(Vector2i(0,0));
-                        RenderWindow Opcion(VideoMode(1200,675), "¿Como Jugar?");
-                        Opcion.setPosition(Vector2i(0,0));
-                        RenderWindow Creditos(VideoMode(1200,675),"Creditos");
-                        Creditos.setPosition(Vector2i(0,0));
 
                         if(botones[0].isMouseOver(MENU)){
                             MENU.close();
+                            RenderWindow Jugar(VideoMode(1200,675),"Damas Chinas");
+                            Jugar.setPosition(Vector2i(0,0));
                             while(Jugar.isOpen()){
                                 abrirJugar(Jugar, font, modosJuego);
-                                Opcion.close();
-                                Creditos.close();
                                 Jugar.display();
                             }
                         }
 
                         if(botones[1].isMouseOver(MENU)){
                             MENU.close();
+                            RenderWindow Opcion(VideoMode(1200,675), "¿Como Jugar?");
+                            Opcion.setPosition(Vector2i(0,0));
                             while(Opcion.isOpen()){
                                 abrirTutorial(Opcion, font, siguiente, anterior);
-                                Jugar.close();
-                                Creditos.close();
                                 Opcion.display();
                             }
                         }
 
                         if(botones[2].isMouseOver(MENU)){
+                            MENU.close();
+                            RenderWindow Creditos(VideoMode(1200,675),"Creditos");
+                            Creditos.setPosition(Vector2i(0,0));
                             while(Creditos.isOpen()){
                                 Event aevent;
                                 while(Creditos.pollEvent(aevent)){
@@ -1082,8 +1109,6 @@ void iniciarJuego(){
                                         }
                                     }
                                 }
-                                Jugar.close();
-                                Opcion.clear();
                                 Creditos.clear();
                                 Creditos.draw(fondoC);
                                 Creditos.display();
