@@ -29,6 +29,7 @@ const int JUGADOR4 = 4;
 const int JUGADOR5 = 5;
 const int JUGADOR6 = 6;
 
+//Permite generar el primer turno de forma aleatoria, para cada modo
 int generarTurnosAleatorios(int n){
 
     int turno;
@@ -47,6 +48,7 @@ int generarTurnosAleatorios(int n){
     return turno;
 }
 
+//Inicializa el tablero para el modo de las damas chinas, una matriz de 17 filas x 25 columnas
 void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
     for (int i = 0; i < FILAS; i++) {
         for (int j = 0; j < COLUMNAS; j++) {
@@ -137,6 +139,7 @@ void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
     }
 }
 
+//Inicializa una matriz de 8x8 para el modo captura en damas
 void crearMatrizDamas(int damas[8][8]){
     int tablero[8][8] = {
                 {-1,1,-1,1,-1,1,-1,1},
@@ -156,6 +159,7 @@ void crearMatrizDamas(int damas[8][8]){
 }
 
 void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
+
     if (boton.isMouseOver(ventana)) {
         boton.setBackColor(Color::Black);
         boton.setTextColor(Color::Yellow);
@@ -318,17 +322,16 @@ void jugarDamas(Font &font, vector<string> jugadores){
 
     SoundBuffer moverBuffer, comerBuffer,damaBuffer;
     Sound sonidoMover, sonidoComer, sonidoDama;
-    /*
+
     Font cipher;
     cipher.loadFromFile("Fuentes/CipherFontA.ttf");
 
     Text cifrados;
     cifrados.setFont(cipher);
-    cifrados.setCharacterSize(20);
+    cifrados.setCharacterSize(40);
     cifrados.setFillColor(Color::Black);
     cifrados.setString("Hola mundo");
     cifrados.setPosition(10,10);
-    */
 
     Text texto[2];
     for(int i = 0; i<2; i++){
@@ -484,7 +487,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                             }
                                         }
                                     }
-                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && !(tablero[newY][newX] == 2+tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
                                         int antx = newX , anty = newY;
                                         newX = newX + dx[k];
                                         newY = newY + dy[k];
@@ -526,6 +529,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
         }
         Damas.clear();
         Damas.draw(fondo);
+        Damas.draw(cifrados);
         for(int i = 0; i<2; i++){
             Damas.draw(texto[i]);
         }
@@ -595,10 +599,10 @@ void jugarDamas(Font &font, vector<string> jugadores){
                     movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
                     Damas.draw(movimiento);
                 }
-                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])&& !(tablero[newY][newX] == 2+ tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
                     newX = newX+ dx[i];
                     newY = newY + dy[i];
-                    if(tablero[newY][newX] == 0){
+                    if(tablero[newY][newX] == 0 && newX >= 0 && newX < 8 && newY >= 0 && newY < 8){
                         movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
                         Damas.draw(movimiento);
                     }
