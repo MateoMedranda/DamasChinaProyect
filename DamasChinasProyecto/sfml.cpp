@@ -14,6 +14,7 @@ using namespace std;
 using namespace sf;
 
 int indexTutorial = 1;
+string gameName = Jugador::generarNombreArchivo();
 
 // Definimos las dimensiones del tablero
 const int FILAS = 17;
@@ -277,7 +278,6 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
                     if (todasCompletas) {
                         window.close();
 
-                        string gameName = Jugador::generarNombreArchivo();
                         Jugador::inicializarArchivo(gameName);
 
                         cout << "Nuevo juego iniciado: " << gameName << endl;
@@ -290,7 +290,6 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
                         //Guardo el nombre del jugador
                         for (const auto& jugador : usuarioStr) {
                             Jugador nuevoJugador(jugador);
-                            nuevoJugador.guardarEnArchivo(gameName);
                         }
 
 
@@ -758,6 +757,19 @@ void jugarDamas(Font &font, vector<string> jugadores){
         }
         Damas.display();
     }
+
+    Jugador jugador1(jugadores[0]);
+    jugador1.actualizarPuntos(puntajes[0]);
+
+    Jugador jugador2(jugadores[1]);
+    jugador2.actualizarPuntos(puntajes[1]);
+
+    Jugador::inicializarArchivo(gameName);
+
+    jugador1.guardarEnArchivo(gameName);
+    jugador2.guardarEnArchivo(gameName);
+
+
 }
 
 void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
