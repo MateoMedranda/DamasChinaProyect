@@ -431,7 +431,59 @@ void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
     }
 }
 
+void guardarJugadoresEnArchivo(const vector<string>& jugadores) {
+    fstream archivo("Partidas/partidaActual.txt", ios::out | ios::app);
+
+    if (!archivo.is_open()) {
+        cerr << "Error al abrir el archivo." << endl;
+        return;
+    }
+
+    for (const string& jugador : jugadores) {
+        archivo << jugador << " || 0 || " << endl;
+    }
+
+    archivo.close();
+}
+
+void actualizarPuntajesEnArchivo(const vector<string>& jugadores, const int puntajes[]) {
+    ifstream archivoEntrada("Partidas/partidaActual.txt");
+    ofstream archivoSalida("Partidas/partidaTemporal.txt");
+
+    if (!archivoEntrada.is_open() || !archivoSalida.is_open()) {
+        cerr << "Error al abrir los archivos." << endl;
+        return;
+    }
+
+    string linea;
+    int index = 0;
+
+    while (getline(archivoEntrada, linea)) {
+        size_t pos = linea.find(" ||");
+        if (pos != string::npos && index < jugadores.size()) {
+            string nombreJugador = linea.substr(0, pos);
+            if (nombreJugador == jugadores[index]) {
+                archivoSalida << nombreJugador << " || " << puntajes[index] << " || " << endl;
+                index++;
+            } else {
+                archivoSalida << linea << endl;
+            }
+        } else {
+            archivoSalida << linea << endl;
+        }
+    }
+
+    archivoEntrada.close();
+    archivoSalida.close();
+
+    // Eliminar archivo viejo y renombrar el temporal
+    remove("Partidas/partidaActual.txt");
+    rename("Partidas/partidaTemporal.txt", "Partidas/partidaActual.txt");
+}
+
+
 void jugarDamas(Font &font, vector<string> jugadores){
+    guardarJugadoresEnArchivo(jugadores);
 
     SoundBuffer moverBuffer, comerBuffer,damaBuffer;
     Sound sonidoMover, sonidoComer, sonidoDama;
@@ -501,6 +553,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
         while(Damas.pollEvent(aevent)){
             switch(aevent.type){
                 case Event::Closed:
+                    actualizarPuntajesEnArchivo(jugadores, puntajes);
                     Damas.close();
                     break;
 
