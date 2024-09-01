@@ -41,8 +41,8 @@ public:
         estado = newStatus;
     }
 
-    void agregarPuntos(int puntosGanados) {
-        puntos += puntosGanados;
+    void actualizarPuntos(int nuevoPuntaje) {
+        puntos = nuevoPuntaje;
     }
 
     int obtenerPuntos() const {
@@ -124,30 +124,6 @@ void ingresarJugadores(list<Jugador>& listaJugadores) {
             getline(cin, continuar);
             if (continuar != "s") break;
         }
-    }
-}
-
-// Controlar turnos y guardar resultados
-void controlarTurnosYGuardar(list<Jugador>& listaJugadores) {
-    string fileName = Jugador::generarNombreArchivo();
-    Jugador::inicializarArchivo(fileName);
-
-    for (auto& jugador : listaJugadores) {
-        jugador.guardarEnArchivo(fileName);
-    }
-}
-
-void procesarMovimiento(Jugador& jugador, bool esPrimeraComida, bool esReina, bool comioReina) {
-    if (esPrimeraComida) {
-        jugador.agregarPuntos(5);  // 5 puntos por la primera comida
-    }
-
-    if (comioReina) {
-        jugador.agregarPuntos(10); // 10 puntos por comer una reina
-    } else if (esReina) {
-        jugador.agregarPuntos(7);  // 7 puntos por una reina que come
-    } else {
-        jugador.agregarPuntos(2);  // 2 puntos por una comida normal
     }
 }
 

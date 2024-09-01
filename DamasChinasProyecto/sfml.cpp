@@ -14,8 +14,6 @@ using namespace std;
 using namespace sf;
 
 int indexTutorial = 1;
-bool primeraComidaRealizada = false;
-
 
 // Definimos las dimensiones del tablero
 const int FILAS = 17;
@@ -606,6 +604,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                             }
                                         }
                                     }
+
                                     if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && !(tablero[newY][newX] == 2+tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
                                         int antx = newX , anty = newY;
                                         newX = newX + dx[k];
@@ -758,15 +757,6 @@ void jugarDamas(Font &font, vector<string> jugadores){
 
         }
         Damas.display();
-    }
-}
-
-void manejarMovimiento(Jugador& jugador, bool esReina, bool comioReina) {
-    if (!primeraComidaRealizada) {
-        procesarMovimiento(jugador, true, esReina, comioReina);
-        primeraComidaRealizada = true;
-    } else {
-        procesarMovimiento(jugador, false, esReina, comioReina);
     }
 }
 
