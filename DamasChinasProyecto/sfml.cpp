@@ -30,7 +30,7 @@ const int JUGADOR5 = 5;
 const int JUGADOR6 = 6;
 
 //Permite generar el primer turno de forma aleatoria, para cada modo
-int generarTurnosAleatorios(int n){
+int generarTurnosAleatorios(int n, int k){
 
     int turno;
     if(n== 1){
@@ -39,9 +39,9 @@ int generarTurnosAleatorios(int n){
             turno = rand() % 2 + 1;
         }
     }else{
-        for(int i=0; i<6;i++){
+        for(int i=0; i<k;i++){
             srand(time(0));
-            turno = rand() % 6 + 1;
+            turno = rand() % k + 1;
         }
     }
 
@@ -318,7 +318,7 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
     return {};
 }
 
-bool haySaltosDisponibles(int x, int y, int tablero[8][8], int dx[], int dy[], int n) {
+bool haySaltosDisponiblesDamas(int x, int y, int tablero[8][8], int dx[], int dy[], int n) {
     for (int i = 0; i < n; ++i) {
         int newX = x + dx[i];
         int newY = y + dy[i];
@@ -331,6 +331,22 @@ bool haySaltosDisponibles(int x, int y, int tablero[8][8], int dx[], int dy[], i
             int saltoY = newY + dy[i];
 
             if (saltoX >= 0 && saltoX < 8 && saltoY >= 0 && saltoY < 8 && tablero[saltoY][saltoX] == 0) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool haySaltosDisponiblesDamasChinas(int x, int y, int tablero[17][25], int dx[], int dy[], int n) {
+    for (int i = 0; i < n; ++i) {
+        int newX = x + dx[i];
+        int newY = y + dy[i];
+
+        if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0) ){
+            int saltoX = newX + dx[i];
+            int saltoY = newY + dy[i];
+            if (saltoX >= 0 && saltoX < 25 && saltoY >= 0 && saltoY < 17 && tablero[saltoY][saltoX] == 0) {
                 return true;
             }
         }
@@ -404,7 +420,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
     bool fichaSeleccionada = false;
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
-    int turno = generarTurnosAleatorios(1);
+    int turno = generarTurnosAleatorios(1,0);
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
@@ -529,13 +545,13 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                             sonidoMover.play();
                                             sonidoComer.play();
 
-                                            if (haySaltosDisponibles(newX, newY, tablero, dx, dy, n)) {
-                                                // Mantener la ficha seleccionada para permitir otro salto
+                                            if (haySaltosDisponiblesDamas(newX, newY, tablero, dx, dy, n)) {
+
                                                 salto = true;
                                                 xSalto = newX;
                                                 ySalto = newY;
                                             } else {
-                                                // Cambiar el turno si no hay más saltos disponibles
+
                                                 salto = false;
                                                 turno = (turno == 1) ? 2 : 1;
                                             }
@@ -697,6 +713,10 @@ void jugarDamasChinas(Font &font, int n){
     bool fichaSeleccionada = false;
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
+    int turno = generarTurnosAleatorios(2,n);
+    bool salto = false;
+    int xSalto = -1;
+    int ySalto = -1;
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -727,7 +747,7 @@ void jugarDamasChinas(Font &font, int n){
                     cout << j << endl;
 
                     if((i>=0) && (i<17) && (j>=0) && (j<25)){
-                            if((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4 || tablero[i][j] == 5 || tablero[i][j] == 6 )){
+                            if((tablero[i][j] == 1 || tablero[i][j] == 2 || tablero[i][j] == 3 || tablero[i][j] == 4 || tablero[i][j] == 5 || tablero[i][j] == 6 )&& (tablero[i][j] == turno)){
 
                                 if (fichaSeleccionada) {
                                     fichaSeleccionada = false; // Deselecciona la ficha
@@ -735,6 +755,12 @@ void jugarDamasChinas(Font &font, int n){
                                     fichaSeleccionada = true; // Selecciona una ficha
                                     fichaSeleccionadaX = j;
                                     fichaSeleccionadaY = i;
+                                }
+
+                                if(salto){
+                                    fichaSeleccionada = true;
+                                    fichaSeleccionadaX = xSalto;
+                                    fichaSeleccionadaY = ySalto;
                                 }
 
                             }else if(tablero[i][j] == 0 && fichaSeleccionada){
@@ -761,7 +787,7 @@ void jugarDamasChinas(Font &font, int n){
                                     int newX = fichaSeleccionadaX + dx[k];
                                     int newY = fichaSeleccionadaY + dy[k];
 
-                                    if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0)) {
+                                    if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0) && !salto) {
                                         cout << "fichax: " << fichaSeleccionadaX << "fichaY: " << fichaSeleccionadaY << endl;
                                         cout << "x: " << newX << "y: " << newY << endl;
                                         if(newX == j && newY == i){
@@ -769,6 +795,13 @@ void jugarDamasChinas(Font &font, int n){
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             sonidoMover.play();
+
+                                            if(turno == n){
+                                                turno = 1;
+                                            }else{
+                                                turno +=1;
+                                            }
+
                                         }
                                     }
                                     if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0) ){
@@ -782,6 +815,21 @@ void jugarDamasChinas(Font &font, int n){
                                             tablero[newY][newX] = temp;
                                             sonidoSaltar.play();
                                             sonidoMover.play();
+
+                                            if (haySaltosDisponiblesDamasChinas(newX, newY, tablero, dx, dy, 6)) {
+
+                                                salto = true;
+                                                xSalto = newX;
+                                                ySalto = newY;
+                                            } else {
+                                                salto = false;
+                                                if(turno == n){
+                                                    turno = 1;
+                                                }else{
+                                                    turno +=1;
+                                                }
+
+                                            }
                                         }
 
                                     }
@@ -848,7 +896,7 @@ void jugarDamasChinas(Font &font, int n){
             }
         }
 
-        if (fichaSeleccionada) {
+        if (fichaSeleccionada || salto) {
             int dx[6];
             int dy[6];
 
@@ -867,11 +915,17 @@ void jugarDamasChinas(Font &font, int n){
                 dy[5] = 1;
             }
 
+            if(salto){
+                fichaSeleccionada = true;
+                fichaSeleccionadaX = xSalto;
+                fichaSeleccionadaY = ySalto;
+            }
+
             for (int i = 0; i < 6; ++i) {
                 int newX = fichaSeleccionadaX + dx[i];
                 int newY = fichaSeleccionadaY + dy[i];
 
-                if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0)) {
+                if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] == 0) && !salto) {
                     movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()) + 3,offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
                     DamasChinas.draw(movimiento);
                 }
