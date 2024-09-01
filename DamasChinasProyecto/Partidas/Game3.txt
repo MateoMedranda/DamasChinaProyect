@@ -20,3 +20,7 @@ knjnj           || 0          ||
 knjnjn          || 0          ||           
 mnkn            || 0          ||           
 kmknk           || 0          ||           
+Juan            || 0          ||           
+Javier          || 0          ||           
+Dominique       || 0          ||           
+Camila          || 0          ||           

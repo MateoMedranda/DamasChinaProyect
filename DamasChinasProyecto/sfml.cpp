@@ -818,6 +818,16 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
                     cout << i << endl;
                     cout << j << endl;
 
+                    if(salto && (i == fichaSeleccionadaY) && (j == fichaSeleccionadaX)){
+                        salto = false;
+                        fichaSeleccionada = false;
+                        if(turno == n){
+                            turno = 1;
+                        }else{
+                            turno +=1;
+                        }
+                    }
+
                     if((i>=0) && (i<17) && (j>=0) && (j<25)){
                             if((tablero[i][j] == 1 || tablero[i][j] == 2 || tablero[i][j] == 3 || tablero[i][j] == 4 || tablero[i][j] == 5 || tablero[i][j] == 6 )&& (tablero[i][j] == turno)){
 
