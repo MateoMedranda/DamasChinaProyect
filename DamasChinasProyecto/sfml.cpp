@@ -14,6 +14,8 @@ using namespace std;
 using namespace sf;
 
 int indexTutorial = 1;
+bool primeraComidaRealizada = false;
+
 
 // Definimos las dimensiones del tablero
 const int FILAS = 17;
@@ -490,6 +492,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
     int turno = generarTurnosAleatorios(1,0);
+    int puntajes[2] = {0, 0}; // Puntajes de los jugadores.
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
@@ -610,9 +613,21 @@ void jugarDamas(Font &font, vector<string> jugadores){
 
                                         if(newX == j && newY == i && tablero[newY][newX] == 0){
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
+                                            if (temp == 3 || temp == 4) {
+                                                if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
+                                                    puntajes[turno - 1] += 2; // REina captura reina
+                                                } else {
+                                                    puntajes[turno - 1] += 5; // reina captura ficha
+                                                }
+                                            } else if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
+                                                puntajes[turno - 1] += 10; // ficha captura reina
+                                            } else {
+                                                puntajes[turno - 1] += 2; // ficha captura  ficha
+                                            }
+
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
-                                            tablero[anty][antx]=0;
+                                            tablero[anty][antx] = 0;
                                             sonidoMover.play();
                                             sonidoComer.play();
 
@@ -636,6 +651,9 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                                 tablero[newY][newX] = 3;
                                                 sonidoDama.play();
                                             }
+
+                                            cout << "Puntaje de " << jugadores[0] << ": " << puntajes[0] << endl;
+                                            cout << "Puntaje de " << jugadores[1] << ": " << puntajes[1] << endl;
                                         }
 
                                     }
@@ -740,6 +758,15 @@ void jugarDamas(Font &font, vector<string> jugadores){
 
         }
         Damas.display();
+    }
+}
+
+void manejarMovimiento(Jugador& jugador, bool esReina, bool comioReina) {
+    if (!primeraComidaRealizada) {
+        procesarMovimiento(jugador, true, esReina, comioReina);
+        primeraComidaRealizada = true;
+    } else {
+        procesarMovimiento(jugador, false, esReina, comioReina);
     }
 }
 

@@ -16,13 +16,13 @@ static int gameNumber = 1;
 class Jugador {
 private:
     string usuario;
-    int puntaje;
-    string status;
+    int puntos;
+    string estado;
 
 public:
     // Constructor
     Jugador(string usuario)
-        : usuario(std::move(usuario)), puntaje(0), status("") {}
+        : usuario(std::move(usuario)), puntos(0), estado("") {}
 
     // Validaciones
     bool validarUsuario() const {
@@ -38,7 +38,15 @@ public:
     }
 
     void setStatus(const string& newStatus) {
-        status = newStatus;
+        estado = newStatus;
+    }
+
+    void agregarPuntos(int puntosGanados) {
+        puntos += puntosGanados;
+    }
+
+    int obtenerPuntos() const {
+        return puntos;
     }
 };
 
@@ -77,8 +85,8 @@ void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
     ofstream archivo(nombreArchivo, ios::app);
     if (archivo.is_open()) {
         archivo << left << setw(15) << usuario << " || "
-                << setw(10) << puntaje << " || "
-                << setw(10) << status << "\n";
+                << setw(10) << puntos << " || "
+                << setw(10) << estado << "\n";
         archivo.close();
         cout << "Jugador " << usuario << " guardado en el archivo " << nombreArchivo << endl; // Depuración
     } else {
@@ -126,6 +134,20 @@ void controlarTurnosYGuardar(list<Jugador>& listaJugadores) {
 
     for (auto& jugador : listaJugadores) {
         jugador.guardarEnArchivo(fileName);
+    }
+}
+
+void procesarMovimiento(Jugador& jugador, bool esPrimeraComida, bool esReina, bool comioReina) {
+    if (esPrimeraComida) {
+        jugador.agregarPuntos(5);  // 5 puntos por la primera comida
+    }
+
+    if (comioReina) {
+        jugador.agregarPuntos(10); // 10 puntos por comer una reina
+    } else if (esReina) {
+        jugador.agregarPuntos(7);  // 7 puntos por una reina que come
+    } else {
+        jugador.agregarPuntos(2);  // 2 puntos por una comida normal
     }
 }
 

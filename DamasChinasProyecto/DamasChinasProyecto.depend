@@ -983,13 +983,15 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1724801857 source:c:\users\anthony\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
+1725184228 source:c:\users\anthony\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
 	<SFML/Graphics.hpp>
 	<SFML/Audio.hpp>
-	"Boton.h"
 	<string>
 	<iostream>
 	<sstream>
+	<cstdlib>
+	<ctime>
+	"Boton.h"
 	"Jugador.h"
 
 1723909574 c:\users\anthony\desktop\damaschinaproyect\damaschinasproyecto\sfml-2.6.1\include\sfml\graphics.hpp
@@ -1518,13 +1520,14 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1724799528 c:\users\anthony\desktop\damaschinaproyect\damaschinasproyecto\jugador.h
+1725180117 c:\users\anthony\desktop\damaschinaproyect\damaschinasproyecto\jugador.h
 	<algorithm>
 	<iostream>
 	<fstream>
 	<string>
 	<list>
 	<iomanip>
+	<filesystem>
 
 1724722473 source:c:\users\usuario\damaschinaproyect\damaschinasproyecto\sfml.cpp
 	<SFML/Graphics.hpp>
