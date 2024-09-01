@@ -240,3 +240,11 @@ Ax1             || 22         ||
 Ax2             || 27         ||           
 Luchito         || 33         ||           
 Colapinto       || 14         ||           
+David           || 39         ||           
+Juan            || 6          ||           
+David           || 0          ||           
+Juan            || 2          ||           
+Juan            || 0          ||           
+David           || 0          ||           
+David           || 2          ||           
+Juan            || 1          ||           

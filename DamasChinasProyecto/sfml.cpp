@@ -482,19 +482,26 @@ void actualizarPuntajesEnArchivo(const vector<string>& jugadores, const int punt
 }
 
 
-void jugarDamas(Font &font, vector<string> jugadores){
+void jugarDamas(Font &font, vector<string> jugadores) {
     guardarJugadoresEnArchivo(jugadores);
 
-    SoundBuffer moverBuffer, comerBuffer,damaBuffer;
+    SoundBuffer moverBuffer, comerBuffer, damaBuffer;
     Sound sonidoMover, sonidoComer, sonidoDama;
 
     Text texto[2];
-    for(int i = 0; i<2; i++){
+    Text puntajesTexto[2]; // Agregado para mostrar el puntaje
+
+    for(int i = 0; i < 2; i++) {
         texto[i].setCharacterSize(30);
         texto[i].setFont(font);
         texto[i].setString(jugadores[i]);
-        texto[i].setPosition(50+(i*944), 226);
-        texto[i].setColor(Color::Cyan);
+        texto[i].setPosition(50 + (i * 944), 226);
+        texto[i].setFillColor(Color::Cyan); // Cambiado de setColor a setFillColor
+
+        puntajesTexto[i].setCharacterSize(30);
+        puntajesTexto[i].setFont(font);
+        puntajesTexto[i].setPosition(50 + (i * 944), 266); // Posición para el puntaje
+        puntajesTexto[i].setFillColor(Color::White); // Color del texto del puntaje
     }
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
@@ -507,15 +514,15 @@ void jugarDamas(Font &font, vector<string> jugadores){
     sonidoDama.setBuffer(damaBuffer);
     sonidoDama.setVolume(15);
 
-    RenderWindow Damas(VideoMode(1200,675),"Damas");
-    Damas.setPosition(Vector2i(0,0));
+    RenderWindow Damas(VideoMode(1200, 675), "Damas");
+    Damas.setPosition(Vector2i(0, 0));
 
     int tablero[8][8];
     crearMatrizDamas(tablero);
 
     RectangleShape fondo;
     Texture textura, textura1, textura2, textura3, textura4;
-    fondo.setSize(Vector2f(1200,675));
+    fondo.setSize(Vector2f(1200, 675));
     textura.loadFromFile("Texturas/tablero_damas.png");
     textura.setSmooth(true);
     textura1.loadFromFile("Texturas/damaBaseBlanca.png");
@@ -540,45 +547,40 @@ void jugarDamas(Font &font, vector<string> jugadores){
     bool fichaSeleccionada = false;
     int fichaSeleccionadaX = -1;
     int fichaSeleccionadaY = -1;
-    int turno = generarTurnosAleatorios(1,0);
+    int turno = generarTurnosAleatorios(1, 0);
     int puntajes[2] = {0, 0}; // Puntajes de los jugadores.
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
 
-    mostrarPrimerTurno(1,turno,font,jugadores[turno-1]);
+    mostrarPrimerTurno(1, turno, font, jugadores[turno - 1]);
 
-    while(Damas.isOpen()){
+    while (Damas.isOpen()) {
         Event aevent;
-        while(Damas.pollEvent(aevent)){
-            switch(aevent.type){
+        while (Damas.pollEvent(aevent)) {
+            switch (aevent.type) {
                 case Event::Closed:
                     actualizarPuntajesEnArchivo(jugadores, puntajes);
                     Damas.close();
                     break;
 
                 case Event::MouseMoved:
-
+                    // Lógica de movimiento del ratón
                     break;
 
-                case Event::MouseButtonPressed:{
-
+                case Event::MouseButtonPressed: {
                     int temp;
-                    if (aevent.mouseButton.button == Mouse::Left){
+                    if (aevent.mouseButton.button == Mouse::Left) {
                         float x = Mouse::getPosition(Damas).x;
                         float y = Mouse::getPosition(Damas).y;
 
-                        cout << x << endl;
-                        cout << y << endl;
+                        int i = (y - offsetY) / tamanoCasilla;
+                        int j = (x - offsetX) / tamanoCasilla;
 
-                        int i = (y-offsetY)/tamanoCasilla;
-                        int j = (x-offsetX)/tamanoCasilla;
-
-                        cout << "i: " << i << "j: " << j << endl;
-
-
-                        if((i>=0) && (i<8) && (j>=0) && (j<8)){
-                            if(((tablero[i][j] == 1) || (tablero[i][j] == 2) || (tablero[i][j] == 3) || (tablero[i][j] == 4)) && (tablero[i][j] == turno || tablero[i][j] == turno+2)){
+                        if ((i >= 0) && (i < 8) && (j >= 0) && (j < 8)) {
+                            if (((tablero[i][j] == 1) || (tablero[i][j] == 2) ||
+                                 (tablero[i][j] == 3) || (tablero[i][j] == 4)) &&
+                                (tablero[i][j] == turno || tablero[i][j] == turno + 2)) {
 
                                 if (fichaSeleccionada) {
                                     fichaSeleccionada = false; // Deselecciona la ficha
@@ -588,35 +590,32 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                     fichaSeleccionadaY = i;
                                 }
 
-                                if(salto){
+                                if (salto) {
                                     fichaSeleccionada = true;
                                     fichaSeleccionadaX = xSalto;
                                     fichaSeleccionadaY = ySalto;
                                 }
 
-                            }else if(tablero[i][j] == 0 && fichaSeleccionada){
-
+                            } else if (tablero[i][j] == 0 && fichaSeleccionada) {
                                 int dx[4];
                                 int dy[4];
                                 int n;
 
-                                if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
-
+                                if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1) {
                                     dx[0] = -1;
                                     dx[1] = 1;
                                     dy[0] = 1;
                                     dy[1] = 1;
                                     n = 2;
 
-                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
-
+                                } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2) {
                                     dx[0] = -1;
                                     dx[1] = 1;
                                     dy[0] = -1;
                                     dy[1] = -1;
                                     n = 2;
 
-                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX]){
+                                } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX]) {
                                     dx[0] = -1;
                                     dx[1] = 1;
                                     dx[2] = -1;
@@ -633,47 +632,43 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                     int newY = fichaSeleccionadaY + dy[k];
 
                                     if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0) && !salto) {
-                                        cout << "fichax: " << fichaSeleccionadaX << "fichaY: " << fichaSeleccionadaY << endl;
-                                        cout << "x: " << newX << "y: " << newY << endl;
-                                        if(newX == j && newY == i){
+                                        if (newX == j && newY == i) {
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             sonidoMover.play();
-                                            if(turno == 1){
-                                                turno = 2;
-                                            }else{
-                                                turno = 1;
-                                            }
+                                            turno = (turno == 1) ? 2 : 1;
 
-                                            if(newY == 0 && temp == 2){
+                                            if (newY == 0 && temp == 2) {
                                                 tablero[newY][newX] = 4;
                                                 sonidoDama.play();
                                             }
-                                            if(newY == 7 && temp == 1){
+                                            if (newY == 7 && temp == 1) {
                                                 tablero[newY][newX] = 3;
                                                 sonidoDama.play();
                                             }
                                         }
                                     }
 
-                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && !(tablero[newY][newX] == 2+tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
-                                        int antx = newX , anty = newY;
+                                    // Lógica de captura y actualización de puntaje
+                                    if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 &&
+                                        (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) &&
+                                        (tablero[newY][newX] != 0) &&
+                                        !(tablero[newY][newX] + 2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX]) &&
+                                        !(tablero[newY][newX] == 2 + tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
+
+                                        int antx = newX, anty = newY;
                                         newX = newX + dx[k];
                                         newY = newY + dy[k];
 
-                                        if(newX == j && newY == i && tablero[newY][newX] == 0){
+                                        if (newX == j && newY == i && tablero[newY][newX] == 0) {
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
-                                            if (temp == 3 || temp == 4) {
-                                                if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
-                                                    puntajes[turno - 1] += 2; // REina captura reina
-                                                } else {
-                                                    puntajes[turno - 1] += 5; // reina captura ficha
-                                                }
-                                            } else if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
-                                                puntajes[turno - 1] += 10; // ficha captura reina
+
+                                            // Actualización del puntaje
+                                            if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
+                                                puntajes[turno - 1] += 3;  // Capturar una dama suma 3 puntos
                                             } else {
-                                                puntajes[turno - 1] += 2; // ficha captura  ficha
+                                                puntajes[turno - 1] += 1;  // Capturar una ficha normal suma 1 punto
                                             }
 
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
@@ -683,67 +678,67 @@ void jugarDamas(Font &font, vector<string> jugadores){
                                             sonidoComer.play();
 
                                             if (haySaltosDisponiblesDamas(newX, newY, tablero, dx, dy, n)) {
-
                                                 salto = true;
                                                 xSalto = newX;
                                                 ySalto = newY;
                                             } else {
-
                                                 salto = false;
                                                 turno = (turno == 1) ? 2 : 1;
                                             }
 
-
-                                            if(newY == 0 && temp == 2){
+                                            if (newY == 0 && temp == 2) {
                                                 tablero[newY][newX] = 4;
                                                 sonidoDama.play();
+                                                puntajes[turno - 1] += 2;
                                             }
-                                            if(newY == 7 && temp == 1){
+                                            if (newY == 7 && temp == 1) {
                                                 tablero[newY][newX] = 3;
                                                 sonidoDama.play();
+                                                puntajes[turno - 1] += 2;
                                             }
 
-                                            cout << "Puntaje de " << jugadores[0] << ": " << puntajes[0] << endl;
-                                            cout << "Puntaje de " << jugadores[1] << ": " << puntajes[1] << endl;
+                                            // Actualiza el texto del puntaje
+                                            puntajesTexto[0].setString("Puntaje: " + to_string(puntajes[0]));
+                                            puntajesTexto[1].setString("Puntaje: " + to_string(puntajes[1]));
                                         }
-
                                     }
                                 }
                                 fichaSeleccionada = false;
                             }
                         }
-
                     }
-
                 }
                 break;
             }
         }
+
         Damas.clear();
         Damas.draw(fondo);
-        for(int i = 0; i<2; i++){
+
+        for(int i = 0; i < 2; i++) {
             Damas.draw(texto[i]);
+            Damas.draw(puntajesTexto[i]); // Dibuja el texto del puntaje
         }
 
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
                 float x = offsetX + j * tamanoCasilla;
                 float y = offsetY + i * tamanoCasilla;
 
-                if(tablero[i][j] == 1){
+                if(tablero[i][j] == 1) {
                     fichaBlanca.setPosition(x, y);
                     Damas.draw(fichaBlanca);
                 }
-                if(tablero[i][j] == 2){
+                if(tablero[i][j] == 2) {
                     fichaNegra.setPosition(x, y);
                     Damas.draw(fichaNegra);
                 }
-                if(tablero[i][j] == 3){
-                    damaBlanca.setPosition(x,y);
+                if(tablero[i][j] == 3) {
+                    damaBlanca.setPosition(x, y);
                     Damas.draw(damaBlanca);
                 }
-                if(tablero[i][j] == 4){
-                    damaNegra.setPosition(x,y);
+                if(tablero[i][j] == 4) {
+                    damaNegra.setPosition(x, y);
                     Damas.draw(damaNegra);
                 }
             }
@@ -754,23 +749,21 @@ void jugarDamas(Font &font, vector<string> jugadores){
             int dy[4];
             int n;
 
-            if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1){
-
+            if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 1) {
                 dx[0] = -1;
                 dx[1] = 1;
                 dy[0] = 1;
                 dy[1] = 1;
                 n = 2;
 
-            }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2){
-
+            } else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 2) {
                 dx[0] = -1;
                 dx[1] = 1;
                 dy[0] = -1;
                 dy[1] = -1;
                 n = 2;
 
-            }else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 4 ){
+            } else if (tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 4) {
                 dx[0] = -1;
                 dx[1] = 1;
                 dx[2] = -1;
@@ -782,7 +775,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
                 n = 4;
             }
 
-            if(salto){
+            if(salto) {
                 fichaSeleccionada = true;
                 fichaSeleccionadaX = xSalto;
                 fichaSeleccionadaY = ySalto;
@@ -793,21 +786,21 @@ void jugarDamas(Font &font, vector<string> jugadores){
                 int newY = fichaSeleccionadaY + dy[i];
 
                 if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0) && !salto) {
-                    movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
+                    movimiento.setPosition(offsetX + newX * tamanoCasilla + (tamanoCasilla / 2 - movimiento.getRadius()), offsetY + newY * tamanoCasilla + (tamanoCasilla / 2 - movimiento.getRadius()));
                     Damas.draw(movimiento);
                 }
 
-                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX])&& !(tablero[newY][newX] == 2+ tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
-                    newX = newX+ dx[i];
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX] + 2 == tablero[fichaSeleccionadaY][fichaSeleccionadaX]) && !(tablero[newY][newX] == 2 + tablero[fichaSeleccionadaY][fichaSeleccionadaX])) {
+                    newX = newX + dx[i];
                     newY = newY + dy[i];
-                    if(tablero[newY][newX] == 0 && newX >= 0 && newX < 8 && newY >= 0 && newY < 8){
-                        movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius()),offsetY + newY*tamanoCasilla + (tamanoCasilla/ 2 - movimiento.getRadius()));
+                    if(tablero[newY][newX] == 0 && newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
+                        movimiento.setPosition(offsetX + newX * tamanoCasilla + (tamanoCasilla / 2 - movimiento.getRadius()), offsetY + newY * tamanoCasilla + (tamanoCasilla / 2 - movimiento.getRadius()));
                         Damas.draw(movimiento);
                     }
                 }
             }
-
         }
+
         Damas.display();
     }
 
@@ -821,9 +814,9 @@ void jugarDamas(Font &font, vector<string> jugadores){
 
     jugador1.guardarEnArchivo(gameName);
     jugador2.guardarEnArchivo(gameName);
-
-
 }
+
+
 
 void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 

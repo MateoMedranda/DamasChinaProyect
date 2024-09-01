@@ -1530,26 +1530,29 @@
 	<map>
 	<filesystem>
 
-1724722473 source:c:\users\usuario\damaschinaproyect\damaschinasproyecto\sfml.cpp
+1725223716 source:c:\users\usuario\damaschinaproyect\damaschinasproyecto\sfml.cpp
 	<SFML/Graphics.hpp>
 	<SFML/Audio.hpp>
-	"Boton.h"
 	<string>
 	<iostream>
 	<sstream>
+	<cstdlib>
+	<ctime>
+	"Boton.h"
 	"Jugador.h"
 
 1724630347 c:\users\usuario\damaschinaproyect\damaschinasproyecto\boton.h
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1724718373 c:\users\usuario\damaschinaproyect\damaschinasproyecto\jugador.h
+1725207405 c:\users\usuario\damaschinaproyect\damaschinasproyecto\jugador.h
 	<algorithm>
 	<iostream>
 	<fstream>
 	<string>
 	<list>
 	<iomanip>
+	<filesystem>
 
 1724630348 c:\users\usuario\damaschinaproyect\damaschinasproyecto\sfml-2.6.1\include\sfml\graphics.hpp
 	<SFML/Window.hpp>
