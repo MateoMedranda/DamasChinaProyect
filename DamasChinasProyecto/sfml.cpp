@@ -466,6 +466,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
     Texture textura, textura1, textura2, textura3, textura4;
     fondo.setSize(Vector2f(1200,675));
     textura.loadFromFile("Texturas/tablero_damas.png");
+    textura.setSmooth(true);
     textura1.loadFromFile("Texturas/damaBaseBlanca.png");
     textura2.loadFromFile("Texturas/damaBaseNegra.png");
     textura3.loadFromFile("Texturas/damaBlanca.png");
@@ -764,6 +765,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     Texture textura, textura1, textura2;
     fondo.setSize(Vector2f(1200,675));
     textura.loadFromFile("Texturas/tableroDamasChinas.png");
+    textura.setSmooth(true);
     textura1.loadFromFile("Texturas/texturaBase_ficha.png");
     textura2.loadFromFile("Texturas/texturaVacio.png");
     fondo.setTexture(&textura);
@@ -1021,6 +1023,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
     Texture texturaModos;
     fondo.setSize(Vector2f(1200,675));
     texturaModos.loadFromFile("Texturas/fondoModosDeJuego.png");
+    texturaModos.setSmooth(true);
     fondo.setTexture(&texturaModos);
 
     Event aevent;
@@ -1118,6 +1121,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &an
 
     fondo.setSize(Vector2f(1200,675));
     texturaTutorial.loadFromFile("Texturas/" + archivo+ ".png");
+    texturaTutorial.setSmooth(true);
     fondo.setTexture(&texturaTutorial);
 
     while(Opcion.pollEvent(aevent)){
