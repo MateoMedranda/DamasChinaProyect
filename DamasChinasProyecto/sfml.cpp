@@ -354,20 +354,88 @@ bool haySaltosDisponiblesDamasChinas(int x, int y, int tablero[17][25], int dx[]
     return false;
 }
 
-void jugarDamas(Font &font, vector<string> jugadores){
+void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
+    RenderWindow ventana(VideoMode(600,338),"Primer jugador");
+    Texture textura, texturaDamas, texturaDamasChinas;
+    textura.loadFromFile("Texturas/ventanaTurno.png");
+    textura.setSmooth(true);
+    RectangleShape fondo;
+    fondo.setSize(Vector2f(600,338));
+    fondo.setTexture(&textura);
 
-    SoundBuffer moverBuffer, comerBuffer,damaBuffer;
-    Sound sonidoMover, sonidoComer, sonidoDama;
+    Sprite fichaDamas, fichaDamasChinas;
+    texturaDamasChinas.loadFromFile("Texturas/ventanaFicha.png");
+    fichaDamasChinas.setTexture(texturaDamasChinas);
 
     Font cipher;
     cipher.loadFromFile("Fuentes/CipherFontA.ttf");
 
     Text cifrados;
     cifrados.setFont(cipher);
-    cifrados.setCharacterSize(40);
+    cifrados.setCharacterSize(70);
     cifrados.setFillColor(Color::Black);
-    cifrados.setString("Hola mundo");
-    cifrados.setPosition(10,10);
+    cifrados.setString(jugador);
+    cifrados.setPosition(50,230);
+
+    Text nombre;
+    nombre.setFont(font);
+    nombre.setString(jugador);
+    nombre.setCharacterSize(60);
+    nombre.setColor(Color(99, 255, 151 ));
+    nombre.setPosition(50, 160);
+    nombre.setStyle(Text::Underlined);
+
+    while (ventana.isOpen()) {
+        Event evento;
+        while (ventana.pollEvent(evento)) {
+            if (evento.type == Event::Closed) {
+                ventana.close();
+            }
+        }
+        ventana.clear();
+        ventana.draw(fondo);
+        if(m == 1){
+            fichaDamas.setPosition(50,75);
+            if(n == 1){
+                texturaDamas.loadFromFile("Texturas/damaBlanca.png");
+                fichaDamas.setTexture(texturaDamas);
+            }else{
+                texturaDamas.loadFromFile("Texturas/damaNegra.png");
+                fichaDamas.setTexture(texturaDamas);
+            }
+            ventana.draw(fichaDamas);
+        }else{
+            fichaDamasChinas.setPosition(50, 75);
+            if(n == 1){
+                fichaDamasChinas.setColor(Color(0, 255, 0));
+            }
+            if(n == 2){
+                fichaDamasChinas.setColor(Color(128, 0, 128));
+            }
+            if(n == 3){
+                fichaDamasChinas.setColor(Color(255, 0, 0));
+            }
+            if(n == 4){
+                fichaDamasChinas.setColor(Color(255, 165, 0));
+            }
+            if(n == 5){
+                fichaDamasChinas.setColor(Color(255, 255, 0));
+            }
+            if(n == 6){
+                fichaDamasChinas.setColor(Color(0, 255, 255));
+            }
+            ventana.draw(fichaDamasChinas);
+        }
+        ventana.draw(cifrados);
+        ventana.draw(nombre);
+        ventana.display();
+    }
+}
+
+void jugarDamas(Font &font, vector<string> jugadores){
+
+    SoundBuffer moverBuffer, comerBuffer,damaBuffer;
+    Sound sonidoMover, sonidoComer, sonidoDama;
 
     Text texto[2];
     for(int i = 0; i<2; i++){
@@ -424,6 +492,8 @@ void jugarDamas(Font &font, vector<string> jugadores){
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
+
+    mostrarPrimerTurno(1,turno,font,jugadores[turno-1]);
 
     while(Damas.isOpen()){
         Event aevent;
@@ -581,7 +651,6 @@ void jugarDamas(Font &font, vector<string> jugadores){
         }
         Damas.clear();
         Damas.draw(fondo);
-        Damas.draw(cifrados);
         for(int i = 0; i<2; i++){
             Damas.draw(texto[i]);
         }
@@ -673,7 +742,7 @@ void jugarDamas(Font &font, vector<string> jugadores){
     }
 }
 
-void jugarDamasChinas(Font &font, int n){
+void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
     SoundBuffer moverBuffer, saltarBuffer;
     Sound sonidoMover, sonidoSaltar;
@@ -718,6 +787,7 @@ void jugarDamasChinas(Font &font, int n){
     int xSalto = -1;
     int ySalto = -1;
 
+    mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
     while(DamasChinas.isOpen()){
         Event aevent;
         while(DamasChinas.pollEvent(aevent)){
@@ -973,7 +1043,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     Jugar.close();
                     if (!jugadores.empty()) {
-                        jugarDamasChinas(font, 2);
+                        jugarDamasChinas(font, 2, jugadores);
                         cerrado = true;
                     }
                 }
@@ -981,7 +1051,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 3);
                     if (!jugadores.empty()) {
-                        jugarDamasChinas(font, 3);
+                        jugarDamasChinas(font, 3, jugadores);
                         cerrado = true;
                     }
                 }
@@ -989,7 +1059,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 4);
                     if (!jugadores.empty()) {
-                        jugarDamasChinas(font, 4);
+                        jugarDamasChinas(font, 4, jugadores);
                         cerrado = true;
                     }
                 }
@@ -997,7 +1067,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 5);
                     if (!jugadores.empty()) {
-                        jugarDamasChinas(font, 5);
+                        jugarDamasChinas(font, 5, jugadores);
                         cerrado = true;
                     }
                 }
@@ -1005,7 +1075,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 6);
                     if (!jugadores.empty()) {
-                        jugarDamasChinas(font, 6);
+                        jugarDamasChinas(font, 6, jugadores);
                         cerrado = true;
                     }
 
