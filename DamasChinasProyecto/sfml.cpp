@@ -57,19 +57,19 @@ void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
         }
     }
 
-    for (int i = 8; i < 17; i+=2) {
+    for (int i = 0; i < 25; i+=2) {
   	    tablero[4][i] = MOV;
     }
 
-    for (int i = 7; i < 18; i+=2) {
+    for (int i = 1; i < 24; i+=2) {
   	    tablero[5][i] = MOV;
     }
 
-    for (int i = 6; i < 19; i+=2) {
+    for (int i = 2; i < 23; i+=2) {
   	    tablero[6][i] = MOV;
     }
 
-    for (int i = 5; i < 20; i+=2) {
+    for (int i = 3; i < 22; i+=2) {
   	    tablero[7][i] = MOV;
     }
 
@@ -77,19 +77,19 @@ void crearMatrizNJugadoresDamas(int tablero[FILAS][COLUMNAS], int numJugadores){
   	    tablero[8][i] = MOV;
     }
 
-    for (int i = 5; i < 20; i+=2) {
+    for (int i = 3; i < 22; i+=2) {
   	    tablero[9][i] = MOV;
     }
 
-    for (int i = 6; i < 19; i+=2) {
+    for (int i = 2; i < 23; i+=2) {
   	    tablero[10][i] = MOV;
     }
 
-    for (int i = 7; i < 18; i+=2) {
+    for (int i = 1; i < 24; i+=2) {
   	    tablero[11][i] = MOV;
     }
 
-    for (int i = 8; i < 17; i+=2) {
+    for (int i = 0; i < 25; i+=2) {
   	    tablero[12][i] = MOV;
     }
 
@@ -170,7 +170,7 @@ void cambiarColorBoton(Boton &boton, RenderWindow &ventana) {
     }
 }
 
-// Funci髇 para mostrar la ventana de mensajes
+// Funci贸n para mostrar la ventana de mensajes
 void mostrarMensaje(RenderWindow& window, const string& mensaje, Font& font) {
     Text texto(mensaje, font, 24);
     texto.setFillColor(Color::White);
@@ -500,7 +500,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
 
         puntajesTexto[i].setCharacterSize(30);
         puntajesTexto[i].setFont(font);
-        puntajesTexto[i].setPosition(50 + (i * 944), 266); // Posici髇 para el puntaje
+        puntajesTexto[i].setPosition(50 + (i * 944), 266); // Posici贸n para el puntaje
         puntajesTexto[i].setFillColor(Color::White); // Color del texto del puntaje
     }
 
@@ -537,7 +537,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     damaBlanca.setTexture(textura3);
     damaNegra.setTexture(textura4);
 
-    CircleShape movimiento(30.0f); // Tama駉 del c韗culo para mostrar los movimientos
+    CircleShape movimiento(30.0f); // Tama帽o del c铆rculo para mostrar los movimientos
     movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
 
     const float offsetX = 260.0f;
@@ -565,7 +565,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                     break;
 
                 case Event::MouseMoved:
-                    // L骻ica de movimiento del rat髇
+                    // L贸gica de movimiento del rat贸n
                     break;
 
                 case Event::MouseButtonPressed: {
@@ -650,7 +650,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                         }
                                     }
 
-                                    // L骻ica de captura y actualizaci髇 de puntaje
+                                    // L贸gica de captura y actualizaci贸n de puntaje
                                     if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 &&
                                         (tablero[newY][newX] != tablero[fichaSeleccionadaY][fichaSeleccionadaX]) &&
                                         (tablero[newY][newX] != 0) &&
@@ -664,7 +664,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                         if (newX == j && newY == i && tablero[newY][newX] == 0) {
                                             temp = tablero[fichaSeleccionadaY][fichaSeleccionadaX];
 
-                                            // Actualizaci髇 del puntaje
+                                            // Actualizaci贸n del puntaje
                                             if (tablero[anty][antx] == 3 || tablero[anty][antx] == 4) {
                                                 puntajes[turno - 1] += 3;  // Capturar una dama suma 3 puntos
                                             } else {
@@ -849,7 +849,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     ficha.setTexture(textura1);
     espacio.setTexture(textura2);
 
-    CircleShape movimiento(10.0f); // Tama駉 del c韗culo para mostrar los movimientos
+    CircleShape movimiento(10.0f); // Tama帽o del c铆rculo para mostrar los movimientos
     movimiento.setFillColor(Color(255,100 , 0, 150)); // Color verde transparente
 
     const float offsetX = 250.0f;
@@ -1267,6 +1267,17 @@ void iniciarJuego(){
     RenderWindow MENU(VideoMode(1200,675), "Menu Principal", Style::Default);
 
     MENU.setPosition(Vector2i(0,0));
+    
+    Texture soundOnTextura;
+    soundOnTextura.loadFromFile("Texturas/sound_on.png");
+
+    Texture soundOffTextura;
+    soundOffTextura.loadFromFile("Texturas/sound_off.png");
+
+    Sprite soundButton;
+    soundButton.setTexture(soundOnTextura);
+    soundButton.setPosition(25, 25);
+    soundButton.setScale(0.5f, 0.5f);
 
     Music musica;
     musica.openFromFile("Audios/musicaMenu.ogg");
@@ -1335,6 +1346,7 @@ void iniciarJuego(){
     sprite.setPosition(Vector2f(10.f, 50.f));
 */
 
+	bool soundOn = true;
     musica.play();
     musica.setPlayingOffset(seconds(10.f));
     musica.setVolume(30);
@@ -1368,7 +1380,7 @@ void iniciarJuego(){
 
                         if(botones[1].isMouseOver(MENU)){
                             MENU.close();
-                            RenderWindow Opcion(VideoMode(1200,675), "緾omo Jugar?");
+                            RenderWindow Opcion(VideoMode(1200,675), "驴Como Jugar?");
                             Opcion.setPosition(Vector2i(0,0));
                             while(Opcion.isOpen()){
                                 abrirTutorial(Opcion, font, siguiente, anterior);
@@ -1404,6 +1416,20 @@ void iniciarJuego(){
                             MENU.close();
                         }
 
+                    }
+                    if (evento.mouseButton.button == Mouse::Left) {
+                        Vector2i mousePos = Mouse::getPosition(MENU);
+                        if (soundButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                            soundOn = !soundOn;
+
+                            if (soundOn) {
+                                soundButton.setTexture(soundOnTextura);
+                                musica.play(); // Reanuda la m煤sica
+                            } else {
+                                soundButton.setTexture(soundOffTextura);
+                                musica.pause(); // Pausa la m煤sica
+                            }
+                        }
                     }
                 }
                 break;
