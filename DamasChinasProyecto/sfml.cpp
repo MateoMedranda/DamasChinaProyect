@@ -533,7 +533,7 @@ bool quedanMovimientos(int tablero[8][8], int turno){
                     newX = newX + dx[k];
                     newY = newY + dy[k];
 
-                    if(newX == j && newY == i && tablero[newY][newX] == 0){
+                    if(newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && tablero[newY][newX] == 0){
                         if(tablero[i][j] == 1){
                             contBlancas++;
                         }else if(tablero[i][j] == 2){
@@ -545,13 +545,13 @@ bool quedanMovimientos(int tablero[8][8], int turno){
         }
     }
 
-    if(contBlancas == 0 && turno != 1){
+    if(contBlancas == 0 && turno == 1){
         return false;
     }else{
         return true;
     }
 
-    if(contadorNegras == 0 && turno != 2){
+    if(contadorNegras == 0 && turno == 2){
         return false;
     }else{
         return true;
@@ -584,7 +584,7 @@ bool quedanFichasOponente(int tablero[8][8], int &jugador){
     }
 }
 
-void mostrarGanador(Jugador ganador, Font &font, int m){
+void mostrarGanador(Jugador ganador, Font &font, int m, int n){
     RenderWindow ventana(VideoMode(900,506),"Ganador");
 
     musica.stop();
@@ -597,12 +597,28 @@ void mostrarGanador(Jugador ganador, Font &font, int m){
     RectangleShape fondo;
     fondo.setSize(Vector2f(900,506));
 
-    Text texto;
+    Text texto, texto1;
     texto.setFont(font);
-    texto.setCharacterSize(30);
-    texto.setPosition(250,220);
+    texto.setCharacterSize(25);
+    texto.setPosition(270,240);
     texto.setColor(Color::White);
-    texto.setString("Jugador: " + ganador.getUsuario() + "\nPuntaje: " + to_string(ganador.obtenerPuntos()) + "\nMovimientos: ");
+
+    texto1.setFont(font);
+    texto1.setCharacterSize(25);
+    texto1.setPosition(270,400);
+    texto1.setColor(Color::White);
+
+    if(n != 2){
+        if(n == -1){
+            texto1.setString("Ya no quedan fichas oponentes");
+        }else{
+            texto1.setString("No existen movimientos posibles,\n mayor puntaje ganador");
+        }
+        texto.setString("Jugador: " + ganador.getUsuario() + "\nPuntaje: " + to_string(ganador.obtenerPuntos()) + "\nMovimientos: ");
+    }else{
+        texto.setString("EMPATE");
+         texto1.setString("No existen movimientos posibles \ny ambos tienen el mismo puntaje");
+    }
 
     Texture textura;
     if(m == 1){
@@ -626,6 +642,7 @@ void mostrarGanador(Jugador ganador, Font &font, int m){
         ventana.clear();
         ventana.draw(fondo);
         ventana.draw(texto);
+        ventana.draw(texto1);
         ventana.display();
     }
 }
@@ -712,6 +729,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     int xSalto = -1;
     int ySalto = -1;
     int ganador;
+    int puntajeGanador;
 
     mostrarPrimerTurno(1,turno,font,jugadores[turno-1]);
     vector<int> puntajes(jugadores.size(), 0);
@@ -723,16 +741,28 @@ void jugarDamas(Font &font, vector<string> jugadores) {
 
             if(!quedanFichasOponente(tablero,ganador)){
                 cout << "se quedo sin fichas " << ganador <<  endl;
-                mostrarGanador(listaJugadores[ganador],font, 1);
+                puntajeGanador = -1;
+                mostrarGanador(listaJugadores[ganador],font, 1, puntajeGanador);
                 Damas.close();
                 break;
             }
 
             if(!quedanMovimientos(tablero, turno)){
                 cout << "se quedo sin movimientos" << endl;
-                //Damas.close();
-                //break;
+                if(puntajes[0] > puntajes [1]){
+                    puntajeGanador = 0;
+                    mostrarGanador(listaJugadores[puntajeGanador], font,1, puntajeGanador);
+                }else if(puntajes[0] < puntajes[1]){
+                    puntajeGanador = 1;
+                    mostrarGanador(listaJugadores[puntajeGanador], font,1, puntajeGanador);
+                }else{
+                    puntajeGanador = 2;
+                    mostrarGanador(listaJugadores[0], font,1, puntajeGanador);
+                }
+                Damas.close();
+                break;
             }
+
             switch(aevent.type){
                 case Event::Closed:{
                     Jugador::determinarEstado(puntajes, listaJugadores);

@@ -2,14 +2,35 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="sfml.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19991" topLine="58" />
+		</Cursor>
+		<Folding>
+			<Collapse line="36" />
+			<Collapse line="55" />
+			<Collapse line="146" />
+			<Collapse line="164" />
+			<Collapse line="175" />
+			<Collapse line="223" />
+			<Collapse line="338" />
+			<Collapse line="351" />
+			<Collapse line="356" />
+			<Collapse line="371" />
+			<Collapse line="387" />
+			<Collapse line="465" />
+			<Collapse line="480" />
+			<Collapse line="561" />
+			<Collapse line="1024" />
+			<Collapse line="1364" />
+			<Collapse line="1456" />
+			<Collapse line="1524" />
+			<Collapse line="1705" />
+		</Folding>
+	</File>
 	<File name="MenuPrincipal.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="173" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Boton.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="409" topLine="27" />
 		</Cursor>
 	</File>
 	<File name="main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
@@ -17,39 +38,19 @@
 			<Cursor1 position="237" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="sfml.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="22053" topLine="133" />
-		</Cursor>
-		<Folding>
-			<Collapse line="33" />
-			<Collapse line="52" />
-			<Collapse line="143" />
-			<Collapse line="161" />
-			<Collapse line="172" />
-			<Collapse line="220" />
-			<Collapse line="335" />
-			<Collapse line="348" />
-			<Collapse line="353" />
-			<Collapse line="368" />
-			<Collapse line="384" />
-			<Collapse line="462" />
-			<Collapse line="477" />
-			<Collapse line="528" />
-			<Collapse line="900" />
-			<Collapse line="1240" />
-			<Collapse line="1332" />
-			<Collapse line="1400" />
-		</Folding>
-	</File>
 	<File name="PestañaTurorial.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="250" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Jugador.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Boton.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4722" topLine="0" />
+			<Cursor1 position="409" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="Jugador.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1426" topLine="36" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -26,3 +26,5 @@ Dominique       || 0          ||
 Camila          || 0          ||           
 Juan            || 0          || Empate    
 Mateo           || 0          || Empate    
+asd             || 0          || Empate    
+asdasd          || 0          || Empate    

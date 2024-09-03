@@ -62,3 +62,11 @@ sadsad          || 0          || Empate
 asdasdasd       || 0          || Empate    
 Mateo           || 1          || Ganador   
 David           || 0          || Perdedor  
+hjf             || 0          || Empate    
+hfjhfj          || 0          || Empate    
+asd             || 0          || Empate    
+asdasd          || 0          || Empate    
+sdffd           || 0          || Empate    
+dsf             || 0          || Empate    
+as              || 0          || Empate    
+asSA            || 0          || Empate    
