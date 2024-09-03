@@ -1061,7 +1061,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont2 >=1){
-        ganador == 1;
+        ganador = 1;
         return true;
     }
 
@@ -1078,7 +1078,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont1 >=1){
-        ganador == 0;
+        ganador = 0;
         return true;
     }
 
@@ -1095,7 +1095,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont4 >=1){
-        ganador == 3;
+        ganador =3;
         return true;
     }
 
@@ -1112,7 +1112,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont3 >=1){
-        ganador == 2;
+        ganador = 2;
         return true;
     }
 
@@ -1129,7 +1129,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont6 >=1){
-        ganador == 5;
+        ganador = 5;
         return true;
     }
 
@@ -1146,7 +1146,7 @@ bool hayGanador(int tablero[17][25], int &ganador){
     }
 
     if(cont0 == 0 && cont5 >=1){
-        ganador == 4;
+        ganador = 4;
         return true;
     }
 
@@ -1330,6 +1330,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
             if(hayGanador(tablero, ganador)){
                 cout << "Tenemos un ganador" << endl;
+                cout << ganador << endl;
                 mostrarGanador(listaJugadores[ganador],font, 2, -1);
                 DamasChinas.close();
                 break;
