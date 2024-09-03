@@ -475,13 +475,17 @@ void indicarTurnoActual(int turno, Sprite &ficha, RenderWindow &DamasChinas, Tex
         DamasChinas.draw(ficha);
 }
 
-bool quedanMovimientos(int tablero[8][8]){
-    int dx[4];
-    int dy[4];
-    int n;
+bool quedanMovimientos(int tablero[8][8], int turno){
+
+    int contBlancas = 0, contadorNegras = 0;
 
     for (int i = 0; i <8; i++){
         for (int j = 0; j< 8; j++){
+
+            int dx[4];
+            int dy[4];
+            int n;
+
             if(tablero[i][j] == 1){
                 dx[0] = -1;
                 dx[1] = 1;
@@ -496,7 +500,7 @@ bool quedanMovimientos(int tablero[8][8]){
                 dy[1] = -1;
                 n = 2;
 
-            }else if(tablero[i][j] == 3 || tablero[i][j]){
+            }else if(tablero[i][j] == 3 || tablero[i][j] == 4){
                 dx[0] = -1;
                 dx[1] = 1;
                 dx[2] = -1;
@@ -513,17 +517,43 @@ bool quedanMovimientos(int tablero[8][8]){
                 int newY = i + dy[k];
 
                 if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)){
-                    return true;
+
+                    if(tablero[i][j] == 1){
+                        contBlancas++;
+                    }else if(tablero[i][j] == 2){
+                        contadorNegras++;
+                    }
                 }
 
                 if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[i][j]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[i][j]) && !(tablero[newY][newX] == 2+tablero[i][j])) {
-                    return true;
+                    int antx = newX , anty = newY;
+                    newX = newX + dx[k];
+                    newY = newY + dy[k];
+
+                    if(newX == j && newY == i && tablero[newY][newX] == 0){
+                        if(tablero[i][j] == 1){
+                            contBlancas++;
+                        }else if(tablero[i][j] == 2){
+                            contadorNegras++;
+                        }
+                    }
                 }
             }
         }
     }
 
-    return false;
+    if(contBlancas == 0 && turno != 1){
+        return false;
+    }else{
+        return true;
+    }
+
+    if(contadorNegras == 0 && turno != 2){
+        return false;
+    }else{
+        return true;
+    }
+
 }
 
 bool quedanFichasOponente(int tablero[8][8]){
@@ -531,9 +561,9 @@ bool quedanFichasOponente(int tablero[8][8]){
 
     for(int i = 0; i<8; i++){
         for(int j = 0; j< 8; j++){
-            if(tablero[i][j] == 1){
+            if(tablero[i][j] == 1 || tablero[i][j] == 3){
                 contBlancas++;
-            }else if(tablero[i][j] == 2){
+            }else if(tablero[i][j] == 2 || tablero[i][j] == 4){
                 contNegras++;
             }
         }
@@ -634,6 +664,18 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     while(Damas.isOpen()){
         Event aevent;
         while(Damas.pollEvent(aevent)){
+
+            if(!quedanFichasOponente(tablero)){
+                cout << "se quedo sin fichas" << endl;
+                Damas.close();
+                break;
+            }
+
+            if(!quedanMovimientos(tablero, turno)){
+                cout << "se quedo sin movimientos" << endl;
+                Damas.close();
+                break;
+            }
             switch(aevent.type){
                 case Event::Closed:{
                     for (size_t i = 0; i < listaJugadores.size(); ++i) {
@@ -700,7 +742,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                     dy[1] = -1;
                                     n = 2;
 
-                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX]){
+                                }else if(tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 3 || tablero[fichaSeleccionadaY][fichaSeleccionadaX] == 4){
                                     dx[0] = -1;
                                     dx[1] = 1;
                                     dx[2] = -1;

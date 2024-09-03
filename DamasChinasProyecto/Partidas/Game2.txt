@@ -46,3 +46,13 @@ asdas           || 0          || Empate
 dasdas          || 0          || Empate    
 fs              || 2          || Ganador   
 fzdf            || 0          || Perdedor  
+sdfdsf          || 5          || Perdedor  
+sdfsdf          || 11         || Ganador   
+Mateo           || 0          || Empate    
+Felipe          || 0          || Empate    
+sa              || 0          || Empate    
+asas            || 0          || Empate    
+fdfd            || 0          || Empate    
+dfdf            || 0          || Empate    
+fsfs            || 1          || Empate    
+sfsfs           || 1          || Empate    
