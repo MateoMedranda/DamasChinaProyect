@@ -56,3 +56,9 @@ fdfd            || 0          || Empate
 dfdf            || 0          || Empate    
 fsfs            || 1          || Empate    
 sfsfs           || 1          || Empate    
+sdfsdf          || 0          || Empate    
+sdfsdfs         || 0          || Empate    
+sadsad          || 0          || Empate    
+asdasdasd       || 0          || Empate    
+Mateo           || 1          || Ganador   
+David           || 0          || Perdedor  

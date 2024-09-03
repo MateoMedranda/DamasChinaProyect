@@ -30,6 +30,9 @@ const int JUGADOR4 = 4;
 const int JUGADOR5 = 5;
 const int JUGADOR6 = 6;
 
+Music musica;
+Music sonidoGanador;
+
 //Permite generar el primer turno de forma aleatoria, para cada modo
 int generarTurnosAleatorios(int n, int k){
 
@@ -556,7 +559,7 @@ bool quedanMovimientos(int tablero[8][8], int turno){
 
 }
 
-bool quedanFichasOponente(int tablero[8][8]){
+bool quedanFichasOponente(int tablero[8][8], int &jugador){
     int contBlancas = 0, contNegras = 0;
 
     for(int i = 0; i<8; i++){
@@ -570,9 +573,60 @@ bool quedanFichasOponente(int tablero[8][8]){
     }
 
     if((contBlancas == 0) || (contNegras == 0)){
+        if(contBlancas == 0){
+            jugador = 1;
+        }else if(contNegras == 0){
+            jugador = 2;
+        }
         return false;
     }else{
         return true;
+    }
+}
+
+void mostrarGanador(Jugador ganador, Font &font, int m){
+    RenderWindow ventana(VideoMode(900,506),"Ganador");
+
+    musica.stop();
+    sonidoGanador.openFromFile("Audios/musicaGanadorCaptura.ogg");
+
+    sonidoGanador.play();
+    sonidoGanador.setVolume(30);
+    sonidoGanador.setLoop(true);
+
+    RectangleShape fondo;
+    fondo.setSize(Vector2f(900,506));
+
+    Text texto;
+    texto.setFont(font);
+    texto.setCharacterSize(30);
+    texto.setPosition(250,220);
+    texto.setColor(Color::White);
+    texto.setString("Jugador: " + ganador.getUsuario() + "\nPuntaje: " + to_string(ganador.obtenerPuntos()) + "\nMovimientos: ");
+
+    Texture textura;
+    if(m == 1){
+        textura.loadFromFile("Texturas/ganadorModoCaptura.png");
+    }else{
+        textura.loadFromFile("Texturas/ganadorModoNormal.png");
+    }
+
+    textura.setSmooth(true);
+    fondo.setTexture(&textura);
+
+    while(ventana.isOpen()){
+        Event evento;
+        while (ventana.pollEvent(evento)) {
+            if (evento.type == Event::Closed) {
+                sonidoGanador.stop();
+                musica.play();
+                ventana.close();
+            }
+        }
+        ventana.clear();
+        ventana.draw(fondo);
+        ventana.draw(texto);
+        ventana.display();
     }
 }
 
@@ -657,30 +711,30 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
+    int ganador;
 
     mostrarPrimerTurno(1,turno,font,jugadores[turno-1]);
     vector<int> puntajes(jugadores.size(), 0);
+    vector<int> movimientosLista(jugadores.size(), 0);
 
     while(Damas.isOpen()){
         Event aevent;
         while(Damas.pollEvent(aevent)){
 
-            if(!quedanFichasOponente(tablero)){
-                cout << "se quedo sin fichas" << endl;
+            if(!quedanFichasOponente(tablero,ganador)){
+                cout << "se quedo sin fichas " << ganador <<  endl;
+                mostrarGanador(listaJugadores[ganador],font, 1);
                 Damas.close();
                 break;
             }
 
             if(!quedanMovimientos(tablero, turno)){
                 cout << "se quedo sin movimientos" << endl;
-                Damas.close();
-                break;
+                //Damas.close();
+                //break;
             }
             switch(aevent.type){
                 case Event::Closed:{
-                    for (size_t i = 0; i < listaJugadores.size(); ++i) {
-                        listaJugadores[i].actualizarPuntos(puntajes[i]);
-                    }
                     Jugador::determinarEstado(puntajes, listaJugadores);
                     Jugador::guardarJugadoresEnArchivo(listaJugadores);
                     Damas.close();
@@ -767,8 +821,10 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                             tablero[newY][newX] = temp;
                                             sonidoMover.play();
                                             if(turno == 1){
+                                                movimientosLista[0]+=1;
                                                 turno = 2;
                                             }else{
+                                                movimientosLista[1]+=1;
                                                 turno = 1;
                                             }
 
@@ -816,7 +872,14 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                             } else {
 
                                                 salto = false;
-                                                turno = (turno == 1) ? 2 : 1;
+                                                if(turno == 1){
+                                                    movimientosLista[0]+=1;
+                                                    turno = 2;
+                                                }else{
+                                                    movimientosLista[1]+=1;
+                                                    turno = 1;
+                                                }
+
                                             }
 
 
@@ -828,9 +891,6 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                                 tablero[newY][newX] = 3;
                                                 sonidoDama.play();
                                             }
-
-                                            puntajesTexto[0].setString("Puntaje: \n" + to_string(puntajes[0]));
-                                            puntajesTexto[1].setString("Puntaje: \n" + to_string(puntajes[1]));
                                         }
 
                                     }
@@ -845,6 +905,20 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                 break;
             }
         }
+
+        puntajesTexto[0].setString("Puntaje: \n" + to_string(puntajes[0]));
+        puntajesTexto[1].setString("Puntaje: \n" + to_string(puntajes[1]));
+        movimientosTexto[0].setString("Movimientos: \n" + to_string(movimientosLista[0]));
+        movimientosTexto[1].setString("Movimientos: \n" + to_string(movimientosLista[1]));
+
+        for (size_t i = 0; i < listaJugadores.size(); ++i) {
+            listaJugadores[i].actualizarPuntos(puntajes[i]);
+        }
+
+        for (size_t i = 0; i < listaJugadores.size(); ++i) {
+            listaJugadores[i].actualizarMovimientos(movimientosLista[i]);
+        }
+
         Damas.clear();
         Damas.draw(fondo);
         for(int i = 0; i<2; i++){
@@ -1456,7 +1530,6 @@ void iniciarJuego(){
     soundButton.setPosition(25, 25);
     soundButton.setScale(0.5f, 0.5f);
 
-    Music musica;
     musica.openFromFile("Audios/musicaMenu.ogg");
 
 

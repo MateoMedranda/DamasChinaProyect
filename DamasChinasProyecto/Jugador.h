@@ -18,6 +18,7 @@ class Jugador {
 private:
     string usuario;
     int puntos;
+    int movimientos;
     string estado;
 
 public:
@@ -47,6 +48,14 @@ public:
 
     void actualizarPuntos(int nuevoPuntaje) {
         puntos = nuevoPuntaje;
+    }
+
+    void actualizarMovimientos(int nuevoMovimiento){
+        movimientos = nuevoMovimiento;
+    }
+
+    int getMovimientos(){
+        return movimientos;
     }
 };
 
