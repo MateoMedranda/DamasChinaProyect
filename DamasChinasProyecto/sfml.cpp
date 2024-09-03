@@ -460,6 +460,20 @@ void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
     }
 }
 
+void indicarTurnoActual(int turno, Sprite &ficha, RenderWindow &DamasChinas, Text &textuTurno, string jugador){
+
+    switch(turno){
+        case 1: ficha.setColor(Color(0, 255, 0)); break;
+        case 2: ficha.setColor(Color(128, 0, 128)); break;
+        case 3: ficha.setColor(Color(255, 0, 0)); break;
+        case 4: ficha.setColor(Color(255, 165, 0)); break;
+        case 5: ficha.setColor(Color(255, 255, 0)); break;
+        case 6: ficha.setColor(Color(0, 255, 255)); break;
+        }
+        textuTurno.setString("Turno actual: \n" + jugador);
+        DamasChinas.draw(textuTurno);
+        DamasChinas.draw(ficha);
+}
 
 void jugarDamas(Font &font, vector<string> jugadores) {
     vector<Jugador> listaJugadores;
@@ -823,7 +837,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     SoundBuffer moverBuffer, saltarBuffer;
     Sound sonidoMover, sonidoSaltar;
 
-    Text texto[n], puntajesTexto[n], movimientosTexto[n];
+    Text texto[n], puntajesTexto[n], movimientosTexto[n], turnoActual;
     int cont1 = 0, cont2 = 0;
     for(int i = 0; i<n; i++){
         texto[i].setCharacterSize(25);
@@ -863,6 +877,10 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
         movimientosTexto[i].setString("Movimientos: \n0");
 
     }
+    turnoActual.setFont(font);
+    turnoActual.setCharacterSize(25);
+    turnoActual.setColor(Color::White);
+    turnoActual.setPosition(280, 40);
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
     sonidoMover.setBuffer(moverBuffer);
@@ -886,9 +904,11 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     textura2.loadFromFile("Texturas/texturaVacio.png");
     fondo.setTexture(&textura);
 
-    Sprite ficha, espacio;
+    Sprite ficha, espacio, turnoFicha;
     ficha.setTexture(textura1);
     espacio.setTexture(textura2);
+    turnoFicha.setTexture(textura1);
+    turnoFicha.setPosition(240,40);
 
     CircleShape movimiento(10.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(255,100 , 0, 150)); // Color verde transparente
@@ -906,6 +926,8 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     int ySalto = -1;
 
     mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
+
+
     while(DamasChinas.isOpen()){
         Event aevent;
         while(DamasChinas.pollEvent(aevent)){
@@ -1049,6 +1071,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
             DamasChinas.draw(puntajesTexto[i]);
             DamasChinas.draw(movimientosTexto[i]);
         }
+        indicarTurnoActual(turno, turnoFicha, DamasChinas, turnoActual, jugadores[turno-1]);
 
         for(int i = 0; i < 17; i++){
             int cont = 0;
