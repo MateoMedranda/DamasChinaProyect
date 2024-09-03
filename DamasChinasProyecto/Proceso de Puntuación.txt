@@ -1,4 +1,4 @@
 Puntos	Proceso para ganar los puntos
-2	- Cada vez que una ficha normal y reina realice el proceso de comer a su similar, ganara 2 puntos.
-5	- Si una reina come una ficha normal, ganara 5 puntos.
-10	- Si una ficha normal se come una reina, ganara 10 puntos.
+1	- Cada vez que una ficha normal y reina realice el proceso de comer a su similar, ganara 1 punto.
+1	- Si una reina come una ficha normal, ganara 1 punto.
+5	- Si una ficha normal se come una reina, ganara 5 puntos.

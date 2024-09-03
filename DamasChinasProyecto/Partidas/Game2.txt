@@ -19,25 +19,6 @@ ASCA            || 0          ||
 asdasd          || 0          ||           
 asdasd          || 0          ||           
 Mateo           || 0          ||           
-Karlos          || 0          ||           
-1               || 0          ||           
-3               || 0          ||           
-r               || 0          ||           
-s               || 0          ||           
-f               || 0          ||           
-3               || 0          ||           
-mnnj            || 0          ||           
-jnjnj           || 0          ||           
-sdf             || 0          ||           
-fdfdf           || 0          ||           
-kmknk           || 0          ||           
-nknkn           || 0          ||           
-Mateo           || 0          ||           
-Julian          || 0          ||           
-njnj            || 0          ||           
-knmkn           || 0          ||           
-Javier          || 0          ||           
-Lopez           || 0          ||           
-Julian          || 0          ||           
-Mateo           || 0          ||           
-          
+Karlos          || 0          ||                  
+Pe1             || 30         || Ganador   
+Pe2             || 22         || Perdedor  

@@ -7,6 +7,7 @@
 #include <string>
 #include <list>
 #include <iomanip>
+#include <vector>
 #include <filesystem>
 
 using namespace std;
@@ -32,25 +33,35 @@ public:
     static void inicializarArchivo(const std::string& nombreArchivo);
     void guardarEnArchivo(const std::string& nombreArchivo) const;
     static string generarNombreArchivo();
-
-    string getUsuario() const {
-        return usuario;
-    }
+    void actualizarEstado(const std::string& estado);
+    static void guardarJugadoresEnArchivo(const vector<Jugador>& jugadores);
+    static void determinarEstado(const vector<int>& puntajes, vector<Jugador>& jugadores);
 
     void setStatus(const string& newStatus) {
         estado = newStatus;
     }
 
+    string getUsuario() const;
+    int obtenerPuntos() const;
+    string getStatus() const;
+
     void actualizarPuntos(int nuevoPuntaje) {
         puntos = nuevoPuntaje;
     }
-
-    int obtenerPuntos() const {
-        return puntos;
-    }
 };
 
-// Metodo para generar el nombre del archivo de la partida
+string Jugador::getUsuario() const {
+    return usuario;
+}
+
+int Jugador::obtenerPuntos() const {
+    return puntos;
+}
+
+string Jugador::getStatus() const {
+    return estado;
+}
+
 string Jugador::generarNombreArchivo() {
     string carpeta = "Partidas/";
     if (!filesystem::exists(carpeta)) {
@@ -58,15 +69,14 @@ string Jugador::generarNombreArchivo() {
     }
 
     string nombreArchivo = carpeta + "Game" + to_string(gameNumber) + ".txt";
-    cout << "Generando archivo: " << nombreArchivo << endl; // Depuración
     gameNumber++;
     return nombreArchivo;
 }
 
 // Inicializar archivo con encabezado
 void Jugador::inicializarArchivo(const string& nombreArchivo) {
-    ifstream fileCheck(nombreArchivo);
-    if (!fileCheck.good()) {  // El archivo no existe, por lo tanto, inicializamos
+    ifstream archivoExistente(nombreArchivo);
+    if (!archivoExistente.good() || archivoExistente.peek() == ifstream::traits_type::eof()) {
         ofstream archivo(nombreArchivo);
         if (archivo.is_open()) {
             archivo << left << setw(15) << "Usuario" << " || "
@@ -75,12 +85,12 @@ void Jugador::inicializarArchivo(const string& nombreArchivo) {
             archivo << string(45, '-') << endl;
             archivo.close();
         } else {
-            cout << "Error al crear el archivo.\n";
+            cerr << "Error al crear el archivo.\n";
         }
     }
 }
 
-// Guardar jugadores en el archivo
+// Guardar jugador en el archivo
 void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
     ofstream archivo(nombreArchivo, ios::app);
     if (archivo.is_open()) {
@@ -88,42 +98,40 @@ void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
                 << setw(10) << puntos << " || "
                 << setw(10) << estado << "\n";
         archivo.close();
-        cout << "Jugador " << usuario << " guardado en el archivo " << nombreArchivo << endl; // Depuración
     } else {
-        cout << "Error al abrir el archivo " << nombreArchivo << ".\n";
+        cerr << "Error al abrir el archivo " << nombreArchivo << ".\n";
     }
 }
 
-// Ingresar jugadores
-void ingresarJugadores(list<Jugador>& listaJugadores) {
-    string usuario;
-    int cantJugadores = 0;
+void Jugador::determinarEstado(const vector<int>& puntajes, vector<Jugador>& jugadores) {
+    int maxPuntaje = *max_element(puntajes.begin(), puntajes.end());
+    int minPuntaje = *min_element(puntajes.begin(), puntajes.end());
 
-    while (true) {
-        cout << "Ingrese el usuario (presione Enter para finalizar): ";
-        getline(cin, usuario);
-        if (usuario.empty()) {
-            if (cantJugadores < 2) {
-                cerr << "Debe haber al menos 2 jugadores para comenzar el juego. Ingrese un jugador.\n";
-                continue;
-            }
-            return;
-        }
-
-        Jugador jugador(usuario);
-        if (jugador.validarUsuario()) {
-            listaJugadores.push_back(jugador);
-            cantJugadores++;
+    for (auto& jugador : jugadores) {
+        if (jugador.obtenerPuntos() == maxPuntaje && count(puntajes.begin(), puntajes.end(), maxPuntaje) == 1) {
+            jugador.setStatus("Ganador");
+        } else if (jugador.obtenerPuntos() == minPuntaje && count(puntajes.begin(), puntajes.end(), minPuntaje) == 1) {
+            jugador.setStatus("Perdedor");
         } else {
-            cerr << "El usuario no puede estar vacío. Intentelo de nuevo.\n";
+            jugador.setStatus("Empate");
         }
+    }
+}
 
-        if (cantJugadores >= 2) {
-            string continuar;
-            cout << "¿Desea ingresar otro jugador? (s/n): ";
-            getline(cin, continuar);
-            if (continuar != "s") break;
-        }
+void Jugador::actualizarEstado(const std::string& estado) {
+    this->estado = estado;
+}
+
+void Jugador::guardarJugadoresEnArchivo(const vector<Jugador>& jugadores) {
+    string nombreArchivoFinal = generarNombreArchivo();
+
+    ifstream archivoExistente(nombreArchivoFinal);
+    if (!archivoExistente.good()) {
+        inicializarArchivo(nombreArchivoFinal);
+    }
+
+    for (const auto& jugador : jugadores) {
+        jugador.guardarEnArchivo(nombreArchivoFinal);
     }
 }
 
