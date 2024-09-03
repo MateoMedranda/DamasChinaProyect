@@ -847,7 +847,7 @@
 	<SFML/Graphics.hpp>
 	<iostream>
 
-1725381181 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
+1725400454 source:c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\sfml.cpp
 	<SFML/Graphics.hpp>
 	<SFML/Audio.hpp>
 	<string>
@@ -2076,7 +2076,7 @@
 	<SFML/Audio/Export.hpp>
 	<string>
 
-1725332170 c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\jugador.h
+1725382736 c:\users\mateo\desktop\damaschinaproyect\damaschinasproyecto\jugador.h
 	<algorithm>
 	<iostream>
 	<fstream>

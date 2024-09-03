@@ -1201,6 +1201,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     int xSalto = -1;
     int ySalto = -1;
     int puntajes[6] = {0};
+    int movimientosLista[6] = {0};
 
     mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
 
@@ -1294,6 +1295,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
                                             tablero[fichaSeleccionadaY][fichaSeleccionadaX] = 0;
                                             tablero[newY][newX] = temp;
                                             sonidoMover.play();
+                                            movimientosLista[turno-1]+=1;
 
                                             if(turno == n){
                                                 turno = 1;
@@ -1314,6 +1316,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
                                             tablero[newY][newX] = temp;
                                             sonidoSaltar.play();
                                             sonidoMover.play();
+                                            movimientosLista[turno-1]+=1;
 
                                             if (haySaltosDisponiblesDamasChinas(newX, newY, tablero, dx, dy, 6)) {
 
@@ -1350,6 +1353,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
             DamasChinas.draw(texto[i]);
             puntajesTexto[i].setString("Puntaje: \n" + to_string(puntajes[i]));
             DamasChinas.draw(puntajesTexto[i]);
+            movimientosTexto[i].setString("Movimientos: \n" + to_string(movimientosLista[i]));
             DamasChinas.draw(movimientosTexto[i]);
         }
         indicarTurnoActual(turno, turnoFicha, DamasChinas, turnoActual, jugadores[turno-1]);
@@ -1439,7 +1443,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
                 if (newX >= 0 && newX < 25 && newY >= 0 && newY < 17 && (tablero[newY][newX] != 0)) {
                     newX = newX+ dx[i];
                     newY = newY + dy[i];
-                    if(tablero[newY][newX] == 0){
+                    if(tablero[newY][newX] == 0 && newX >= 0 && newX < 25 && newY >= 0 && newY < 17){
                         movimiento.setPosition(offsetX + newX*tamanoCasilla + (tamanoCasilla/2 - movimiento.getRadius())+3,offsetY + newY*34 + (34/ 2 - movimiento.getRadius()));
                         DamasChinas.draw(movimiento);
                     }
