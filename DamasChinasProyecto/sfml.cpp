@@ -612,7 +612,7 @@ void mostrarGanador(Jugador ganador, Font &font, int m, int n){
         if(n == -1){
             texto1.setString("Ya no quedan fichas oponentes");
         }else if(n == 3){
-            texto1.setString("Ganador, llegó con al menos una ficha /n al otro lado y esta llena la punta de la estrella");
+            texto1.setString("Ganador, llegó con al menos una ficha \n al otro lado y esta llena la punta de la estrella");
         }else{
             texto1.setString("No existen movimientos posibles,\n mayor puntaje ganador");
         }
@@ -627,6 +627,7 @@ void mostrarGanador(Jugador ganador, Font &font, int m, int n){
         texto.setPosition(270,240);
         textura.loadFromFile("Texturas/ganadorModoCaptura.png");
     }else{
+        texto.setPosition(150,220);
         textura.loadFromFile("Texturas/ganadorModoNormal.png");
     }
 
@@ -1331,7 +1332,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
             if(hayGanador(tablero, ganador)){
                 cout << "Tenemos un ganador" << endl;
                 cout << ganador << endl;
-                mostrarGanador(listaJugadores[ganador],font, 2, -1);
+                mostrarGanador(listaJugadores[ganador],font, 2, 3);
                 DamasChinas.close();
                 break;
             }
