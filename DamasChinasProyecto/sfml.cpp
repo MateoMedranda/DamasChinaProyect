@@ -600,7 +600,7 @@ void mostrarGanador(Jugador ganador, Font &font, int m, int n){
     Text texto, texto1;
     texto.setFont(font);
     texto.setCharacterSize(25);
-    texto.setPosition(270,240);
+
     texto.setColor(Color::White);
 
     texto1.setFont(font);
@@ -611,10 +611,12 @@ void mostrarGanador(Jugador ganador, Font &font, int m, int n){
     if(n != 2){
         if(n == -1){
             texto1.setString("Ya no quedan fichas oponentes");
+        }else if(n == 3){
+            texto1.setString("Ganador, llegó con al menos una ficha /n al otro lado y esta llena la punta de la estrella");
         }else{
             texto1.setString("No existen movimientos posibles,\n mayor puntaje ganador");
         }
-        texto.setString("Jugador: " + ganador.getUsuario() + "\nPuntaje: " + to_string(ganador.obtenerPuntos()) + "\nMovimientos: ");
+        texto.setString("Jugador: " + ganador.getUsuario() + "\nPuntaje: " + to_string(ganador.obtenerPuntos()) + "\nMovimientos: " + to_string(ganador.getMovimientos()));
     }else{
         texto.setString("EMPATE");
          texto1.setString("No existen movimientos posibles \ny ambos tienen el mismo puntaje");
@@ -622,6 +624,7 @@ void mostrarGanador(Jugador ganador, Font &font, int m, int n){
 
     Texture textura;
     if(m == 1){
+        texto.setPosition(270,240);
         textura.loadFromFile("Texturas/ganadorModoCaptura.png");
     }else{
         textura.loadFromFile("Texturas/ganadorModoNormal.png");
@@ -1044,8 +1047,110 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     }
 }
 
-bool verificarGanador(int tablero[17][25]){
+bool hayGanador(int tablero[17][25], int &ganador){
+    int cont0=0, cont1=0, cont2=0, cont3=0,cont4=0,cont5=0,cont6=0;
 
+    for(int i = 0; i<=3; i++){
+        for(int j = 9; j<=15; j++){
+            if(tablero[i][j] == 2){
+                cont2++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont2 >=1){
+        ganador == 1;
+        return true;
+    }
+
+    cont0 = 0;
+
+    for(int i = 13; i<=16; i++){
+        for(int j = 9; j<=15; j++){
+            if(tablero[i][j] == 1){
+                cont1++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont1 >=1){
+        ganador == 0;
+        return true;
+    }
+
+    cont0 = 0;
+
+    for(int i = 9; i<=12; i++){
+        for(int j = 0; j<=6; j++){
+            if(tablero[i][j] == 4){
+                cont4++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont4 >=1){
+        ganador == 3;
+        return true;
+    }
+
+    cont0 = 0;
+
+    for(int i = 4; i<=7; i++){
+        for(int j = 18; j<=24; j++){
+            if(tablero[i][j] == 3){
+                cont3++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont3 >=1){
+        ganador == 2;
+        return true;
+    }
+
+    cont0 = 0;
+
+    for(int i = 4; i<=7; i++){
+        for(int j = 0; j<=6; j++){
+            if(tablero[i][j] == 6){
+                cont6++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont6 >=1){
+        ganador == 5;
+        return true;
+    }
+
+    cont0 = 0;
+
+    for(int i = 9; i<=12; i++){
+        for(int j = 18; j<=24; j++){
+            if(tablero[i][j] == 5){
+                cont5++;
+            }else if(tablero[i][j] == 0){
+                cont0++;
+            }
+        }
+    }
+
+    if(cont0 == 0 && cont5 >=1){
+        ganador == 4;
+        return true;
+    }
+
+    return false;
 }
 
 void verificarPuntaje(int tablero[17][25], int puntajes[]){
@@ -1109,6 +1214,10 @@ void verificarPuntaje(int tablero[17][25], int puntajes[]){
 }
 
 void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
+    vector<Jugador> listaJugadores;
+    for (const auto& nombre : jugadores) {
+        listaJugadores.emplace_back(nombre);
+    }
 
     SoundBuffer moverBuffer, saltarBuffer;
     Sound sonidoMover, sonidoSaltar;
@@ -1202,6 +1311,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     int ySalto = -1;
     int puntajes[6] = {0};
     int movimientosLista[6] = {0};
+    int ganador;
 
     mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
 
@@ -1209,8 +1319,21 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     while(DamasChinas.isOpen()){
         Event aevent;
         while(DamasChinas.pollEvent(aevent)){
-
             verificarPuntaje(tablero,puntajes);
+            for (int i = 0; i < n; ++i) {
+                listaJugadores[i].actualizarPuntos(puntajes[i]);
+            }
+
+            for (int i = 0; i < n; ++i) {
+                listaJugadores[i].actualizarMovimientos(movimientosLista[i]);
+            }
+
+            if(hayGanador(tablero, ganador)){
+                cout << "Tenemos un ganador" << endl;
+                mostrarGanador(listaJugadores[ganador],font, 2, -1);
+                DamasChinas.close();
+                break;
+            }
 
             switch(aevent.type){
                 case Event::Closed:
