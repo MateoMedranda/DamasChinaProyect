@@ -22,3 +22,23 @@ Mateo           || 0          ||
 Karlos          || 0          ||                  
 Pe1             || 30         || Ganador   
 Pe2             || 22         || Perdedor  
+Mateo           || 0          || Empate    
+Felipe          || 0          || Empate    
+Mateo           || 0          || Empate    
+Juan            || 0          || Empate    
+Mateo           || 0          || Empate    
+Juan            || 0          || Empate    
+sdas            || 0          || Empate    
+asdasd          || 0          || Empate    
+Mateo           || 1          || Empate    
+Medranda        || 1          || Empate    
+Mateo           || 0          || Empate    
+Juan            || 0          || Empate    
+asdad           || 0          || Empate    
+asdasd          || 0          || Empate    
+asdasd          || 0          || Empate    
+asdasd          || 0          || Empate    
+asdsa           || 0          || Empate    
+sdadsa          || 0          || Empate    
+asdas           || 0          || Empate    
+asdasd          || 0          || Empate    

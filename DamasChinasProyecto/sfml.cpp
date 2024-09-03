@@ -461,7 +461,6 @@ void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
 }
 
 
-
 void jugarDamas(Font &font, vector<string> jugadores) {
     vector<Jugador> listaJugadores;
     for (const auto& nombre : jugadores) {
@@ -471,12 +470,12 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     SoundBuffer moverBuffer, comerBuffer,damaBuffer;
     Sound sonidoMover, sonidoComer, sonidoDama;
 
-    Text texto[2];
-    Text puntajesTexto[2];
+    Text texto[2], puntajesTexto[2], movimientosTexto[2];
 
     for(int i = 0; i<2; i++){
         texto[i].setCharacterSize(30);
         texto[i].setFont(font);
+        texto[i].setStyle(Text::Underlined);
         texto[i].setString(jugadores[i]);
         texto[i].setPosition(50+(i*944), 226);
         texto[i].setColor(Color::Cyan);
@@ -484,7 +483,15 @@ void jugarDamas(Font &font, vector<string> jugadores) {
         puntajesTexto[i].setCharacterSize(30);
         puntajesTexto[i].setFont(font);
         puntajesTexto[i].setPosition(50 + (i * 944), 266); // Posición para el puntaje
-        puntajesTexto[i].setFillColor(Color::White);
+        puntajesTexto[i].setFillColor(Color(216, 124, 247));
+        puntajesTexto[i].setString("Puntaje: \n0");
+
+        movimientosTexto[i].setCharacterSize(25);
+        movimientosTexto[i].setFont(font);
+        movimientosTexto[i].setPosition(50 + (i * 944), 344);
+        movimientosTexto[i].setFillColor(Color::White);
+        movimientosTexto[i].setString("Movimientos: \n0");
+
     }
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
@@ -699,8 +706,8 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                                                 sonidoDama.play();
                                             }
 
-                                            puntajesTexto[0].setString("Puntaje: " + to_string(puntajes[0]));
-                                            puntajesTexto[1].setString("Puntaje: " + to_string(puntajes[1]));
+                                            puntajesTexto[0].setString("Puntaje: \n" + to_string(puntajes[0]));
+                                            puntajesTexto[1].setString("Puntaje: \n" + to_string(puntajes[1]));
                                         }
 
                                     }
@@ -720,6 +727,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
         for(int i = 0; i<2; i++){
             Damas.draw(texto[i]);
             Damas.draw(puntajesTexto[i]);
+            Damas.draw(movimientosTexto[i]);
         }
 
         for(int i = 0; i < 8; i++){
@@ -814,6 +822,47 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
     SoundBuffer moverBuffer, saltarBuffer;
     Sound sonidoMover, sonidoSaltar;
+
+    Text texto[n], puntajesTexto[n], movimientosTexto[n];
+    int cont1 = 0, cont2 = 0;
+    for(int i = 0; i<n; i++){
+        texto[i].setCharacterSize(25);
+        texto[i].setFont(font);
+        texto[i].setString(jugadores[i]);
+        if(((i+1)%2 != 0)){
+            texto[i].setPosition(25, 80+cont1*150);
+            puntajesTexto[i].setPosition(25, 125 + cont1*150);
+            movimientosTexto[i].setPosition(25, 180 + cont1*150);
+            cont1++;
+        }else{
+            texto[i].setPosition(1010, 80+cont2*150);
+            puntajesTexto[i].setPosition(1010, 125 + cont2*150);
+            movimientosTexto[i].setPosition(1010, 180 + cont2*150);
+            cont2++;
+        }
+
+        switch(i){
+        case 0: texto[i].setColor(Color(183, 255, 123)); break;
+        case 1: texto[i].setColor(Color(208, 131, 255)); break;
+        case 2: texto[i].setColor(Color(255, 131, 131)); break;
+        case 3: texto[i].setColor(Color(255, 195, 131)); break;
+        case 4: texto[i].setColor(Color(255, 251, 131)); break;
+        case 5: texto[i].setColor(Color(131, 255, 242 )); break;
+        }
+
+
+        puntajesTexto[i].setCharacterSize(20);
+        puntajesTexto[i].setFont(font);
+
+        puntajesTexto[i].setFillColor(Color(248, 230, 243));
+        puntajesTexto[i].setString("Puntaje: \n0");
+
+        movimientosTexto[i].setCharacterSize(20);
+        movimientosTexto[i].setFont(font);
+        movimientosTexto[i].setFillColor(Color(248, 230, 243));
+        movimientosTexto[i].setString("Movimientos: \n0");
+
+    }
 
     moverBuffer.loadFromFile("Audios/moverPieza.ogg");
     sonidoMover.setBuffer(moverBuffer);
@@ -995,6 +1044,11 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
         DamasChinas.clear();
         DamasChinas.draw(fondo);
+        for(int i = 0; i<n; i++){
+            DamasChinas.draw(texto[i]);
+            DamasChinas.draw(puntajesTexto[i]);
+            DamasChinas.draw(movimientosTexto[i]);
+        }
 
         for(int i = 0; i < 17; i++){
             int cont = 0;
@@ -1429,6 +1483,7 @@ void iniciarJuego(){
         }
         MENU.clear();
         MENU.draw(fondo);
+        MENU.draw(soundButton);
         for(int i = 0; i<4; i++){
             botones[i].drawTo(MENU);
         }

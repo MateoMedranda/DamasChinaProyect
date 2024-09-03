@@ -1,0 +1,4 @@
+Usuario         || Puntaje    || Estado    
+---------------------------------------------
+Mateo           || 1          || Perdedor  
+Juan            || 2          || Ganador   

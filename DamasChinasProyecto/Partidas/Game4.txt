@@ -1,0 +1,4 @@
+Usuario         || Puntaje    || Estado    
+---------------------------------------------
+Mateo           || 0          || Empate    
+Juan            || 0          || Empate    
