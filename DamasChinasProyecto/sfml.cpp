@@ -1044,6 +1044,70 @@ void jugarDamas(Font &font, vector<string> jugadores) {
     }
 }
 
+bool verificarGanador(int tablero[17][25]){
+
+}
+
+void verificarPuntaje(int tablero[17][25], int puntajes[]){
+    int cont1=0, cont2=0, cont3=0,cont4=0,cont5=0,cont6=0;
+
+    for(int i = 0; i<=3; i++){
+        for(int j = 9; j<=15; j++){
+            if(tablero[i][j] == 2){
+                cont2++;
+            }
+        }
+    }
+
+    for(int i = 13; i<=16; i++){
+        for(int j = 9; j<=15; j++){
+            if(tablero[i][j] == 1){
+                cont1++;
+            }
+        }
+    }
+
+    for(int i = 9; i<=12; i++){
+        for(int j = 0; j<=6; j++){
+            if(tablero[i][j] == 4){
+                cont4++;
+            }
+        }
+    }
+
+    for(int i = 4; i<=7; i++){
+        for(int j = 18; j<=24; j++){
+            if(tablero[i][j] == 3){
+                cont3++;
+            }
+        }
+    }
+
+    for(int i = 4; i<=7; i++){
+        for(int j = 0; j<=6; j++){
+            if(tablero[i][j] == 6){
+                cont6++;
+            }
+        }
+    }
+
+    for(int i = 9; i<=12; i++){
+        for(int j = 18; j<=24; j++){
+            if(tablero[i][j] == 5){
+                cont5++;
+            }
+        }
+    }
+
+    puntajes[0] = cont1;
+    puntajes[1] = cont2;
+    puntajes[2] = cont3;
+    puntajes[3] = cont4;
+    puntajes[4] = cont5;
+    puntajes[5] = cont6;
+
+}
+
 void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
     SoundBuffer moverBuffer, saltarBuffer;
@@ -1136,6 +1200,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     bool salto = false;
     int xSalto = -1;
     int ySalto = -1;
+    int puntajes[6] = {0};
 
     mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
 
@@ -1143,6 +1208,8 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
     while(DamasChinas.isOpen()){
         Event aevent;
         while(DamasChinas.pollEvent(aevent)){
+
+            verificarPuntaje(tablero,puntajes);
 
             switch(aevent.type){
                 case Event::Closed:
@@ -1278,8 +1345,10 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
         DamasChinas.clear();
         DamasChinas.draw(fondo);
+
         for(int i = 0; i<n; i++){
             DamasChinas.draw(texto[i]);
+            puntajesTexto[i].setString("Puntaje: \n" + to_string(puntajes[i]));
             DamasChinas.draw(puntajesTexto[i]);
             DamasChinas.draw(movimientosTexto[i]);
         }
