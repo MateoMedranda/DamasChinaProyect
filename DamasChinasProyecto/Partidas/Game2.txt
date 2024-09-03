@@ -42,3 +42,7 @@ asdsa           || 0          || Empate
 sdadsa          || 0          || Empate    
 asdas           || 0          || Empate    
 asdasd          || 0          || Empate    
+asdas           || 0          || Empate    
+dasdas          || 0          || Empate    
+fs              || 2          || Ganador   
+fzdf            || 0          || Perdedor  

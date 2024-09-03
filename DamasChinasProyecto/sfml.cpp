@@ -475,6 +475,77 @@ void indicarTurnoActual(int turno, Sprite &ficha, RenderWindow &DamasChinas, Tex
         DamasChinas.draw(ficha);
 }
 
+bool quedanMovimientos(int tablero[8][8]){
+    int dx[4];
+    int dy[4];
+    int n;
+
+    for (int i = 0; i <8; i++){
+        for (int j = 0; j< 8; j++){
+            if(tablero[i][j] == 1){
+                dx[0] = -1;
+                dx[1] = 1;
+                dy[0] = 1;
+                dy[1] = 1;
+                n = 2;
+
+            }else if(tablero[i][j] == 2){
+                dx[0] = -1;
+                dx[1] = 1;
+                dy[0] = -1;
+                dy[1] = -1;
+                n = 2;
+
+            }else if(tablero[i][j] == 3 || tablero[i][j]){
+                dx[0] = -1;
+                dx[1] = 1;
+                dx[2] = -1;
+                dx[3] = 1;
+                dy[0] = -1;
+                dy[1] = -1;
+                dy[2] = 1;
+                dy[3] = 1;
+                n = 4;
+            }
+
+            for (int k = 0; k < n; ++k) {
+                int newX = j + dx[k];
+                int newY = i + dy[k];
+
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] == 0)){
+                    return true;
+                }
+
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8 && (tablero[newY][newX] != tablero[i][j]) && (tablero[newY][newX] != 0) && !(tablero[newY][newX]+2 == tablero[i][j]) && !(tablero[newY][newX] == 2+tablero[i][j])) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+bool quedanFichasOponente(int tablero[8][8]){
+    int contBlancas = 0, contNegras = 0;
+
+    for(int i = 0; i<8; i++){
+        for(int j = 0; j< 8; j++){
+            if(tablero[i][j] == 1){
+                contBlancas++;
+            }else if(tablero[i][j] == 2){
+                contNegras++;
+            }
+        }
+    }
+
+    if((contBlancas == 0) || (contNegras == 0)){
+        return false;
+    }else{
+        return true;
+    }
+}
+
 void jugarDamas(Font &font, vector<string> jugadores) {
     vector<Jugador> listaJugadores;
     for (const auto& nombre : jugadores) {
@@ -573,10 +644,6 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                     Damas.close();
                 }
                 break;
-
-                case Event::MouseMoved:
-
-                    break;
 
                 case Event::MouseButtonPressed:{
 
@@ -830,7 +897,6 @@ void jugarDamas(Font &font, vector<string> jugadores) {
         Damas.display();
     }
 }
-
 
 void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
