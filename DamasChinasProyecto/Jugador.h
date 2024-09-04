@@ -12,19 +12,18 @@
 
 using namespace std;
 
-static int gameNumber = 1;
-
 class Jugador {
 private:
     string usuario;
     int puntos;
     int movimientos;
     string estado;
+    static int gameNumber;
 
 public:
     // Constructor
     Jugador(string usuario)
-        : usuario(std::move(usuario)), puntos(0), estado("") {}
+        : usuario(std::move(usuario)), puntos(0), movimientos(0), estado("") {}
 
     // Validaciones
     bool validarUsuario() const {
@@ -32,7 +31,6 @@ public:
     }
 
     static void inicializarArchivo(const std::string& nombreArchivo);
-    void guardarEnArchivo(const std::string& nombreArchivo) const;
     static string generarNombreArchivo();
     void actualizarEstado(const std::string& estado);
     static void guardarJugadoresEnArchivo(const vector<Jugador>& jugadores);
@@ -42,33 +40,46 @@ public:
         estado = newStatus;
     }
 
-    string getUsuario() const;
-    int obtenerPuntos() const;
-    string getStatus() const;
+    string getUsuario() const {
+        return usuario;
+    }
+
+    int obtenerPuntos() const {
+        return puntos;
+    }
+
+    string getStatus() const {
+        return estado;
+    }
+
+    int getMovimientos() const {
+        return movimientos;
+    }
 
     void actualizarPuntos(int nuevoPuntaje) {
         puntos = nuevoPuntaje;
     }
 
-    void actualizarMovimientos(int nuevoMovimiento){
+    void actualizarMovimientos(int nuevoMovimiento) {
         movimientos = nuevoMovimiento;
-    }
-
-    int getMovimientos(){
-        return movimientos;
     }
 };
 
-string Jugador::getUsuario() const {
-    return usuario;
-}
+int Jugador::gameNumber = 1;
 
-int Jugador::obtenerPuntos() const {
-    return puntos;
-}
-
-string Jugador::getStatus() const {
-    return estado;
+// Inicializar archivo con encabezado
+void Jugador::inicializarArchivo(const string& nombreArchivo) {
+    ofstream archivo(nombreArchivo);
+    if (archivo.is_open()) {
+        archivo << left << setw(15) << "Usuario" << " || "
+                << setw(10) << "Puntaje" << " || "
+                << setw(15) << "Movimientos" << " || "
+                << setw(10) << "Estado" << endl;
+        archivo << string(60, '-') << endl;
+        archivo.close();
+    } else {
+        cerr << "Error al crear el archivo.\n";
+    }
 }
 
 string Jugador::generarNombreArchivo() {
@@ -80,36 +91,6 @@ string Jugador::generarNombreArchivo() {
     string nombreArchivo = carpeta + "Game" + to_string(gameNumber) + ".txt";
     gameNumber++;
     return nombreArchivo;
-}
-
-// Inicializar archivo con encabezado
-void Jugador::inicializarArchivo(const string& nombreArchivo) {
-    ifstream archivoExistente(nombreArchivo);
-    if (!archivoExistente.good() || archivoExistente.peek() == ifstream::traits_type::eof()) {
-        ofstream archivo(nombreArchivo);
-        if (archivo.is_open()) {
-            archivo << left << setw(15) << "Usuario" << " || "
-                    << setw(10) << "Puntaje" << " || "
-                    << setw(10) << "Estado" << endl;
-            archivo << string(45, '-') << endl;
-            archivo.close();
-        } else {
-            cerr << "Error al crear el archivo.\n";
-        }
-    }
-}
-
-// Guardar jugador en el archivo
-void Jugador::guardarEnArchivo(const std::string& nombreArchivo) const {
-    ofstream archivo(nombreArchivo, ios::app);
-    if (archivo.is_open()) {
-        archivo << left << setw(15) << usuario << " || "
-                << setw(10) << puntos << " || "
-                << setw(10) << estado << "\n";
-        archivo.close();
-    } else {
-        cerr << "Error al abrir el archivo " << nombreArchivo << ".\n";
-    }
 }
 
 void Jugador::determinarEstado(const vector<int>& puntajes, vector<Jugador>& jugadores) {
@@ -132,15 +113,21 @@ void Jugador::actualizarEstado(const std::string& estado) {
 }
 
 void Jugador::guardarJugadoresEnArchivo(const vector<Jugador>& jugadores) {
-    string nombreArchivoFinal = generarNombreArchivo();
+    string nombreArchivo = generarNombreArchivo();
+    inicializarArchivo(nombreArchivo);
 
-    ifstream archivoExistente(nombreArchivoFinal);
-    if (!archivoExistente.good()) {
-        inicializarArchivo(nombreArchivoFinal);
-    }
-
-    for (const auto& jugador : jugadores) {
-        jugador.guardarEnArchivo(nombreArchivoFinal);
+    ofstream archivo(nombreArchivo, ios::app);
+    if (archivo.is_open()) {
+        for (const auto& jugador : jugadores) {
+            archivo << left << setw(15) << jugador.getUsuario() << " || "
+                    << setw(10) << jugador.obtenerPuntos() << " || "
+                    << setw(15) << jugador.getMovimientos() << " || "
+                    << setw(10) << jugador.getStatus() << "\n";
+        }
+        archivo.close();
+        cout << "Datos de la partida guardados en " << nombreArchivo << endl;
+    } else {
+        cerr << "Error al abrir el archivo " << nombreArchivo << ".\n";
     }
 }
 

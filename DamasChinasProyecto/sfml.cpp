@@ -311,7 +311,7 @@ vector<string> ventanaEntradaUsuario(RenderWindow& parentWindow, Font& font, int
 
                         Jugador::inicializarArchivo(gameName);
 
-                        cout << "Nuevo juego iniciado: " << gameName << endl;
+                        cout << "Nuevo juego iniciado" << endl;
                         cout << "Jugadores: ";
                         for (const auto& jugador : usuarioStr) {
                             cout << jugador << " ";
@@ -746,6 +746,13 @@ void jugarDamas(Font &font, vector<string> jugadores) {
             if(!quedanFichasOponente(tablero,ganador)){
                 cout << "se quedo sin fichas " << ganador <<  endl;
                 puntajeGanador = -1;
+                for (size_t i = 0; i < listaJugadores.size(); ++i) {
+                    listaJugadores[i].actualizarPuntos(puntajes[i]);
+                    listaJugadores[i].actualizarMovimientos(movimientosLista[i]);
+                }
+                Jugador::determinarEstado(puntajes, listaJugadores);
+                Jugador::guardarJugadoresEnArchivo(listaJugadores);
+
                 mostrarGanador(listaJugadores[ganador],font, 1, puntajeGanador);
                 Damas.close();
                 break;
@@ -753,6 +760,12 @@ void jugarDamas(Font &font, vector<string> jugadores) {
 
             if(!quedanMovimientos(tablero, turno)){
                 cout << "se quedo sin movimientos" << endl;
+                for (size_t i = 0; i < listaJugadores.size(); ++i) {
+                    listaJugadores[i].actualizarPuntos(puntajes[i]);
+                    listaJugadores[i].actualizarMovimientos(movimientosLista[i]);
+                }
+                Jugador::determinarEstado(puntajes, listaJugadores);
+
                 if(puntajes[0] > puntajes [1]){
                     puntajeGanador = 0;
                     mostrarGanador(listaJugadores[puntajeGanador], font,1, puntajeGanador);
@@ -763,6 +776,8 @@ void jugarDamas(Font &font, vector<string> jugadores) {
                     puntajeGanador = 2;
                     mostrarGanador(listaJugadores[0], font,1, puntajeGanador);
                 }
+                Jugador::guardarJugadoresEnArchivo(listaJugadores);
+
                 Damas.close();
                 break;
             }
