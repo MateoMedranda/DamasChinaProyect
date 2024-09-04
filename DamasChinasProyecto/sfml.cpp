@@ -32,6 +32,7 @@ const int JUGADOR6 = 6;
 
 Music musica;
 Music sonidoGanador;
+Font cipher;
 
 //Permite generar el primer turno de forma aleatoria, para cada modo
 int generarTurnosAleatorios(int n, int k){
@@ -397,9 +398,6 @@ void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
     Sprite fichaDamas, fichaDamasChinas;
     texturaDamasChinas.loadFromFile("Texturas/ventanaFicha.png");
     fichaDamasChinas.setTexture(texturaDamasChinas);
-
-    Font cipher;
-    cipher.loadFromFile("Fuentes/CipherFontA.ttf");
 
     Text cifrados;
     cifrados.setFont(cipher);
@@ -1759,6 +1757,7 @@ void abrirTutorial(RenderWindow &Opcion, Font &font, Boton &siguiente, Boton &an
 
 void iniciarJuego(){
     RenderWindow MENU(VideoMode(1200,675), "Menu Principal", Style::Default);
+    cipher.loadFromFile("Fuentes/CipherFontA.ttf");
 
     MENU.setPosition(Vector2i(0,0));
 
@@ -1825,14 +1824,13 @@ void iniciarJuego(){
     modosJuego[5].setPosition({100,560});
     modosJuego[5].setFont(font);
 
-    /*
-    Texture texturaSprite;
-    texturaSprite.loadFromFile("Texturas/texturaBase_ficha.png");
-    Sprite sprite;
-    sprite.setTexture(texturaSprite);
-    sprite.setColor(Color::Green);
-    sprite.setPosition(Vector2f(10.f, 50.f));
-*/
+    Text cifrados;
+    cifrados.setFont(cipher);
+    cifrados.setCharacterSize(60);
+    cifrados.setFillColor(Color(205, 231, 209 ));
+    cifrados.setStyle(Text::Bold);
+    cifrados.setString("Bienvenido al juego del misterio");
+    cifrados.setPosition(50,600);
 
 	bool soundOn = true;
     musica.play();
@@ -1926,6 +1924,7 @@ void iniciarJuego(){
         MENU.clear();
         MENU.draw(fondo);
         MENU.draw(soundButton);
+        MENU.draw(cifrados);
         for(int i = 0; i<4; i++){
             botones[i].drawTo(MENU);
         }
