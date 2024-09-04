@@ -1795,6 +1795,8 @@ void iniciarJuego(){
     texturaCreditos.loadFromFile("Texturas/Creditos.png");
 
     texturaPrincipal.loadFromFile("Texturas/fondoMenuPrincipal.png");
+    texturaPrincipal.setSmooth(true);
+    texturaCreditos.setSmooth(true);
     fondo.setTexture(&texturaPrincipal);
     fondoC.setTexture(&texturaCreditos);
 
@@ -1836,12 +1838,14 @@ void iniciarJuego(){
     modosJuego[5].setPosition({100,560});
     modosJuego[5].setFont(font);
 
+    Boton botonExtra = Boton("", {325,200}, 0, Color(0,0,0,0), Color::White);
+    botonExtra.setPosition(Vector2f(800, 40));
     Text cifrados;
     cifrados.setFont(cipher);
     cifrados.setCharacterSize(60);
     cifrados.setFillColor(Color(205, 231, 209 ));
     cifrados.setStyle(Text::Bold);
-    cifrados.setString("Bienvenido al juego del misterio");
+    cifrados.setString("En el titulo hay un boton");
     cifrados.setPosition(50,600);
 
 	bool soundOn = true;
@@ -1864,6 +1868,13 @@ void iniciarJuego(){
                     }
                 break;
                 case Event::MouseButtonPressed:{
+
+                    if(botonExtra.isMouseOver(MENU)){
+                            musica.stop();
+                            musica.openFromFile("Audios/musicaExtra.wav");
+                            musica.play();
+                    }
+
                     if(botones[0].isMouseOver(MENU) || botones[1].isMouseOver(MENU) || botones[2].isMouseOver(MENU) || botones[3].isMouseOver(MENU)){
 
                         if(botones[0].isMouseOver(MENU)){
@@ -1940,6 +1951,7 @@ void iniciarJuego(){
         for(int i = 0; i<4; i++){
             botones[i].drawTo(MENU);
         }
+        botonExtra.drawTo(MENU);
         MENU.display();
     }
 }
