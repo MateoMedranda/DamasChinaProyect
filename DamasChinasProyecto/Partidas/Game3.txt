@@ -1,30 +1,5 @@
-Usuario         || Puntaje    || Estado    
----------------------------------------------
-adas            || 0          ||           
-adsad           || 0          ||           
-asda            || 0          ||           
-dasdas          || 0          ||           
-asdd            || 0          ||           
-asdasd          || 0          ||           
-sadasd          || 0          ||           
-asdd            || 0          ||           
-dasd            || 0          ||           
-asdad           || 0          ||           
-ssssss          || 0          ||           
-sss             || 0          ||           
-njnj            || 0          ||           
-mnnbj           || 0          ||           
-njnjnj          || 0          ||           
-knjnj           || 0          ||           
-knjnj           || 0          ||           
-knjnjn          || 0          ||           
-mnkn            || 0          ||           
-kmknk           || 0          ||           
-Juan            || 0          ||           
-Javier          || 0          ||           
-Dominique       || 0          ||           
-Camila          || 0          ||           
-Juan            || 0          || Empate    
-Mateo           || 0          || Empate    
-asd             || 0          || Empate    
-asdasd          || 0          || Empate    
+Usuario         || Puntaje    || Movimientos     || Estado    
+------------------------------------------------------------
+Si              || 5          || 82              || Empate    
+No              || 9          || 86              || Ganador   
+Talves          || 8          || 86              || Empate    

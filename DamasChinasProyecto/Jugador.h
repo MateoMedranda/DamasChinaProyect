@@ -35,6 +35,8 @@ public:
     void actualizarEstado(const std::string& estado);
     static void guardarJugadoresEnArchivo(const vector<Jugador>& jugadores);
     static void determinarEstado(const vector<int>& puntajes, vector<Jugador>& jugadores);
+    static void determinarEstadoDChinas(const int puntajes[6], std::vector<Jugador>& jugadores);
+
 
     void setStatus(const string& newStatus) {
         estado = newStatus;
@@ -101,6 +103,21 @@ void Jugador::determinarEstado(const vector<int>& puntajes, vector<Jugador>& jug
         if (jugador.obtenerPuntos() == maxPuntaje && count(puntajes.begin(), puntajes.end(), maxPuntaje) == 1) {
             jugador.setStatus("Ganador");
         } else if (jugador.obtenerPuntos() == minPuntaje && count(puntajes.begin(), puntajes.end(), minPuntaje) == 1) {
+            jugador.setStatus("Perdedor");
+        } else {
+            jugador.setStatus("Empate");
+        }
+    }
+}
+
+void Jugador::determinarEstadoDChinas(const int puntajes[6], std::vector<Jugador>& jugadores) {
+    int maxPuntaje = *std::max_element(puntajes, puntajes + 6);
+    int minPuntaje = *std::min_element(puntajes, puntajes + 6);
+
+    for (auto& jugador : jugadores) {
+        if (jugador.obtenerPuntos() == maxPuntaje && std::count(puntajes, puntajes + 6, maxPuntaje) == 1) {
+            jugador.setStatus("Ganador");
+        } else if (jugador.obtenerPuntos() == minPuntaje && std::count(puntajes, puntajes + 6, minPuntaje) == 1) {
             jugador.setStatus("Perdedor");
         } else {
             jugador.setStatus("Empate");

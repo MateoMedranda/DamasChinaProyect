@@ -1,4 +1,4 @@
 Usuario         || Puntaje    || Movimientos     || Estado    
 ------------------------------------------------------------
-Asd             || 15         || 46              || Perdedor  
-Asd2            || 16         || 47              || Ganador   
+Prueba1         || 10         || 98              || Ganador   
+Prueba2         || 9          || 94              || Empate    

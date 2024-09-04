@@ -1338,15 +1338,15 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
             verificarPuntaje(tablero,puntajes);
             for (int i = 0; i < n; ++i) {
                 listaJugadores[i].actualizarPuntos(puntajes[i]);
-            }
-
-            for (int i = 0; i < n; ++i) {
                 listaJugadores[i].actualizarMovimientos(movimientosLista[i]);
             }
 
             if(hayGanador(tablero, ganador)){
                 cout << "Tenemos un ganador" << endl;
                 cout << ganador << endl;
+                Jugador::determinarEstadoDChinas(puntajes, listaJugadores);
+                Jugador::guardarJugadoresEnArchivo(listaJugadores);
+
                 mostrarGanador(listaJugadores[ganador],font, 2, 3);
                 DamasChinas.close();
                 break;
