@@ -1613,14 +1613,14 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                 break;
 
             case Event::MouseMoved:
-                for (int i = 0; i < 8; ++i) {
+                for (int i = 0; i < 6; ++i) {
                     cambiarColorBoton(modosJuego[i], Jugar);
                 }
                 break;
 
             case Event::MouseButtonPressed:{
                 bool cerrado = false;
-                if(modosJuego[1].isMouseOver(Jugar)){
+                if(modosJuego[0].isMouseOver(Jugar)){
 
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     //Jugar.close();
@@ -1629,7 +1629,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                         cerrado = true;
                     }
                 }
-                if(modosJuego[2].isMouseOver(Jugar)){
+                if(modosJuego[1].isMouseOver(Jugar)){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 3);
                     if (!jugadores.empty()) {
@@ -1637,7 +1637,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                         cerrado = true;
                     }
                 }
-                if(modosJuego[3].isMouseOver(Jugar)){
+                if(modosJuego[2].isMouseOver(Jugar)){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 4);
                     if (!jugadores.empty()) {
@@ -1645,7 +1645,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                         cerrado = true;
                     }
                 }
-                if(modosJuego[4].isMouseOver(Jugar)){
+                if(modosJuego[3].isMouseOver(Jugar)){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 5);
                     if (!jugadores.empty()) {
@@ -1653,7 +1653,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                         cerrado = true;
                     }
                 }
-                if(modosJuego[5].isMouseOver(Jugar)){
+                if(modosJuego[4].isMouseOver(Jugar)){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 6);
                     if (!jugadores.empty()) {
@@ -1662,7 +1662,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
                     }
 
                 }
-                if(modosJuego[7].isMouseOver(Jugar)){
+                if(modosJuego[5].isMouseOver(Jugar)){
                     //Jugar.close();
                     vector<string> jugadores = ventanaEntradaUsuario(Jugar, font, 2);
                     if (!jugadores.empty()) {
@@ -1684,7 +1684,7 @@ void abrirJugar(RenderWindow &Jugar, Font &font, Boton modosJuego[]){
 
     Jugar.clear();
     Jugar.draw(fondo);
-    for(int i = 0; i < 8; i++){
+    for(int i = 0; i < 6; i++){
         modosJuego[i].drawTo(Jugar);
     }
 }
@@ -1811,24 +1811,19 @@ void iniciarJuego(){
     anterior.setFont(font);
 
     posicion = 125;
-    Boton modosJuego[8];
-    string textoBotonesJugar[] = {"1 Jugador", "2 Jugadores", "3 Jugadores", "4 Jugadores", "5 Jugadores", "6 Jugadores", "1 Jugador", "2 Jugadores"};
+    Boton modosJuego[6];
+    string textoBotonesJugar[] = {"2 Jugadores", "3 Jugadores", "4 Jugadores", "5 Jugadores", "6 Jugadores", "2 Jugadores"};
 
-    for (int i = 0; i<6; i++){
+    for (int i = 0; i<5; i++){
         modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},35,Color(255, 255, 255, 0),Color::White);
         modosJuego[i].setPosition({100,posicion + i*55});
         modosJuego[i].setFont(font);
     }
 
-    for (int i = 6; i<8; i++){
-        modosJuego[i] = Boton(textoBotonesJugar[i],{325,55},40,Color(255, 255, 255, 0),Color::White);
-    }
+    modosJuego[5] = Boton(textoBotonesJugar[5],{325,55},40,Color(255, 255, 255, 0),Color::White);
 
-    modosJuego[6].setPosition({100,560});
-    modosJuego[6].setFont(font);
-
-    modosJuego[7].setPosition({550,560});
-    modosJuego[7].setFont(font);
+    modosJuego[5].setPosition({100,560});
+    modosJuego[5].setFont(font);
 
     /*
     Texture texturaSprite;

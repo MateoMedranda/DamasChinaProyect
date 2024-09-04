@@ -1,4 +1,4 @@
 Usuario         || Puntaje    || Movimientos     || Estado    
 ------------------------------------------------------------
-Prueba1         || 10         || 98              || Ganador   
-Prueba2         || 9          || 94              || Empate    
+Mateo           || 0          || 0               || Empate    
+Felipe          || 0          || 1               || Empate    
