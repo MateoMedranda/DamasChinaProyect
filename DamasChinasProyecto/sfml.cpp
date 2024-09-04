@@ -576,7 +576,7 @@ bool quedanFichasOponente(int tablero[8][8], int &jugador){
         if(contBlancas == 0){
             jugador = 1;
         }else if(contNegras == 0){
-            jugador = 2;
+            jugador = 0;
         }
         return false;
     }else{
@@ -673,7 +673,7 @@ void jugarDamas(Font &font, vector<string> jugadores) {
         puntajesTexto[i].setCharacterSize(30);
         puntajesTexto[i].setFont(font);
         puntajesTexto[i].setPosition(50 + (i * 944), 266); // Posición para el puntaje
-        puntajesTexto[i].setFillColor(Color(216, 124, 247));
+        puntajesTexto[i].setFillColor(Color::White);
         puntajesTexto[i].setString("Puntaje: \n0");
 
         movimientosTexto[i].setCharacterSize(25);
