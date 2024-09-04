@@ -1872,6 +1872,7 @@ void iniciarJuego(){
                     if(botonExtra.isMouseOver(MENU)){
                             musica.stop();
                             musica.openFromFile("Audios/musicaExtra.wav");
+                            texturaPrincipal.loadFromFile("Texturas/fondoMenuExtra.png");
                             musica.play();
                     }
 

@@ -1,4 +1,4 @@
 Usuario         || Puntaje    || Movimientos     || Estado    
 ------------------------------------------------------------
-sad             || 1          || 2               || Ganador   
-sadsd           || 0          || 2               || Perdedor  
+Mate            || 4          || 17              || Perdedor  
+sdcdscf         || 12         || 17              || Ganador   
