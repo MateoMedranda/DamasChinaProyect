@@ -1,4 +1,4 @@
 Usuario         || Puntaje    || Movimientos     || Estado    
 ------------------------------------------------------------
-sda             || 0          || 0               || Empate    
-asdasd          || 0          || 0               || Empate    
+asdsad          || 0          || 0               || Empate    
+sad             || 0          || 0               || Empate    

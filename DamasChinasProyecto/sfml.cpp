@@ -408,8 +408,9 @@ void mostrarPrimerTurno(int m, int n, Font &font, string jugador){
 
     Text nombre;
     nombre.setFont(font);
+    nombre.setStyle(Text::Bold);
     nombre.setString(jugador);
-    nombre.setCharacterSize(60);
+    nombre.setCharacterSize(70);
     nombre.setColor(Color(99, 255, 151 ));
     nombre.setPosition(50, 160);
     nombre.setStyle(Text::Underlined);
@@ -1329,6 +1330,12 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
     mostrarPrimerTurno(2,turno, font, jugadores[turno-1]);
 
+    Text cifrados;
+    cifrados.setFont(cipher);
+    cifrados.setCharacterSize(30);
+    cifrados.setFillColor(Color(238, 232, 183 ));
+    cifrados.setString("Que gane el mejor\no que pierda el peor");
+    cifrados.setPosition(210,510);
 
     while(DamasChinas.isOpen()){
         Event aevent;
@@ -1486,6 +1493,7 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
         DamasChinas.clear();
         DamasChinas.draw(fondo);
+        DamasChinas.draw(cifrados);
 
         for(int i = 0; i<n; i++){
             DamasChinas.draw(texto[i]);
