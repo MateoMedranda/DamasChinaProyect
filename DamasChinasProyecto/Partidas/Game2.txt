@@ -1,4 +1,4 @@
 Usuario         || Puntaje    || Movimientos     || Estado    
 ------------------------------------------------------------
-asdsad          || 0          || 0               || Empate    
-sad             || 0          || 0               || Empate    
+sad             || 1          || 2               || Ganador   
+sadsd           || 0          || 2               || Perdedor  

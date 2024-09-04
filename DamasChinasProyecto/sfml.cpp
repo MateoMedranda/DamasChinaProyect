@@ -718,6 +718,8 @@ void jugarDamas(Font &font, vector<string> jugadores) {
 
     CircleShape movimiento(30.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(0, 255, 0, 100)); // Color verde transparente
+    movimiento.setOutlineThickness(6.f);
+    movimiento.setOutlineColor(sf::Color(250, 150, 100));
 
     const float offsetX = 260.0f;
     const float offsetY = 0.0f;
@@ -1312,6 +1314,8 @@ void jugarDamasChinas(Font &font, int n, vector<string> jugadores){
 
     CircleShape movimiento(10.0f); // Tamaño del círculo para mostrar los movimientos
     movimiento.setFillColor(Color(255,100 , 0, 150)); // Color verde transparente
+    movimiento.setOutlineThickness(4.f);
+    movimiento.setOutlineColor(sf::Color(79, 223, 37));
 
     const float offsetX = 250.0f;
     const float offsetY = 45.0f;
